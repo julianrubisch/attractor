@@ -1,0 +1,10 @@
+doctype html
+html
+  head
+  body
+    table
+      - @values.each do |val|
+        tr 
+          td = val.file_path
+          td = val.complexity.round(2)
+          td = val.churn

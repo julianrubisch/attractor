@@ -3,7 +3,9 @@
 require 'churn/calculator'
 require 'date'
 require 'flog'
-require 'path_expander'
+require 'fileutils'
+require 'slim'
+require 'tilt'
 
 require 'attractor/value'
 
@@ -17,14 +19,28 @@ module Attractor
         start_date: Date.today - 365 * 5
       ).report(false)
 
-      values = churn[:churn][:changes].map do |change|
+      churn[:churn][:changes].map do |change|
         flogger = Flog.new(all: true)
         flogger.flog(change[:file_path])
         complexity = flogger.total_score
         Value.new(file_path: change[:file_path], churn: change[:times_changed], complexity: complexity)
       end
+    end
 
+    def self.output_console
+      values = calculate
       puts values.map(&:to_s)
+    end
+
+    def self.report
+      @values = calculate
+
+      template = Tilt.new(File.expand_path('../templates/index.html.slim', __dir__))
+      output = template.render self
+
+      FileUtils.mkdir_p './attractor_output'
+
+      File.open('./attractor_output/index.html', 'w') { |file| file.write(output) }
     end
   end
 end
