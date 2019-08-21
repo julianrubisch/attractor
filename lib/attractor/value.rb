@@ -16,11 +16,11 @@ module Attractor
     end
 
     def to_h
-      { file_path: file_path, churn: churn, complexity: complexity }
+      { file_path: file_path, x: churn, y: complexity }
     end
 
-    # def to_json
-    #   to_h.to_json
-    # end
+    def to_json(_opt)
+      to_h.to_json
+    end
   end
 end
