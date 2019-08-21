@@ -6,6 +6,7 @@
 /pkg/
 /spec/reports/
 /tmp/
+/attractor_output/
 
 # rspec failure tracking
 .rspec_status

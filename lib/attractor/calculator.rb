@@ -33,8 +33,10 @@ module Attractor
     end
 
     def self.report
+      @values = calculate
+
       template = Tilt.new(File.expand_path('../templates/index.html.slim', __dir__))
-      output = template.render
+      output = template.render self
 
       FileUtils.mkdir_p './attractor_output'
 

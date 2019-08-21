@@ -18,7 +18,7 @@ module Attractor
 
     desc 'report', 'Generates an HTML report'
     def report
-      puts 'Generating an HTML rport'
+      puts 'Generating an HTML report'
       Attractor::Calculator.report
     end
   end
