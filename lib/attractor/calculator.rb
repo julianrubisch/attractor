@@ -5,7 +5,6 @@ require 'csv'
 require 'date'
 require 'flog'
 require 'fileutils'
-# require 'slim'
 require 'tilt'
 
 require 'attractor/value'
