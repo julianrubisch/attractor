@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Attractor
+  # holds a churn/complexity value
   class Value
     attr_reader :file_path, :churn, :complexity
 
@@ -11,7 +12,7 @@ module Attractor
     end
 
     def to_s
-      "#{file_path}: churn #{@churn}, complexity: #{@complexity}"
+      format('%-64s%8.1f%8i', @file_path, @complexity, @churn)
     end
   end
 end

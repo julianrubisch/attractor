@@ -2,6 +2,7 @@
 
 require 'churn/calculator'
 require 'flog'
+require 'path_expander'
 
 require 'attractor/value'
 
@@ -15,10 +16,13 @@ module Attractor
       ).report(false)
 
       values = churn[:churn][:changes].map do |change|
-        Value.new(file_path: change[:file_path], churn: change[:times_changed])
+        flogger = Flog.new(all: true)
+        flogger.flog(change[:file_path])
+        complexity = flogger.total_score
+        Value.new(file_path: change[:file_path], churn: change[:times_changed], complexity: complexity)
       end
 
-      puts values.inspect
+      puts values.map(&:to_s)
     end
   end
 end
