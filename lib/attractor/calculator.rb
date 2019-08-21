@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'churn/calculator'
+require 'date'
 require 'flog'
 require 'path_expander'
 
@@ -12,7 +13,8 @@ module Attractor
     def self.calculate(file_extension: 'rb', minimum_churn_count: 3)
       churn = ::Churn::ChurnCalculator.new(
         file_extension: file_extension,
-        minimum_churn_count: minimum_churn_count
+        minimum_churn_count: minimum_churn_count,
+        start_date: Date.today - 365 * 5
       ).report(false)
 
       values = churn[:churn][:changes].map do |change|
