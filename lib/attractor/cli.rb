@@ -10,8 +10,8 @@ module Attractor
   class CLI < Thor
     desc 'calc', 'Calculates churn and complexity for all ruby files in current directory'
     def calc
-      Attractor::Calculator.calculate
       puts 'Calculated churn and complexity'
+      Attractor::Calculator.calculate
     end
   end
 end
