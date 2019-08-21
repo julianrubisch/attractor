@@ -6,3 +6,7 @@ Feature: Attractor
   Scenario:
     When I run `attractor calc`
     Then the output should contain "Calculated churn and complexity"
+
+  Scenario:
+    When I run `attractor report`
+    Then an HTML file should be generated
