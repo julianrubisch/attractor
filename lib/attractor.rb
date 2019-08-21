@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require 'churn'
-require 'flog'
+require 'pry'
 
 require 'attractor/version'
+require 'attractor/calculator'
+# require_relative 'attractor/calculator.rb'
 
 module Attractor
   class Error < StandardError; end
