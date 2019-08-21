@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'churn/calculator'
+require 'csv'
 require 'date'
 require 'flog'
 require 'fileutils'
-require 'slim'
 require 'tilt'
 
 require 'attractor/value'
@@ -35,10 +35,16 @@ module Attractor
     def self.report
       @values = calculate
 
-      template = Tilt.new(File.expand_path('../templates/index.html.slim', __dir__))
+      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
       output = template.render self
 
       FileUtils.mkdir_p './attractor_output'
+
+      # CSV.open('./attractor_output/data.csv', 'wb', headers: %w[name churn complexity]) do |csv|
+      #   @values.each do |val|
+      #     csv << [val.file_path, val.churn, val.complexity.round(2)]
+      #   end
+      # end
 
       File.open('./attractor_output/index.html', 'w') { |file| file.write(output) }
     end

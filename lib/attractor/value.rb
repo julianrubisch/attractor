@@ -14,5 +14,13 @@ module Attractor
     def to_s
       format('%-64s%8.1f%8i', @file_path, @complexity, @churn)
     end
+
+    def to_h
+      { file_path: file_path, x: churn, y: complexity }
+    end
+
+    def to_json(_opt)
+      to_h.to_json
+    end
   end
 end
