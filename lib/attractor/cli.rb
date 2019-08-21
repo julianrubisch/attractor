@@ -13,7 +13,12 @@ module Attractor
       puts
       puts "file_path#{' ' * 53}complexity   churn"
       puts '-' * 80
-      Attractor::Calculator.calculate
+      Attractor::Calculator.output_console
+    end
+
+    desc 'report', 'Generates an HTML report'
+    def report
+      puts 'Generating an HTML rport'
     end
   end
 end
