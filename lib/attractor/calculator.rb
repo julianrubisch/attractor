@@ -3,7 +3,9 @@
 require 'churn/calculator'
 require 'date'
 require 'flog'
-require 'path_expander'
+require 'fileutils'
+require 'slim'
+require 'tilt'
 
 require 'attractor/value'
 
@@ -31,7 +33,12 @@ module Attractor
     end
 
     def self.report
+      template = Tilt.new(File.expand_path('../templates/index.html.slim', __dir__))
+      output = template.render
 
+      FileUtils.mkdir_p './attractor_output'
+
+      File.open('./attractor_output/index.html', 'w') { |file| file.write(output) }
     end
   end
 end
