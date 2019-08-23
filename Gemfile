@@ -3,4 +3,4 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in attractor.gemspec
 gemspec
 
-gem 'churn', git: 'https://github.com/julianrubisch/churn', branch: '68-specify-file-extensions'
+gem 'churn', git: 'https://github.com/julianrubisch/churn'
