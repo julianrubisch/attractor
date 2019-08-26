@@ -22,7 +22,28 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To create a HTML report in `attractor_output/index.html`, try
+    
+    $ attractor report
+
+If you'd like to specify a directory, use the file prefix option:
+
+    $ attractor report --file_prefix app/models
+
+Or shorter:
+
+    $ attractor report -p app/models
+
+## CLI Commands and Options
+
+Print a simple output to console:
+
+    $ attractor calc
+
+Generate a full report
+
+    $ attractor report 
+    $   --file_prefix|-p> app/models
 
 ## Development
 
@@ -32,4 +53,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/attractor.
+Bug reports and pull requests are welcome on GitHub at https://github.com/julianrubisch/attractor.
