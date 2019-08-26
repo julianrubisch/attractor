@@ -17,9 +17,11 @@ module Attractor
     end
 
     desc 'report', 'Generates an HTML report'
+    option :format, aliases: :f, default: 'html'
+    option :file_prefix, aliases: :p
     def report
       puts 'Generating an HTML report'
-      Attractor::Calculator.report
+      Attractor::Calculator.report(format: options[:format], file_prefix: options[:file_prefix])
     end
   end
 end

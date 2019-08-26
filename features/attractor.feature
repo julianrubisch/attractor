@@ -8,5 +8,5 @@ Feature: Attractor
     Then the output should contain "Calculated churn and complexity"
 
   Scenario:
-    When I run `attractor report`
+    When I run `attractor report --format html`
     Then an HTML file should be generated

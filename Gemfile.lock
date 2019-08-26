@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/julianrubisch/churn
-  revision: ad73121d7364064fd8292afea24cd4c8e539a37b
+  revision: e252ea332f38a5d68f52bbd4e7987b7f4667fc1c
   specs:
     churn (1.0.3)
       chronic (>= 0.2.3)
