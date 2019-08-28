@@ -4,8 +4,14 @@
       #root {
         width: 600px;
       }
+
+      .regression {
+        stroke: black;
+        fill: none;
+      }
     </style>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/d3-regression@1.2.4/dist/d3-regression.min.js"></script>
     <script type="text/javascript">
       const width = 600;
       const height = 600;
@@ -14,17 +20,17 @@
 
       const data = <%= JSON.generate(@values) %>;
 
-      const x = d3.scaleLinear()
+      const xScale = d3.scaleLinear()
           .domain(d3.extent(data, d => d.x)).nice()
           .range([margin.left, width - margin.right]);
 
-      const y = d3.scaleLinear()
+      const yScale = d3.scaleLinear()
           .domain(d3.extent(data, d => d.y)).nice()
           .range([height - margin.bottom, margin.top]);
 
       const xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(xScale))
         .call(g => g.select(".domain").remove())
         .call(g => g.append("text")
           .attr("x", width - margin.right)
@@ -36,7 +42,7 @@
 
       const yAxis = g => g
         .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(y))
+        .call(d3.axisLeft(yScale))
         .call(g => g.select(".domain").remove())
         .call(g => g.select(".tick:last-of-type text").clone()
           .attr("x", 4)
@@ -44,23 +50,43 @@
           .attr("font-weight", "bold")
           .text(data.y));
 
+      const regressionGenerator = d3.regressionPow()
+        .x(d => d.x)
+        .y(d => d.y)
+        .domain([0, d3.max(data, item => item.x)]);
+
+
+      const rSquared = regressionGenerator(data).rSquared;
+
+      const lineGenerator = d3.line()
+        .x(d => xScale(d[0]))
+        .y(d => yScale(d[1]));
+
       const svg = d3.create("svg")
         .attr("viewBox", [0, 0, width, height]);
 
-      svg.append("g")
-        .call(xAxis);
+      const g = svg.append("g");
 
-      svg.append("g")
-        .call(yAxis);
+      g.append("g")
+        .attr("class", "axis")
+        .call(xAxis)
+        .selectAll(".tick line")
+        .classed("baseline", d => d === 0);
 
-      svg.append("g")
+      g.append("g")
+        .attr("class", "axis")
+        .call(yAxis)
+        .selectAll(".tick line")
+        .classed("baseline", d => d === 0);
+
+      g.append("g")
         .attr("stroke-width", 1.5)
         .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
+        .attr("font-size", 12)
         .selectAll("g")
         .data(data)
         .join("g")
-        .attr("transform", d => `translate(${x(d.x)},${y(d.y)})`)
+        .attr("transform", d => `translate(${xScale(d.x)},${yScale(d.y)})`)
         .call(g => g.append("circle")
           .attr("stroke", "steelblue")
           .attr("fill", "none")
@@ -69,6 +95,18 @@
           .attr("dy", "0.35em")
           .attr("x", 7)
           .text(d => d.file_path))
+
+      g.append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 24)
+        .call(g => g.append("path")
+          .attr("class", "regression")
+          .datum(regressionGenerator(data))
+          .attr("d", lineGenerator))
+        .call(g => g.append("text")
+          .attr("dy", "30")
+          .attr("dx", "33%")
+          .text(`rSquared = ${rSquared}`));
 
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#root').appendChild(svg.node());
