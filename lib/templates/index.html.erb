@@ -14,9 +14,17 @@
       #container {
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
       }
       #root {
         width: 600px;
+      }
+      #suggestions {
+        width: 600px;
+      }
+      #suggestions ul {
+        list-style: none;
       }
 
       .regression {
@@ -137,6 +145,7 @@
     <div id="container">
       <div id="root"></div>
       <div id="suggestions">
+        <h3>Refactoring Candidates (> 95% Percentile)</h3>
         <ul>
           <% @suggestions.each do |val| %>
             <li><%= val.file_path %></li>
