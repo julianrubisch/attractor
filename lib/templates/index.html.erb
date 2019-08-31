@@ -136,6 +136,13 @@
     <h1>Attractor</h1>
     <div id="container">
       <div id="root"></div>
+      <div id="suggestions">
+        <ul>
+          <% @suggestions.each do |val| %>
+            <li><%= val.file_path %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </body>
 </html>
