@@ -1,6 +1,20 @@
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display|Red+Hat+Text&display=swap" rel="stylesheet">
     <style type="text/css">
+      body {
+        font-family: "Red Hat Text", sans-serif;
+      }
+      h1 {
+        font-family: "Red Hat Display";
+        text-align: center;
+        font-size: 3rem;
+        text-shadow: deeppink 3px 3px;
+      }
+      #container {
+        display: flex;
+        justify-content: center;
+      }
       #root {
         width: 600px;
       }
@@ -10,6 +24,7 @@
         fill: none;
       }
     </style>
+    <title>Attractor Output</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://unpkg.com/d3-regression@1.2.4/dist/d3-regression.min.js"></script>
     <script type="text/javascript">
@@ -85,7 +100,7 @@
 
       g.append("g")
         .attr("stroke-width", 1.5)
-        .attr("font-family", "sans-serif")
+        .attr("font-family", "Red Hat Text")
         .attr("font-size", 12)
         .selectAll("g")
         .data(data)
@@ -101,7 +116,7 @@
           .text(d => d.file_path))
 
       g.append("g")
-        .attr("font-family", "sans-serif")
+        .attr("font-family", "Red Hat Text")
         .attr("font-size", 24)
         .call(g => g.append("path")
           .attr("class", "regression")
@@ -118,6 +133,9 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    </body>
+    <h1>Attractor</h1>
+    <div id="container">
+      <div id="root"></div>
+    </div>
+  </body>
 </html>
