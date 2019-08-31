@@ -10,3 +10,5 @@ Feature: Attractor
   Scenario:
     When I run `attractor report --format html`
     Then an HTML file should be generated
+    Then the output should contain "Generated HTML report at"
+    Then  the output should contain "attractor_output/index.html"

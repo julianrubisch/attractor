@@ -20,6 +20,10 @@
 
       const data = <%= JSON.generate(@values) %>;
 
+      const color = d3.scaleLog()
+          .domain(d3.extent(data, d => d.x * d.y))
+          .range(["green", "red"]);
+
       const xScale = d3.scaleLinear()
           .domain(d3.extent(data, d => d.x)).nice()
           .range([margin.left, width - margin.right]);
@@ -88,9 +92,9 @@
         .join("g")
         .attr("transform", d => `translate(${xScale(d.x)},${yScale(d.y)})`)
         .call(g => g.append("circle")
-          .attr("stroke", "steelblue")
-          .attr("fill", "none")
-          .attr("r", 3))
+          .attr("fill", d => color(d.x * d.y))
+          .attr("stroke", d => color(d.x * d.y))
+          .attr("r", 4))
         .call(g => g.append("text")
           .attr("dy", "0.35em")
           .attr("x", 7)

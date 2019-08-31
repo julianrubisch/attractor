@@ -22,6 +22,7 @@ module Attractor
     def report
       puts 'Generating an HTML report'
       Attractor::Calculator.report(format: options[:format], file_prefix: options[:file_prefix])
+      puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
     end
   end
 end
