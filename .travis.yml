@@ -7,3 +7,4 @@ rvm:
 before_install: gem install bundler -v 2.0.2
 script:
   - bundle exec cucumber features
+  - bundle exec rspec spec
