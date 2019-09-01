@@ -1,20 +1,8 @@
-GIT
-  remote: https://github.com/julianrubisch/churn
-  revision: e252ea332f38a5d68f52bbd4e7987b7f4667fc1c
-  specs:
-    churn (1.0.3)
-      chronic (>= 0.2.3)
-      hirb
-      json_pure
-      main
-      rest-client (>= 1.6.0)
-      ruby_parser (~> 3.0)
-      sexp_processor (~> 4.1)
-
 PATH
   remote: .
   specs:
     attractor (0.1.0)
+      churn
       descriptive_statistics
       flog (~> 4.0)
       thor
@@ -36,6 +24,14 @@ GEM
     childprocess (2.0.0)
       rake (< 13.0)
     chronic (0.10.2)
+    churn (1.0.4)
+      chronic (>= 0.2.3)
+      hirb
+      json_pure
+      main
+      rest-client (>= 1.6.0)
+      ruby_parser (~> 3.0)
+      sexp_processor (~> 4.1)
     coderay (1.1.2)
     contracts (0.16.0)
     cucumber (3.1.2)
@@ -122,7 +118,6 @@ DEPENDENCIES
   aruba
   attractor!
   bundler (~> 2.0)
-  churn!
   cucumber
   pry
   rake (~> 10.0)

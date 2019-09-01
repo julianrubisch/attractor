@@ -7,6 +7,7 @@
 /spec/reports/
 /tmp/
 /attractor_output/
+/vendor/
 
 # rspec failure tracking
 .rspec_status
