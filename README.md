@@ -43,7 +43,7 @@ Print a simple output to console:
 Generate a full report
 
     $ attractor report 
-    $   --file_prefix|-p> app/models
+    $   --file_prefix|-p app/models
 
 ## Development
 
