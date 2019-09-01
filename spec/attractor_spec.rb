@@ -5,7 +5,7 @@ RSpec.describe Attractor do
     expect(Attractor::VERSION).not_to be nil
   end
 
-  it 'suggests the 95 percentile refactoring candidated' do
+  it 'suggests the 95 percentile refactoring candidates' do
     values = 1.upto(30).map do |index|
       Attractor::Value.new(file_path: "file_#{index}.rb", churn: index, complexity: index)
     end

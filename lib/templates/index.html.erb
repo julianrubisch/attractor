@@ -145,7 +145,8 @@
     <div id="container">
       <div id="root"></div>
       <div id="suggestions">
-        <h3>Refactoring Candidates (> 95% Percentile)</h3>
+        <h3>Refactoring Candidates</h3>
+        <h5>Top 95 Percentile of `churn * complexity`</h5>
         <ul>
           <% @suggestions.each do |val| %>
             <li><%= val.file_path %></li>
