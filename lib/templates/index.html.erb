@@ -83,7 +83,7 @@
         .domain([0, d3.max(data, item => item.x)]);
 
 
-      const rSquared = regressionGenerator(data).rSquared;
+      const regressionData = regressionGenerator(data);
 
       const lineGenerator = d3.line()
         .x(d => xScale(d[0]))
@@ -131,9 +131,13 @@
           .datum(regressionGenerator(data))
           .attr("d", lineGenerator))
         .call(g => g.append("text")
+          .attr("dy", "60")
+          .attr("dx", "33%")
+          .text(`R^2 = ${regressionData.rSquared.toFixed(2)}`))
+        .call(g => g.append("text")
           .attr("dy", "30")
           .attr("dx", "33%")
-          .text(`rSquared = ${rSquared}`));
+          .text(`y = ${regressionData.a.toFixed(2)} x ^ ${regressionData.b.toFixed(2)}`));
 
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#root').appendChild(svg.node());
