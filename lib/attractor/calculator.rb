@@ -29,8 +29,8 @@ module Attractor
       end
     end
 
-    def self.output_console
-      values = calculate
+    def self.output_console(file_prefix: '')
+      values = calculate(file_prefix: file_prefix)
       puts values.map(&:to_s)
     end
 

@@ -41,6 +41,7 @@ Or shorter:
 Print a simple output to console:
 
     $ attractor calc
+    $   --file_prefix|-p app/models
 
 Generate a full report
 
