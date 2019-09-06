@@ -6,6 +6,7 @@ require 'date'
 require 'descriptive_statistics/safe'
 require 'flog'
 require 'fileutils'
+require 'listen'
 require 'tilt'
 
 require 'attractor/value'
@@ -56,6 +57,14 @@ module Attractor
       top_95_quantile = products.percentile(95)
 
       values.select { |val| val.churn * val.complexity > top_95_quantile }
+    end
+
+    def self.watch(file_prefix: '')
+      listener = Listen.to(file_prefix) do |_modified, _added, _removed|
+        puts "modified #{modified}"
+      end
+      listener.start
+      sleep
     end
   end
 end
