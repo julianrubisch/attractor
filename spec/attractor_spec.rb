@@ -10,7 +10,8 @@ RSpec.describe Attractor do
       Attractor::Value.new(file_path: "file_#{index}.rb", churn: index, complexity: index)
     end
 
-    suggestions = Attractor::Calculator.get_suggestions(values)
+    suggester = Attractor::Suggester.new(values)
+    suggestions = suggester.suggest
 
     expect(suggestions.map(&:file_path)).to contain_exactly 'file_30.rb', 'file_29.rb'
     expect(suggestions.map(&:file_path)).not_to include 'file_28.rb'

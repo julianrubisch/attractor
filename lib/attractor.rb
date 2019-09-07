@@ -2,7 +2,8 @@
 
 require 'attractor/version'
 require 'attractor/calculator'
-# require_relative 'attractor/calculator.rb'
+require 'attractor/reporter'
+require 'attractor/suggester'
 
 module Attractor
   class Error < StandardError; end

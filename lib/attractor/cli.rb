@@ -15,7 +15,7 @@ module Attractor
       puts
       puts "file_path#{' ' * 53}complexity   churn"
       puts '-' * 80
-      Attractor::Calculator.output_console(file_prefix: options[:file_prefix])
+      Attractor::ConsoleReporter.new(file_prefix: options[:file_prefix]).report
     end
 
     desc 'report', 'Generates an HTML report'
@@ -28,8 +28,13 @@ module Attractor
         puts 'Listening for file changes...'
         Attractor::Calculator.watch(file_prefix: options[:file_prefix])
       else
-        Attractor::Calculator.report(format: options[:format], file_prefix: options[:file_prefix])
         puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
+        case options[:format]
+        when 'html'
+          Attractor::HtmlReporter.new(file_prefix: options[:file_prefix]).report
+        else
+          Attractor::HtmlReporter.new(file_prefix: options[:file_prefix]).report
+        end
       end
     end
   end
