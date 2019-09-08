@@ -2,9 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/4352208/64156443-1573a600-ce35-11e9-9422-265012e93a91.png)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/attractor`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Many authors ([Michael Feathers](https://www.agileconnection.com/article/getting-empirical-about-refactoring), [Sandi Metz](https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth)) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
 ## Installation
 
@@ -36,17 +34,23 @@ Or shorter:
 
     $ attractor report -p app/models
 
+Watch for file changes:
+
+    $ attractor report -p app/models --watch
+
 ## CLI Commands and Options
 
 Print a simple output to console:
 
     $ attractor calc
     $   --file_prefix|-p app/models
+    $   --watch|-w
 
 Generate a full report
 
     $ attractor report 
     $   --file_prefix|-p app/models
+    $   --watch|-w
 
 ## Development
 
