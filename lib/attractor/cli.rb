@@ -11,11 +11,12 @@ module Attractor
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
     def calc
-      puts 'Calculated churn and complexity'
-      puts
-      puts "file_path#{' ' * 53}complexity   churn"
-      puts '-' * 80
-      Attractor::ConsoleReporter.new(file_prefix: options[:file_prefix]).report
+      if options[:watch]
+        puts 'Listening for file changes...'
+        Attractor::ConsoleReporter.new(file_prefix: options[:file_prefix]).watch
+      else
+        Attractor::ConsoleReporter.new(file_prefix: options[:file_prefix]).report
+      end
     end
 
     desc 'report', 'Generates an HTML report'
