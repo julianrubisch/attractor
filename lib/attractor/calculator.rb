@@ -32,15 +32,5 @@ module Attractor
         Value.new(file_path: change[:file_path], churn: change[:times_changed], complexity: complexity)
       end
     end
-
-    def self.watch(file_prefix: '')
-      listener = Listen.to(file_prefix) do |_modified, _added, _removed|
-        puts "modified #{_modified}"
-        puts "added #{_added}"
-        puts "removed #{_removed}"
-      end
-      listener.start
-      sleep
-    end
   end
 end

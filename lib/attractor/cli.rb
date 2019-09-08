@@ -23,12 +23,10 @@ module Attractor
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
     def report
-      puts 'Generating an HTML report'
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::Calculator.watch(file_prefix: options[:file_prefix])
+        Attractor::HtmlReporter.new(file_prefix: options[:file_prefix]).watch
       else
-        puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
         case options[:format]
         when 'html'
           Attractor::HtmlReporter.new(file_prefix: options[:file_prefix]).report
