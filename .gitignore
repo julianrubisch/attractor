@@ -13,3 +13,4 @@
 .rspec_status
 
 *.swp
+Gemfile.lock

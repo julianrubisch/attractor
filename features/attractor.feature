@@ -12,3 +12,7 @@ Feature: Attractor
     # Then an HTML file should be generated
     Then the output should contain "Generated HTML report at"
     Then  the output should contain "attractor_output/index.html"
+
+  Scenario:
+    When I run `attractor report --watch`
+    Then the output should contain "Listening for file changes..."
