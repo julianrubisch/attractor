@@ -2,6 +2,7 @@
 
 require 'descriptive_statistics/safe'
 require 'fileutils'
+require 'launchy'
 require 'tilt'
 
 module Attractor
@@ -57,6 +58,8 @@ module Attractor
 
       File.open('./attractor_output/index.html', 'w') { |file| file.write(output) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
+
+      Launchy.open(File.expand_path './attractor_output/index.html')
     end
   end
 end
