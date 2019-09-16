@@ -38,6 +38,18 @@ Watch for file changes:
 
     $ attractor report -p app/models --watch
 
+Serve at http://localhost:7890:
+
+    $ attractor serve -p app/models
+
+Enable rack-livereload:
+
+    $ attractor serve -p app/models --watch
+
+### Live Reloading
+
+If you have `guard-livereload` (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
+
 ## CLI Commands and Options
 
 Print a simple output to console:
@@ -57,10 +69,6 @@ Serve the output on http://localhost:7890
     $ attractor serve
     $   --file_prefix|-p app/models
     $   --watch|-w
-
-### Live Reloading
-
-If you have `guard-livereload` (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
 
 ## Development
 
