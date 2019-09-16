@@ -4,6 +4,7 @@ require 'descriptive_statistics/safe'
 require 'fileutils'
 require 'launchy'
 require 'rack'
+require 'rack/livereload'
 require 'tilt'
 
 module Attractor
@@ -73,17 +74,42 @@ module Attractor
       template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
       template.render self
     end
+  end
 
-    def serve
+  # serving the HTML locally
+  class RackReporter < Reporter
+    def report
       super
 
+      app = serve_via_rack
+
+      Rack::Handler::WEBrick.run app, Port: 7890
+    end
+
+    def render
+      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
+      template.render self
+    end
+
+    def watch
+      @suggestions = @suggester.suggest
+
+      app = serve_via_rack
+
+      Rack::Handler::WEBrick.run Rack::LiveReload.new(app), Port: 7890
+    end
+
+    private
+
+    def serve_via_rack
       app = lambda do |_env|
         [200, { 'Content-Type' => 'text/html' }, [render]]
       end
 
       puts 'Serving attractor at http://localhost:7890'
       Launchy.open('http://localhost:7890')
-      Rack::Handler::WEBrick.run app, Port: 7890
+
+      app
     end
   end
 end
