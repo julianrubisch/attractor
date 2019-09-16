@@ -3,6 +3,8 @@
 require 'descriptive_statistics/safe'
 require 'fileutils'
 require 'launchy'
+require 'rack'
+require 'rack/livereload'
 require 'tilt'
 
 module Attractor
@@ -23,6 +25,14 @@ module Attractor
     end
 
     def report
+      @suggestions = @suggester.suggest
+    end
+
+    def render
+      'Attractor'
+    end
+
+    def serve
       @suggestions = @suggester.suggest
     end
   end
@@ -51,15 +61,55 @@ module Attractor
       super
 
       puts 'Generating an HTML report'
-      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
-      output = template.render self
 
       FileUtils.mkdir_p './attractor_output'
 
-      File.open('./attractor_output/index.html', 'w') { |file| file.write(output) }
+      File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
-      Launchy.open(File.expand_path './attractor_output/index.html')
+      Launchy.open(File.expand_path('./attractor_output/index.html'))
+    end
+
+    def render
+      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
+      template.render self
+    end
+  end
+
+  # serving the HTML locally
+  class RackReporter < Reporter
+    def report
+      super
+
+      app = serve_via_rack
+
+      Rack::Handler::WEBrick.run app, Port: 7890
+    end
+
+    def render
+      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
+      template.render self
+    end
+
+    def watch
+      @suggestions = @suggester.suggest
+
+      app = serve_via_rack
+
+      Rack::Handler::WEBrick.run Rack::LiveReload.new(app), Port: 7890
+    end
+
+    private
+
+    def serve_via_rack
+      app = lambda do |_env|
+        [200, { 'Content-Type' => 'text/html' }, [render]]
+      end
+
+      puts 'Serving attractor at http://localhost:7890'
+      Launchy.open('http://localhost:7890')
+
+      app
     end
   end
 end

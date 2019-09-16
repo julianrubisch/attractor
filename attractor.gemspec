@@ -38,6 +38,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'flog', '~> 4.0'
   spec.add_dependency 'launchy'
   spec.add_dependency 'listen', '~> 3.0'
+  spec.add_dependency 'rack'
+  spec.add_dependency 'rack-livereload'
   spec.add_dependency 'thor'
   spec.add_dependency 'tilt'
 

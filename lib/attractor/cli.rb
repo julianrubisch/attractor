@@ -36,5 +36,23 @@ module Attractor
         end
       end
     end
+
+    desc 'serve', 'Serves the report on localhost'
+    option :format, aliases: :f, default: 'html'
+    option :file_prefix, aliases: :p
+    option :watch, aliases: :w, type: :boolean
+    def serve
+      if options[:watch]
+        puts 'Listening for file changes...'
+        Attractor::RackReporter.new(file_prefix: options[:file_prefix]).watch
+      else
+        case options[:format]
+        when 'html'
+          Attractor::RackReporter.new(file_prefix: options[:file_prefix]).report
+        else
+          Attractor::RackReporter.new(file_prefix: options[:file_prefix]).report
+        end
+      end
+    end
   end
 end

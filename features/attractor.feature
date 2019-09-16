@@ -16,3 +16,7 @@ Feature: Attractor
   Scenario:
     When I run `attractor report --watch`
     Then the output should contain "Listening for file changes..."
+
+  Scenario:
+    When I run `attractor serve`
+    Then the output should contain "Serving attractor at http://localhost:7890"
