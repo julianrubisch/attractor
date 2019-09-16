@@ -52,6 +52,16 @@ Generate a full report
     $   --file_prefix|-p app/models
     $   --watch|-w
 
+Serve the output on http://localhost:7890
+
+    $ attractor serve
+    $   --file_prefix|-p app/models
+    $   --watch|-w
+
+### Live Reloading
+
+If you have `guard-livereload` (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
