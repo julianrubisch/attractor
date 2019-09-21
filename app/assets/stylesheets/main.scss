@@ -1,4 +1,10 @@
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap-grid';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/vendor/_rfs';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_border-radius';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_hover';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_card';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_nav';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_navbar';
 
 $light-grey: #F0F4F8;
 
