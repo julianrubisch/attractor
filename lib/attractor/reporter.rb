@@ -71,7 +71,7 @@ module Attractor
     end
 
     def render
-      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
+      template = Tilt.new(File.expand_path('../../app/views/index.html.erb', __dir__))
       template.render self
     end
   end
@@ -87,7 +87,7 @@ module Attractor
     end
 
     def render
-      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
+      template = Tilt.new(File.expand_path('../../app/views/index.html.erb', __dir__))
       template.render self
     end
 
