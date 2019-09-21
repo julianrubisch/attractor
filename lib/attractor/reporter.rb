@@ -64,6 +64,9 @@ module Attractor
 
       FileUtils.mkdir_p './attractor_output'
 
+      css = File.read(File.expand_path('../../app/assets/stylesheets/main.css', __dir__))
+
+      File.open('./attractor_output/main.css', 'w') { |file| file.write(css) }
       File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
