@@ -3,24 +3,6 @@
     <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display|Red+Hat+Text&display=swap" rel="stylesheet">
     <link href="main.css" rel="stylesheet" />
     <style type="text/css">
-      body {
-        font-family: "Red Hat Text", sans-serif;
-      }
-      h1 {
-        font-family: "Red Hat Display";
-        text-align: center;
-        font-size: 3rem;
-        text-shadow: deeppink 3px 3px;
-      }
-      #container {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-      }
-      #root {
-        width: 600px;
-      }
       #suggestions {
         width: 600px;
       }
@@ -141,23 +123,36 @@
           .text(`y = ${regressionData.a.toFixed(2)} x ^ ${regressionData.b.toFixed(2)}`));
 
       document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('#root').appendChild(svg.node());
+        document.querySelector('#graph').appendChild(svg.node());
       });
     </script>
   </head>
   <body>
-    <h1>Attractor</h1>
-    <div id="container">
-      <div id="root"></div>
-      <div id="suggestions">
-        <h3>Refactoring Candidates</h3>
-        <h5>Top 95 Percentile of `churn * complexity`</h5>
-        <ul>
-          <% @suggestions.each do |val| %>
-            <li><%= val.file_path %></li>
-          <% end %>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="#">Attractor</a>
+    </nav>
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Churn vs Complexity</h3>
+              <div class="d-flex justify-items-center">
+                <div id="graph"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      <%# <div id="suggestions"> %>
+      <%#   <h3>Refactoring Candidates</h3> %>
+      <%#   <h5>Top 95 Percentile of `churn * complexity`</h5> %>
+      <%#   <ul> %>
+      <%#     <% @suggestions.each do |val| %1> %>
+      <%#       <li><%= val.file_path %1></li> %>
+      <%#     <% end %1> %>
+      <%#   </ul> %>
+      <%# </div> %>
     </div>
   </body>
 </html>
