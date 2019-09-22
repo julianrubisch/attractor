@@ -1,0 +1,93 @@
+$font-family-sans-serif: 'Red Hat Text';
+$headings-font-family:        'Red Hat Display';
+$primary:       #4E0754;
+$secondary:     #F9703E;
+
+$font-size-lg: 1.5rem;
+
+$gray-100: #F0F4F8 !default;
+$gray-200: #D9E2EC !default;
+$gray-300: #9FB3C8 !default;
+$gray-400: #627D98 !default;
+// $gray-500: #adb5bd !default;
+// $gray-600: #6c757d !default;
+// $gray-700: #495057 !default;
+$gray-800: #102A43 !default;
+
+$text-muted: $gray-400;
+
+$navbar-light-color:                $gray-800 !default;
+$navbar-light-hover-color:          $gray-800 !default;
+$navbar-light-active-color:         $gray-800 !default;
+$navbar-light-disabled-color:       $gray-800 !default;
+// $navbar-light-toggler-icon-bg:      str-replace(url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='#{$navbar-light-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"), "#", "%23") !default;
+// $navbar-light-toggler-border-color: rgba($black, .1) !default;
+
+$navbar-light-brand-color:                $navbar-light-active-color !default;
+$navbar-light-brand-hover-color:          $navbar-light-active-color !default;
+
+$border-radius: 4px;
+$border-width: 1px;
+$border-color: $gray-200 !default;
+
+$enable-shadows: true;
+
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap-grid';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/vendor/_rfs';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_border-radius';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_box-shadow';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_deprecate';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_hover';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_lists';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_table-row';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-emphasis';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-hide';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-truncate';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_position';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_text';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_card';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_nav';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_navbar';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_reboot';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_tables';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_type';
+
+body {
+  background: $gray-100;
+
+  & > .container {
+    margin-top: 3rem !important;
+    margin-bottom: 5rem !important;
+  }
+}
+
+nav.navbar-light {
+  position: fixed !important;
+  background: white;
+  box-shadow: 0 2px 2px 0 rgba(188,204,220,0.8);
+}
+
+footer {
+  background: $dark;
+  color: $light;
+  a {
+    color: $light;
+  }
+}
+
+.card {
+  @include box-shadow(0 2px 4px 0 rgba(16,42,67,0.5));
+}
+
+.card-body {
+  h5.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
+#graph {
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+}

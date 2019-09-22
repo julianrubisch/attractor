@@ -64,14 +64,19 @@ module Attractor
 
       FileUtils.mkdir_p './attractor_output'
 
+      File.open('./attractor_output/main.css', 'w') { |file| file.write(css) }
       File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
       Launchy.open(File.expand_path('./attractor_output/index.html'))
     end
 
+    def css
+      File.read(File.expand_path('../../app/assets/stylesheets/main.css', __dir__))
+    end
+
     def render
-      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
+      template = Tilt.new(File.expand_path('../../app/views/index.html.erb', __dir__))
       template.render self
     end
   end
@@ -87,8 +92,12 @@ module Attractor
     end
 
     def render
-      template = Tilt.new(File.expand_path('../templates/index.html.erb', __dir__))
+      template = Tilt.new(File.expand_path('../../app/views/index.html.erb', __dir__))
       template.render self
+    end
+
+    def css
+      File.read(File.expand_path('../../app/assets/stylesheets/main.css', __dir__))
     end
 
     def watch
@@ -102,14 +111,23 @@ module Attractor
     private
 
     def serve_via_rack
-      app = lambda do |_env|
-        [200, { 'Content-Type' => 'text/html' }, [render]]
+      app = lambda do |env|
+        route(env['PATH_INFO'])
       end
 
       puts 'Serving attractor at http://localhost:7890'
       Launchy.open('http://localhost:7890')
 
       app
+    end
+
+    def route(path_info)
+      case path_info
+      when /main.css$/
+        [200, { 'Content-Type' => 'text/css' }, [css]]
+      else
+        [200, { 'Content-Type' => 'text/html' }, [render]]
+      end
     end
   end
 end
