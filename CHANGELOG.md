@@ -1,3 +1,7 @@
+## RELEASE 0.3.1
+
+* ENHANCEMENT: make an actual UI
+
 ## RELEASE 0.3.0
 
 * FEATURE: Rack live reload
