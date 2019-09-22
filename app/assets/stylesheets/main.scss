@@ -14,6 +14,8 @@ $gray-400: #627D98 !default;
 // $gray-700: #495057 !default;
 $gray-800: #102A43 !default;
 
+$text-muted: $gray-400;
+
 $navbar-light-color:                $gray-800 !default;
 $navbar-light-hover-color:          $gray-800 !default;
 $navbar-light-active-color:         $gray-800 !default;
@@ -34,21 +36,43 @@ $enable-shadows: true;
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/vendor/_rfs';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_border-radius';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_box-shadow';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_deprecate';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_hover';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_lists';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_table-row';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-emphasis';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-hide';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-truncate';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_position';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_text';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_card';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_nav';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_navbar';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_reboot';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_tables';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_type';
 
 body {
   background: $gray-100;
+
+  & > .container {
+    margin-top: 3rem !important;
+    margin-bottom: 5rem !important;
+  }
 }
 
 nav.navbar-light {
+  position: fixed !important;
   background: white;
   box-shadow: 0 2px 2px 0 rgba(188,204,220,0.8);
+}
+
+footer {
+  background: $dark;
+  color: $light;
+  a {
+    color: $light;
+  }
 }
 
 .card {

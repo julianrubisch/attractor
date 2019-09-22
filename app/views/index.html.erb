@@ -127,7 +127,7 @@
       });
     </script>
   </head>
-  <body>
+  <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <a class="navbar-brand" href="#">Attractor</a>
     </nav>
@@ -136,7 +136,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Churn vs Complexity</h3>
+              <h5 class="card-title">Churn vs Complexity</h5>
               <div class="d-flex justify-items-center">
                 <div id="graph"></div>
               </div>
@@ -144,15 +144,43 @@
           </div>
         </div>
       </div>
-      <%# <div id="suggestions"> %>
-      <%#   <h3>Refactoring Candidates</h3> %>
-      <%#   <h5>Top 95 Percentile of `churn * complexity`</h5> %>
-      <%#   <ul> %>
-      <%#     <% @suggestions.each do |val| %1> %>
-      <%#       <li><%= val.file_path %1></li> %>
-      <%#     <% end %1> %>
-      <%#   </ul> %>
-      <%# </div> %>
+
+      <div class="row mt-3">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Refactoring Candidates</h5>
+              <h6 class="card-subtitle text-muted">Top 95 Percentile of Churn * Complexity</h6>
+              <table class="table mt-4">
+                <thead>
+                  <tr>
+                    <th scope="col">File Path</th>
+                    <th scope="col">Churn</th>
+                    <th scope="col">Complexity</th>
+                    <th scope="col">Churn * Complexity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% @suggestions.sort_by { |val| val.churn * val.complexity }.reverse.each do |val| %>
+                  <tr>
+                    <td><%= val.file_path %></td>
+                    <td><%= val.churn %></td>
+                    <td><%= val.complexity %></td>
+                    <td><%= val.churn * val.complexity %></td>
+                  </tr>
+                <% end %>
+                <tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <footer class="footer mt-auto py-3 fixed-bottom">
+      <div class="container d-flex justify-content-end">
+        <span class="mx-3"><a target="_blank" href="https://twitter.com/AttractorGem">Twitter</a></span>
+        <span class="mx-3"><a target="_blank" href="https://www.patreon.com/minthesize">Patreon</a></span>
+      </div>
+    </footer>
   </body>
 </html>
