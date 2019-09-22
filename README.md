@@ -1,6 +1,6 @@
 # Attractor ![build status](https://travis-ci.org/julianrubisch/attractor.svg?branch=master)
 
-![image](https://user-images.githubusercontent.com/4352208/64156443-1573a600-ce35-11e9-9422-265012e93a91.png)
+![image](https://user-images.githubusercontent.com/4352208/65392349-4419d800-dd74-11e9-8dad-d84e21da09e3.png)
 
 Many authors ([Michael Feathers](https://www.agileconnection.com/article/getting-empirical-about-refactoring), [Sandi Metz](https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth)) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
@@ -79,3 +79,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/julianrubisch/attractor.
+
+## Social
+
+[Twitter](https://twitter.com/AttractorGem)
