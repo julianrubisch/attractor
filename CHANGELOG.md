@@ -1,3 +1,7 @@
+## RELEASE 0.3.2
+
+* ENHANCEMENT: logo
+
 ## RELEASE 0.3.1
 
 * ENHANCEMENT: make an actual UI
