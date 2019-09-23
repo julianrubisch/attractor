@@ -3,8 +3,6 @@
 require 'descriptive_statistics/safe'
 require 'fileutils'
 require 'launchy'
-require 'rack'
-require 'rack/livereload'
 require 'tilt'
 
 module Attractor
@@ -83,62 +81,6 @@ module Attractor
     def render
       template = Tilt.new(File.expand_path('../../app/views/index.html.erb', __dir__))
       template.render self
-    end
-  end
-
-  # serving the HTML locally
-  class RackReporter < Reporter
-    def report
-      super
-
-      app = serve_via_rack
-
-      Rack::Handler::WEBrick.run app, Port: 7890
-    end
-
-    def render
-      template = Tilt.new(File.expand_path('../../app/views/index.html.erb', __dir__))
-      template.render self
-    end
-
-    def css
-      File.read(File.expand_path('../../app/assets/stylesheets/main.css', __dir__))
-    end
-
-    def logo
-      File.read(File.expand_path('../../app/assets/images/attractor_logo.svg', __dir__))
-    end
-
-    def watch
-      @suggestions = @suggester.suggest
-
-      app = serve_via_rack
-
-      Rack::Handler::WEBrick.run Rack::LiveReload.new(app), Port: 7890
-    end
-
-    private
-
-    def serve_via_rack
-      app = lambda do |env|
-        route(env['PATH_INFO'])
-      end
-
-      puts 'Serving attractor at http://localhost:7890'
-      Launchy.open('http://localhost:7890')
-
-      app
-    end
-
-    def route(path_info)
-      case path_info
-      when /main.css$/
-        [200, { 'Content-Type' => 'text/css' }, [css]]
-      when /logo.svg$/
-        [200, { 'Content-Type' => 'image/svg+xml' }, [logo]]
-      else
-        [200, { 'Content-Type' => 'text/html' }, [render]]
-      end
     end
   end
 end
