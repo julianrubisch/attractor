@@ -1,4 +1,4 @@
-# Attractor ![build status](https://travis-ci.org/julianrubisch/attractor.svg?branch=master)
+# Attractor ![build status](https://travis-ci.org/julianrubisch/attractor.svg?branch=master) <img src="https://user-images.githubusercontent.com/4352208/65411858-3dc84200-ddee-11e9-99b6-c9cdbeb533c5.png" width="32">
 
 ![image](https://user-images.githubusercontent.com/4352208/65392349-4419d800-dd74-11e9-8dad-d84e21da09e3.png)
 
@@ -83,3 +83,6 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/julian
 ## Social
 
 [Twitter](https://twitter.com/AttractorGem)
+
+## Logo Attribution
+[Black Hole by Eynav Raphael from the Noun Project](https://thenounproject.com/term/black-hole/1043893)
