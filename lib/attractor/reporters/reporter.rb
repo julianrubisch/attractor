@@ -61,9 +61,11 @@ module Attractor
       puts 'Generating an HTML report'
 
       FileUtils.mkdir_p './attractor_output'
+      FileUtils.mkdir_p './attractor_output/stylesheets'
+      FileUtils.mkdir_p './attractor_output/images'
 
-      File.open('./attractor_output/logo.svg', 'w') { |file| file.write(logo) }
-      File.open('./attractor_output/main.css', 'w') { |file| file.write(css) }
+      File.open('./attractor_output/images/attractor_logo.svg', 'w') { |file| file.write(logo) }
+      File.open('./attractor_output/stylesheets/main.css', 'w') { |file| file.write(css) }
       File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
@@ -71,15 +73,15 @@ module Attractor
     end
 
     def logo
-      File.read(File.expand_path('../../app/assets/images/attractor_logo.svg', __dir__))
+      File.read(File.expand_path('../../../app/assets/images/attractor_logo.svg', __dir__))
     end
 
     def css
-      File.read(File.expand_path('../../app/assets/stylesheets/main.css', __dir__))
+      File.read(File.expand_path('../../../app/assets/stylesheets/main.css', __dir__))
     end
 
     def render
-      template = Tilt.new(File.expand_path('../../app/views/index.html.erb', __dir__))
+      template = Tilt.new(File.expand_path('../../../app/views/index.html.erb', __dir__))
       template.render self
     end
   end
