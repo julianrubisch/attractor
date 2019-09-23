@@ -64,11 +64,16 @@ module Attractor
 
       FileUtils.mkdir_p './attractor_output'
 
+      File.open('./attractor_output/logo.svg', 'w') { |file| file.write(logo) }
       File.open('./attractor_output/main.css', 'w') { |file| file.write(css) }
       File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
       Launchy.open(File.expand_path('./attractor_output/index.html'))
+    end
+
+    def logo
+      File.read(File.expand_path('../../app/assets/images/attractor_logo.svg', __dir__))
     end
 
     def css
@@ -100,6 +105,10 @@ module Attractor
       File.read(File.expand_path('../../app/assets/stylesheets/main.css', __dir__))
     end
 
+    def logo
+      File.read(File.expand_path('../../app/assets/images/attractor_logo.svg', __dir__))
+    end
+
     def watch
       @suggestions = @suggester.suggest
 
@@ -125,6 +134,8 @@ module Attractor
       case path_info
       when /main.css$/
         [200, { 'Content-Type' => 'text/css' }, [css]]
+      when /logo.svg$/
+        [200, { 'Content-Type' => 'image/svg+xml' }, [logo]]
       else
         [200, { 'Content-Type' => 'text/html' }, [render]]
       end
