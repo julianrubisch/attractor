@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require 'rack/livereload'
 require 'rack'
 require 'sinatra/base'
@@ -17,9 +16,21 @@ module Attractor
     set :public_folder, File.expand_path('../../../app/assets', __dir__)
 
     get '/' do
-      @values = @reporter.values
       @suggestions = @reporter.suggestions
       erb File.read(File.expand_path('../../../app/views/index.html.erb', __dir__))
+    end
+
+    get '/javascripts/index.js' do
+      @values = @reporter.values
+      erb File.read(File.expand_path('../../../app/assets/javascripts/index.js.erb', __dir__)), content_type: 'text/javascript'
+    end
+
+    get '/values' do
+      @reporter.values.to_json
+    end
+
+    get '/suggestions' do
+      @reporter.suggestions.to_json
     end
   end
 
