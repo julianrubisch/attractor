@@ -6,12 +6,19 @@ require 'rack'
 require 'sinatra/base'
 
 module Attractor
+  # skeleton sinatra app
   class AttractorApp < Sinatra::Base
+    def initialize(reporter)
+      super
+      @reporter = reporter
+    end
+
     enable :static
     set :public_folder, File.expand_path('../../../app/assets', __dir__)
 
     get '/' do
-      @suggestions = []
+      @values = @reporter.values
+      @suggestions = @reporter.suggestions
       erb File.read(File.expand_path('../../../app/views/index.html.erb', __dir__))
     end
   end
@@ -21,7 +28,7 @@ module Attractor
     def report
       super
 
-      app = AttractorApp.new
+      app = AttractorApp.new(self)
 
       puts 'Serving attractor at http://localhost:7890'
       Launchy.open('http://localhost:7890')
@@ -32,7 +39,7 @@ module Attractor
     def watch
       @suggestions = @suggester.suggest
 
-      app = AttractorApp.new
+      app = AttractorApp.new(self)
 
       puts 'Serving attractor at http://localhost:7890'
       Launchy.open('http://localhost:7890')

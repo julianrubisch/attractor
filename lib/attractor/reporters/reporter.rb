@@ -9,7 +9,7 @@ module Attractor
   # base reporter
   class Reporter
     extend Forwardable
-    attr_accessor :values
+    attr_accessor :values, :suggestions
     def_delegator :@watcher, :watch
 
     def initialize(file_prefix: '')
