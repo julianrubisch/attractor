@@ -44,13 +44,13 @@ module Attractor
     def serve
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::RackReporter.new(file_prefix: options[:file_prefix]).watch
+        Attractor::SinatraReporter.new(file_prefix: options[:file_prefix]).watch
       else
         case options[:format]
         when 'html'
-          Attractor::RackReporter.new(file_prefix: options[:file_prefix]).report
+          Attractor::SinatraReporter.new(file_prefix: options[:file_prefix]).report
         else
-          Attractor::RackReporter.new(file_prefix: options[:file_prefix]).report
+          Attractor::SinatraReporter.new(file_prefix: options[:file_prefix]).report
         end
       end
     end

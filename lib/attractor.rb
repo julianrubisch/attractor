@@ -2,7 +2,8 @@
 
 require 'attractor/version'
 require 'attractor/calculator'
-require 'attractor/reporter'
+require 'attractor/reporters/reporter'
+require 'attractor/reporters/sinatra_reporter'
 require 'attractor/suggester'
 require 'attractor/watcher'
 
