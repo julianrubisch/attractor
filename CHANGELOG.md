@@ -1,3 +1,7 @@
+## RELEASE 0.3.3
+
+* ENHANCEMENT: use sinatra to serve values and suggestions asynchronously
+
 ## RELEASE 0.3.2
 
 * ENHANCEMENT: logo
