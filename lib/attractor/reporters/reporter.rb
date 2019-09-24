@@ -59,6 +59,7 @@ module Attractor
       super
 
       puts 'Generating an HTML report'
+      @serve_static = true
 
       FileUtils.mkdir_p './attractor_output'
       FileUtils.mkdir_p './attractor_output/stylesheets'

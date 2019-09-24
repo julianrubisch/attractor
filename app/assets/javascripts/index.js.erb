@@ -1,9 +1,14 @@
+<% if @serve_static %>
+const data = <%= JSON.generate(@values) %>;
+<% else %>
+(async () => {
+  const data = await (await fetch("/values")).json();
+<% end %>
+
 const width = 600;
 const height = 600;
 
 const margin = ({top: 20, right: 30, bottom: 30, left: 40});
-
-const data = <%= JSON.generate(@values) %>;
 
 const color = d3.scaleLog()
   .domain(d3.extent(data, d => d.x * d.y))
@@ -101,7 +106,11 @@ g.append("g")
     .attr("dx", "33%")
     .text(`y = ${regressionData.a.toFixed(2)} x ^ ${regressionData.b.toFixed(2)}`));
 
+<% if @serve_static %>
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#graph').appendChild(svg.node());
 });
-
+<% else %>
+  document.querySelector('#graph').appendChild(svg.node());
+})();
+<% end %>
