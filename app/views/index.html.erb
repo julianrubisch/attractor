@@ -43,14 +43,16 @@
                     <th scope="col">Churn * Complexity</th>
                   </tr>
                 </thead>
-                <tbody>
-                <% @suggestions.sort_by { |val| val.churn * val.complexity }.reverse.each do |val| %>
-                  <tr>
-                    <td><%= val.file_path %></td>
-                    <td><%= val.churn %></td>
-                    <td><%= val.complexity %></td>
-                    <td><%= val.churn * val.complexity %></td>
-                  </tr>
+                <tbody id="suggestions-table">
+                <% if @serve_static %>
+                  <% @suggestions.sort_by { |val| val.churn * val.complexity }.reverse.each do |val| %>
+                    <tr>
+                      <td><%= val.file_path %></td>
+                      <td><%= val.churn %></td>
+                      <td><%= val.complexity %></td>
+                      <td><%= val.churn * val.complexity %></td>
+                    </tr>
+                  <% end %>
                 <% end %>
                 <tbody>
               </table>

@@ -3,6 +3,10 @@ const data = <%= JSON.generate(@values) %>;
 <% else %>
 (async () => {
   const data = await (await fetch("/values")).json();
+  const suggestions = await (await fetch("/suggestions")).json();
+
+  const suggestHTML = suggestions.map(sugg => `<tr><td>${sugg.file_path}</td><td>${sugg.x}</td><td>${Math.round(sugg.y)}</td><td>${Math.round(sugg.x * sugg.y)}</td></tr>`).join();
+  document.querySelector("#suggestions-table").innerHTML = suggestHTML;
 <% end %>
 
 const width = 600;
