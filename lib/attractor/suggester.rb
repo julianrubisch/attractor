@@ -7,12 +7,12 @@ module Attractor
       @values = values
     end
 
-    def suggest
+    def suggest(threshold = 95)
       products = @values.map { |val| val.churn * val.complexity }
       products.extend(DescriptiveStatistics)
-      top_95_quantile = products.percentile(95)
+      quantile = products.percentile(threshold.to_i)
 
-      @values.select { |val| val.churn * val.complexity > top_95_quantile }
+      @values.select { |val| val.churn * val.complexity > quantile }
     end
   end
 end
