@@ -23,4 +23,5 @@
 
 guard 'rake', task: 'install' do
   watch(%r{^lib/.+\.rb})
+  watch(%r{^src/.+\.(scss|js)$})
 end

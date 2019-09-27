@@ -69,6 +69,8 @@ module Attractor
       File.open('./attractor_output/images/attractor_logo.svg', 'w') { |file| file.write(logo) }
       File.open('./attractor_output/stylesheets/main.css', 'w') { |file| file.write(css) }
       File.open('./attractor_output/javascripts/index.js', 'w') { |file| file.write(javascript) }
+      File.open('./attractor_output/javascripts/index.pack.js', 'w') { |file| file.write(javascript_pack) }
+      
       File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
@@ -81,6 +83,10 @@ module Attractor
 
     def css
       File.read(File.expand_path('../../../app/assets/stylesheets/main.css', __dir__))
+    end
+
+    def javascript_pack
+      File.read(File.expand_path('../../../app/assets/javascripts/index.pack.js', __dir__))
     end
 
     def javascript
