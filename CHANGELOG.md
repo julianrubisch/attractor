@@ -1,3 +1,7 @@
+## RELEASE 0.3.4
+
+* ENHANCEMENT: let's not depend on an internet connection
+
 ## RELEASE 0.3.3
 
 * ENHANCEMENT: use sinatra to serve values and suggestions asynchronously
