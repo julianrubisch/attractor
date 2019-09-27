@@ -8,6 +8,7 @@
 /tmp/
 /attractor_output/
 /vendor/
+/node_modules/
 
 # rspec failure tracking
 .rspec_status
