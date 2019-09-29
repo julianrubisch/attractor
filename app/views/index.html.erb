@@ -29,11 +29,11 @@
 
       <div class="row mt-3">
         <div class="col-12">
+        <% if @serve_static %>
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Refactoring Candidates</h5>
               <h6 class="card-subtitle text-muted">Top 95 Percentile of Churn * Complexity</h6>
-            <% if @serve_static %>
               <table class="table mt-4">
                 <thead>
                   <tr>
@@ -44,7 +44,7 @@
                   </tr>
                 </thead>
                 <tbody id="suggestions-table">
-                <% @suggestions.sort_by { |val| val.churn * val.complexity }.reverse.each do |val| %>
+                <% @suggestions.each do |val| %>
                   <tr>
                     <td><%= val.file_path %></td>
                     <td><%= val.churn %></td>
@@ -54,11 +54,11 @@
                   </tr>
                 <tbody>
               </table>
-            <% else %>
-              <div id="suggestions"></div>
-              <% end %>
             </div>
           </div>
+          <% else %>
+            <div id="suggestions"></div>
+          <% end %>
         </div>
       </div>
     </div>

@@ -30,22 +30,41 @@ $border-radius: 4px;
 $border-width: 1px;
 $border-color: $gray-200 !default;
 
+
+$label-margin-bottom:                   .2rem !default;
+$input-bg:                              $gray-100 !default;
+// $input-disabled-bg:                     $gray-200 !default;
+
+$input-color:                           $gray-800;
+$input-border-color:                    $gray-100 !default;
+// $input-border-width:                    $input-btn-border-width !default;
+$input-box-shadow: none;
+
+$input-focus-border-color:              $gray-800;
+
 $enable-shadows: true;
 
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap-grid';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/vendor/_rfs';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_border-radius';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_box-shadow';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_buttons';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_deprecate';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_forms';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_gradients';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_hover';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_lists';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_table-row';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-emphasis';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-hide';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_transition';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_text-truncate';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_position';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_text';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_buttons';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_card';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_forms';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_input-group';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_nav';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_navbar';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_reboot';
@@ -96,3 +115,8 @@ footer {
   stroke: $dark;
   fill: none;
       }
+
+
+#percentile-input-group {
+  width: 150px;
+}
