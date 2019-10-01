@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Suggestions() {
   const [percentile, setPercentile] = useState(95);
@@ -51,7 +53,7 @@ export default function Suggestions() {
                   id="percentile-button"
                   onClick={refreshSuggestions}
                 >
-                  Set
+                  <FontAwesomeIcon icon={faArrowRight} />
                 </button>
               </div>
             </div>

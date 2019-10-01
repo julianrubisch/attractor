@@ -3,11 +3,15 @@ import ReactDOM from "react-dom";
 
 import { chart } from "./functions";
 import Suggestions from "./components/Suggestions.jsx";
+import Chart from "./components/Chart.jsx";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const wrapper = document.getElementById("suggestions");
-  if (wrapper) {
-    ReactDOM.render(<Suggestions />, wrapper);
+  if (document.getElementById("react-graph")) {
+    ReactDOM.render(<Chart />, document.getElementById("react-graph"));
+    ReactDOM.render(
+      <Suggestions />,
+      document.getElementById("react-suggestions")
+    );
   }
 });
 

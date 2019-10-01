@@ -105,7 +105,7 @@ footer {
   }
 }
 
-#graph {
+#graph, #react-graph {
   width: 600px;
   height: 600px;
   margin: 0 auto;
@@ -114,9 +114,13 @@ footer {
 .regression {
   stroke: $dark;
   fill: none;
-      }
+}
 
 
 #percentile-input-group {
   width: 150px;
+}
+
+#percentile-button {
+  height: 38px;
 }
