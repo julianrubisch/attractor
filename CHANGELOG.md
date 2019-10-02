@@ -1,3 +1,7 @@
+## RELEASE 0.4.0
+
+* FEATURE: Specify suggestion threshold and regression type via UI
+
 ## RELEASE 0.3.4
 
 * ENHANCEMENT: let's not depend on an internet connection
