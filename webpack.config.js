@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: './src/javascript/index.js',
+  entry: "./src/javascript/index.js",
   output: {
-    filename: 'index.pack.js',
-    path: path.resolve(__dirname, 'app/assets/javascripts')
+    filename: "index.pack.js",
+    path: path.resolve(__dirname, "app/assets/javascripts")
   },
   module: {
     rules: [
@@ -16,5 +16,8 @@ module.exports = {
         }
       }
     ]
+  },
+  resolve: {
+    extensions: [".js", ".jsx"]
   }
 };

@@ -9,7 +9,7 @@ module Attractor
   # base reporter
   class Reporter
     extend Forwardable
-    attr_accessor :values, :suggestions
+    attr_accessor :values
     def_delegator :@watcher, :watch
 
     def initialize(file_prefix: '')
@@ -22,16 +22,17 @@ module Attractor
       end)
     end
 
+    def suggestions(quantile)
+      @suggestions = @suggester.suggest(quantile)
+      @suggestions
+    end
+
     def report
       @suggestions = @suggester.suggest
     end
 
     def render
       'Attractor'
-    end
-
-    def serve
-      @suggestions = @suggester.suggest
     end
   end
 

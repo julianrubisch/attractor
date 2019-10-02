@@ -84,5 +84,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/julian
 
 [Twitter](https://twitter.com/AttractorGem)
 
+[Patreon](https://www.patreon.com/user?u=24747270)
+
 ## Logo Attribution
 [Black Hole by Eynav Raphael from the Noun Project](https://thenounproject.com/term/black-hole/1043893)

@@ -23,7 +23,6 @@ module Attractor
     set :public_folder, File.expand_path('../../../app/assets', __dir__)
 
     get '/' do
-      @suggestions = @reporter.suggestions
       erb File.read(File.expand_path('../../../app/views/index.html.erb', __dir__))
     end
 
@@ -32,7 +31,8 @@ module Attractor
     end
 
     get '/suggestions' do
-      @reporter.suggestions.to_json
+      threshold = params[:t] || 95
+      @reporter.suggestions(threshold).to_json
     end
   end
 

@@ -1,21 +1,9 @@
 <% if @serve_static %>
 const data = <%= JSON.generate(@values) %>;
-<% else %>
-(async () => {
-  const data = await (await fetch("/values")).json();
-  const suggestions = await (await fetch("/suggestions")).json();
-
-  const suggestHTML = suggestions.map(sugg => `<tr><td>${sugg.file_path}</td><td>${sugg.x}</td><td>${Math.round(sugg.y)}</td><td>${Math.round(sugg.x * sugg.y)}</td></tr>`).join();
-  document.querySelector("#suggestions-table").innerHTML = suggestHTML;
 <% end %>
-
-  const svg = chart(data);
 
 <% if @serve_static %>
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('#graph').appendChild(svg.node());
+  const svg = chart(data, document.querySelector('#graph'));
 });
-<% else %>
-  document.querySelector('#graph').appendChild(svg.node());
-})();
 <% end %>
