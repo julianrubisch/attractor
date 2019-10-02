@@ -1,7 +1,28 @@
 import * as d3 from "d3";
-import { regressionPow } from "d3-regression";
+import { regressionPow, regressionLinear } from "d3-regression";
 
-export const chart = (data, canvas, displayRegression = true) => {
+import { RegressionTypes } from "./components/Chart";
+
+const regressionLabel = (regressionType, regressionData) => {
+  switch (regressionType) {
+    case RegressionTypes.LINEAR:
+      return `y = ${regressionData.a.toFixed(2)} x + ${regressionData.b.toFixed(
+        2
+      )}`;
+    case RegressionTypes.POWER_LAW:
+    default:
+      return `y = ${regressionData.a.toFixed(2)} x ^ ${regressionData.b.toFixed(
+        2
+      )}`;
+  }
+};
+
+export const chart = (
+  data,
+  canvas,
+  displayRegression = true,
+  regressionType = 0
+) => {
   canvas.innerHTML = "";
   const width = 600;
   const height = 600;
@@ -104,10 +125,21 @@ export const chart = (data, canvas, displayRegression = true) => {
     );
 
   if (displayRegression) {
-    const regressionGenerator = regressionPow()
-      .x(d => d.x)
-      .y(d => d.y)
-      .domain([0, d3.max(data, item => item.x)]);
+    const regressionGenerator = (function(regressionType) {
+      switch (regressionType) {
+        case RegressionTypes.LINEAR:
+          return regressionLinear()
+            .x(d => d.x)
+            .y(d => d.y)
+            .domain([0, d3.max(data, item => item.x)]);
+        case RegressionTypes.POWER_LAW:
+        default:
+          return regressionPow()
+            .x(d => d.x)
+            .y(d => d.y)
+            .domain([0, d3.max(data, item => item.x)]);
+      }
+    })(regressionType);
 
     const regressionData = regressionGenerator(data);
 
@@ -133,11 +165,7 @@ export const chart = (data, canvas, displayRegression = true) => {
           .append("text")
           .attr("dy", "30")
           .attr("dx", "33%")
-          .text(
-            `y = ${regressionData.a.toFixed(2)} x ^ ${regressionData.b.toFixed(
-              2
-            )}`
-          )
+          .text(regressionLabel(regressionType, regressionData))
       );
   }
 };

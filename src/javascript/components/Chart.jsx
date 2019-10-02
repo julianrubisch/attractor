@@ -5,9 +5,15 @@ import * as d3 from "d3";
 
 import { chart } from "../functions";
 
+export const RegressionTypes = {
+  POWER_LAW: 0,
+  LINEAR: 1
+};
+
 const Chart = () => {
   const canvas = useRef(null);
   const [displayRegression, setDisplayRegression] = useState(true);
+  const [regressionType, setRegressionType] = useState(true);
   const [values, setValues] = useState([]);
 
   const fetchValues = async () => {
@@ -25,10 +31,21 @@ const Chart = () => {
     })();
   }, []);
 
-  const handleRegressionChange = () => {
+  const handleRegressionDisplayChange = () => {
     setDisplayRegression(!displayRegression);
 
-    chart(values, canvas.current, !displayRegression);
+    chart(values, canvas.current, !displayRegression, regressionType);
+  };
+
+  const handleRegressionTypeChange = e => {
+    setRegressionType(parseInt(e.currentTarget.value));
+
+    chart(
+      values,
+      canvas.current,
+      displayRegression,
+      parseInt(e.currentTarget.value)
+    );
   };
 
   return (
@@ -48,7 +65,7 @@ const Chart = () => {
                 className="form-check-input"
                 type="checkbox"
                 id="regression-check"
-                onChange={handleRegressionChange}
+                onChange={handleRegressionDisplayChange}
               />
               <label
                 className="form-check-label text-muted"
@@ -61,27 +78,16 @@ const Chart = () => {
               <label htmlFor="regression-type" className="text-muted">
                 <small>Regression Type</small>
               </label>
-              <div className="input-group align-items-start">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  aria-label=""
-                  aria-describedby="percentile-button"
-                  id="regression-type"
-                  /* value={percentile} */
-                  /* onChange={e => setPercentile(e.target.value)} */
-                />
-                <div className="input-group-append">
-                  <button
-                    className="btn btn-dark"
-                    type="button"
-                    id="percentile-button"
-                  >
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </button>
-                </div>
-              </div>
+              <select
+                id="regression-type"
+                className="form-control"
+                onChange={handleRegressionTypeChange}
+              >
+                <option selected value="0">
+                  Power Law
+                </option>
+                <option value="1">Linear</option>
+              </select>
             </div>
           </div>
         </form>
