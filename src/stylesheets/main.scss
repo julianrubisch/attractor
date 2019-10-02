@@ -44,6 +44,10 @@ $input-focus-border-color:              $gray-800;
 
 $enable-shadows: true;
 
+$btn-box-shadow: 0;
+$btn-focus-box-shadow: 0;
+$btn-active-box-shadow: 0;
+
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap-grid';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/vendor/_rfs';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/mixins/_border-radius';
@@ -80,6 +84,42 @@ body {
   }
 }
 
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox] + label {
+  margin-top: 0.2rem;
+  vertical-align: top;
+}
+
+input[type=checkbox] + label:after {
+  content: '';
+  height: 1.5rem;
+  width: 1.5rem;
+  border: 0;
+  left: 0px;
+  top: 0px;
+  background-color: $gray-100;
+  border-color: $gray-100;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+input[type=checkbox]:checked + label:after {
+  content: '\00d7';
+  font-size: 2rem;
+  line-height: 1.5rem;
+  color: $dark;
+
+  background-color: $gray-100;
+  border-color: $gray-100;
+  padding-left: 0.2rem;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+
 nav.navbar-light {
   position: fixed !important;
   background: white;
@@ -105,10 +145,22 @@ footer {
   }
 }
 
-#graph, #react-graph {
+#graph {
   width: 600px;
   height: 600px;
   margin: 0 auto;
+}
+
+#react-graph {
+  #canvas-wrapper{
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    #canvas {
+      width: 600px;
+      height: 600px;
+    }
+  }
 }
 
 .regression {
@@ -124,3 +176,4 @@ footer {
 #percentile-button {
   height: 38px;
 }
+
