@@ -1,7 +1,8 @@
 import * as d3 from "d3";
 import { regressionPow } from "d3-regression";
 
-export const chart = (data, canvas) => {
+export const chart = (data, canvas, displayRegression = true) => {
+  canvas.innerHTML = "";
   const width = 600;
   const height = 600;
 
@@ -55,19 +56,10 @@ export const chart = (data, canvas) => {
           .text(data.y)
       );
 
-  const regressionGenerator = regressionPow()
-    .x(d => d.x)
-    .y(d => d.y)
-    .domain([0, d3.max(data, item => item.x)]);
-
-  const regressionData = regressionGenerator(data);
-
   const lineGenerator = d3
     .line()
     .x(d => xScale(d[0]))
     .y(d => yScale(d[1]));
-
-  // const svg = d3.create("svg").attr("viewBox", [0, 0, width, height]);
 
   const svgCanvas = d3
     .select(canvas)
@@ -111,34 +103,41 @@ export const chart = (data, canvas) => {
         .text(d => d.file_path)
     );
 
-  g.append("g")
-    .attr("font-family", "Red Hat Text")
-    .attr("font-size", 24)
-    .call(g =>
-      g
-        .append("path")
-        .attr("class", "regression")
-        .datum(regressionGenerator(data))
-        .attr("d", lineGenerator)
-    )
-    .call(g =>
-      g
-        .append("text")
-        .attr("dy", "60")
-        .attr("dx", "33%")
-        .text(`R^2 = ${regressionData.rSquared.toFixed(2)}`)
-    )
-    .call(g =>
-      g
-        .append("text")
-        .attr("dy", "30")
-        .attr("dx", "33%")
-        .text(
-          `y = ${regressionData.a.toFixed(2)} x ^ ${regressionData.b.toFixed(
-            2
-          )}`
-        )
-    );
+  if (displayRegression) {
+    const regressionGenerator = regressionPow()
+      .x(d => d.x)
+      .y(d => d.y)
+      .domain([0, d3.max(data, item => item.x)]);
 
-  // return svg;
+    const regressionData = regressionGenerator(data);
+
+    g.append("g")
+      .attr("font-family", "Red Hat Text")
+      .attr("font-size", 24)
+      .call(g =>
+        g
+          .append("path")
+          .attr("class", "regression")
+          .datum(regressionGenerator(data))
+          .attr("d", lineGenerator)
+      )
+      .call(g =>
+        g
+          .append("text")
+          .attr("dy", "60")
+          .attr("dx", "33%")
+          .text(`R^2 = ${regressionData.rSquared.toFixed(2)}`)
+      )
+      .call(g =>
+        g
+          .append("text")
+          .attr("dy", "30")
+          .attr("dx", "33%")
+          .text(
+            `y = ${regressionData.a.toFixed(2)} x ^ ${regressionData.b.toFixed(
+              2
+            )}`
+          )
+      );
+  }
 };

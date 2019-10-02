@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import * as d3 from "d3";
@@ -7,7 +7,8 @@ import { chart } from "../functions";
 
 const Chart = () => {
   const canvas = useRef(null);
-  const [state, setState] = useState({ displayRegression: true });
+  const [displayRegression, setDisplayRegression] = useState(true);
+  const [values, setValues] = useState([]);
 
   const fetchValues = async () => {
     const data = await (await fetch(`/values`)).json();
@@ -20,8 +21,15 @@ const Chart = () => {
       const values = await fetchValues();
 
       chart(values, canvas.current);
+      setValues(values);
     })();
   }, []);
+
+  const handleRegressionChange = () => {
+    setDisplayRegression(!displayRegression);
+
+    chart(values, canvas.current, !displayRegression);
+  };
 
   return (
     <>
@@ -36,16 +44,11 @@ const Chart = () => {
           <div className="form-row">
             <div className="form-group col-3">
               <input
-                checked={state.displayRegression}
+                checked={displayRegression}
                 className="form-check-input"
                 type="checkbox"
                 id="regression-check"
-                onChange={() => {
-                  setState({
-                    ...state,
-                    displayRegression: !state.displayRegression
-                  });
-                }}
+                onChange={handleRegressionChange}
               />
               <label
                 className="form-check-label text-muted"
