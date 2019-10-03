@@ -1,3 +1,7 @@
+## RELEASE 0.4.1
+
+* FIX: fix a bug where the regression would show NaN values
+
 ## RELEASE 0.4.0
 
 * FEATURE: Specify suggestion threshold and regression type via UI
