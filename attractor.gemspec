@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
     `churn` and `flog` projects.
   DESCRIPTION
   spec.homepage = 'https://github.com/julianrubisch/attractor'
+  spec.licenses = ['MIT']
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/julianrubisch/attractor'
