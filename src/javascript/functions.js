@@ -31,7 +31,7 @@ export const chart = (
 
   const color = d3
     .scaleLog()
-    .domain(d3.extent(data, d => d.x * d.y))
+    .domain(d3.extent(data.filter(d => d.y > 0), d => d.x * d.y))
     .range(["green", "red"]);
 
   const xScale = d3
@@ -134,6 +134,7 @@ export const chart = (
             .domain([0, d3.max(data, item => item.x)]);
         case RegressionTypes.POWER_LAW:
         default:
+          data = data.filter(d => d.y > 0);
           return regressionPow()
             .x(d => d.x)
             .y(d => d.y)
