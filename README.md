@@ -1,6 +1,6 @@
 # Attractor ![build status](https://travis-ci.org/julianrubisch/attractor.svg?branch=master) <img src="https://user-images.githubusercontent.com/4352208/65411858-3dc84200-ddee-11e9-99b6-c9cdbeb533c5.png" width="32">
 
-![image](https://user-images.githubusercontent.com/4352208/65392349-4419d800-dd74-11e9-8dad-d84e21da09e3.png)
+![image](https://user-images.githubusercontent.com/4352208/66108523-0f531f80-e5c3-11e9-914a-10b167135934.gif)
 
 Many authors ([Michael Feathers](https://www.agileconnection.com/article/getting-empirical-about-refactoring), [Sandi Metz](https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth)) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
