@@ -1,3 +1,7 @@
+## RELEASE 0.4.2
+
+* ENHANCEMENT: Axis labels
+
 ## RELEASE 0.4.1
 
 * FIX: fix a bug where the regression would show NaN values
