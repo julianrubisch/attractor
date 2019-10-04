@@ -54,12 +54,13 @@ export const chart = (
       .call(g =>
         g
           .append("text")
-          .attr("x", width - margin.right)
-          .attr("y", -4)
+          .attr("x", width / 2 + margin.left)
+          .attr("y", 30)
           .attr("fill", "#000")
+          .attr("font-size", 12)
           .attr("font-weight", "bold")
           .attr("text-anchor", "end")
-          .text(data.x)
+          .text("Churn")
       );
 
   const yAxis = g =>
@@ -69,12 +70,15 @@ export const chart = (
       .call(g => g.select(".domain").remove())
       .call(g =>
         g
-          .select(".tick:last-of-type text")
-          .clone()
-          .attr("x", 4)
+          .append("text")
+          .attr("y", -30)
+          .attr("x", -height / 2)
+          .attr("transform", "rotate(-90)")
+          .attr("fill", "#000")
+          .attr("font-size", 12)
           .attr("text-anchor", "start")
           .attr("font-weight", "bold")
-          .text(data.y)
+          .text("Complexity")
       );
 
   const lineGenerator = d3
