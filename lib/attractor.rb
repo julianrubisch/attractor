@@ -2,7 +2,9 @@
 
 require 'attractor/version'
 require 'attractor/calculator'
-require 'attractor/reporters/reporter'
+require 'attractor/reporters/base_reporter'
+require 'attractor/reporters/console_reporter'
+# require 'attractor/reporters/base_reporter'
 require 'attractor/reporters/sinatra_reporter'
 require 'attractor/suggester'
 require 'attractor/watcher'

@@ -37,7 +37,7 @@ module Attractor
   end
 
   # serving the HTML locally
-  class SinatraReporter < Reporter
+  class SinatraReporter < BaseReporter
     def report
       super
 
