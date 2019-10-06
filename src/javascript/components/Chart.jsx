@@ -43,7 +43,13 @@ const Chart = () => {
   const handleRegressionDisplayChange = () => {
     setDisplayRegression(!displayRegression);
 
-    chart(values, canvas.current, !displayRegression, regressionType);
+    chart(
+      values,
+      canvas.current,
+      !displayRegression,
+      regressionType,
+      `${filePrefix}${path}`
+    );
   };
 
   const handleRegressionTypeChange = e => {
@@ -53,12 +59,21 @@ const Chart = () => {
       values,
       canvas.current,
       displayRegression,
-      parseInt(e.currentTarget.value)
+      parseInt(e.currentTarget.value),
+      `${filePrefix}${path}`
     );
   };
 
   const handlePathChange = e => {
     setPath(e.target.value);
+
+    chart(
+      values,
+      canvas.current,
+      displayRegression,
+      regressionType,
+      `${filePrefix}${e.target.value}`
+    );
   };
 
   return (
