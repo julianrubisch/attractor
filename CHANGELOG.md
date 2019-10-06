@@ -1,3 +1,7 @@
+## RELEASE 0.4.3
+
+* ENHANCEMENT: Client side filtering of data points via text input
+
 ## RELEASE 0.4.2
 
 * ENHANCEMENT: Axis labels
