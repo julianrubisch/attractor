@@ -1,7 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import * as d3 from "d3";
 
 import { chart } from "../functions";
 
@@ -15,6 +12,8 @@ const Chart = () => {
   const [displayRegression, setDisplayRegression] = useState(true);
   const [regressionType, setRegressionType] = useState(true);
   const [values, setValues] = useState([]);
+  const [filePrefix, setFilePrefix] = useState("");
+  const [path, setPath] = useState("");
 
   const fetchValues = async () => {
     const data = await (await fetch(`/values`)).json();
@@ -22,19 +21,35 @@ const Chart = () => {
     return data;
   };
 
+  const fetchFilePrefix = async () => {
+    const data = await (await fetch("/file_prefix")).json();
+
+    return data;
+  };
+
   useEffect(() => {
     (async () => {
-      const values = await fetchValues();
+      const [values, filePrefix] = await Promise.all([
+        fetchValues(),
+        fetchFilePrefix()
+      ]);
 
-      chart(values, canvas.current);
       setValues(values);
+      setFilePrefix(filePrefix["file_prefix"]);
+      chart(values, canvas.current);
     })();
   }, []);
 
   const handleRegressionDisplayChange = () => {
     setDisplayRegression(!displayRegression);
 
-    chart(values, canvas.current, !displayRegression, regressionType);
+    chart(
+      values,
+      canvas.current,
+      !displayRegression,
+      regressionType,
+      `${filePrefix}${path}`
+    );
   };
 
   const handleRegressionTypeChange = e => {
@@ -44,12 +59,53 @@ const Chart = () => {
       values,
       canvas.current,
       displayRegression,
-      parseInt(e.currentTarget.value)
+      parseInt(e.currentTarget.value),
+      `${filePrefix}${path}`
+    );
+  };
+
+  const handlePathChange = e => {
+    setPath(e.target.value);
+
+    chart(
+      values,
+      canvas.current,
+      displayRegression,
+      regressionType,
+      `${filePrefix}${e.target.value}`
     );
   };
 
   return (
     <>
+      <div className="row">
+        <div className="col-2 col-lg-3" />
+        <div className="col-8 col-lg-6">
+          <div id="path-input-group">
+            <label htmlFor="path" className="text-muted">
+              <small>Base Path</small>
+            </label>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="path-text">
+                  {`./${filePrefix || ""}`}
+                </span>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                placeholder=""
+                aria-label=""
+                aria-describedby="path-text"
+                id="path"
+                value={path}
+                onChange={handlePathChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="col-2 col-lg-3" />
+      </div>
       <div className="d-flex justify-items-center" id="canvas-wrapper">
         <div id="canvas" ref={canvas}></div>
       </div>

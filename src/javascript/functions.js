@@ -21,11 +21,14 @@ export const chart = (
   data,
   canvas,
   displayRegression = true,
-  regressionType = 0
+  regressionType = 0,
+  path = ""
 ) => {
   canvas.innerHTML = "";
   const width = 600;
   const height = 600;
+
+  data = data.filter(d => d.file_path.startsWith(path));
 
   const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
