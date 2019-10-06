@@ -20,6 +20,10 @@ module Attractor
       erb File.read(File.expand_path('../../../app/views/index.html.erb', __dir__))
     end
 
+    get '/file_prefix' do
+      { file_prefix: @reporter.file_prefix }.to_json
+    end
+
     get '/values' do
       @reporter.values.to_json
     end

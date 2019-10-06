@@ -9,10 +9,11 @@ module Attractor
   # base reporter
   class BaseReporter
     extend Forwardable
-    attr_accessor :values
+    attr_accessor :values, :file_prefix
     def_delegator :@watcher, :watch
 
     def initialize(file_prefix: '')
+      @file_prefix = file_prefix
       @calculator = Calculator.new(file_prefix: file_prefix)
       @values = @calculator.calculate
       @suggester = Suggester.new(values)
