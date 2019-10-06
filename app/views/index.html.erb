@@ -4,7 +4,9 @@
     <link href="stylesheets/main.css" rel="stylesheet" />
     <title>Attractor Output</title>
     <script src="javascripts/index.pack.js"></script>
-    <script src="javascripts/index.js"></script>
+    <% if @serve_static %>
+      <script src="javascripts/index.js"></script>
+    <% end %>
   </head>
   <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -19,7 +21,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Churn vs Complexity</h5>
-              <% if@serve_static %>
+              <% if @serve_static %>
                 <div class="d-flex justify-items-center">
                   <div id="graph"></div>
                 </div>

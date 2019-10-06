@@ -1,9 +1,5 @@
-<% if @serve_static %>
 const data = <%= JSON.generate(@values) %>;
-<% end %>
 
-<% if @serve_static %>
 document.addEventListener('DOMContentLoaded', () => {
   const svg = chart(data, document.querySelector('#graph'));
 });
-<% end %>

@@ -16,7 +16,7 @@ module Attractor
       File.open('./attractor_output/stylesheets/main.css', 'w') { |file| file.write(css) }
       File.open('./attractor_output/javascripts/index.js', 'w') { |file| file.write(javascript) }
       File.open('./attractor_output/javascripts/index.pack.js', 'w') { |file| file.write(javascript_pack) }
-      
+
       File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
