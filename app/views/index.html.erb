@@ -17,20 +17,20 @@
     </nav>
     <div class="container">
       <div class="row mt-4">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Churn vs Complexity</h5>
-              <% if @serve_static %>
+        <% if @serve_static %>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Churn vs Complexity</h5>
                 <div class="d-flex justify-items-center">
                   <div id="graph"></div>
                 </div>
-              <% else %>
-                <div id="react-graph"></div>
-              <% end %>
+              </div>
             </div>
           </div>
-        </div>
+        <% else %>
+          <div id="react-graph" class="col-12"></div>
+        <% end %>
       </div>
 
       <div class="row mt-3">
