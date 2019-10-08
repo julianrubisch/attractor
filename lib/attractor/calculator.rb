@@ -29,7 +29,11 @@ module Attractor
         flogger = Flog.new(all: true)
         flogger.flog(change[:file_path])
         complexity = flogger.total_score
-        Value.new(file_path: change[:file_path], churn: change[:times_changed], complexity: complexity)
+        details = flogger.totals
+        Value.new(file_path: change[:file_path],
+                  churn: change[:times_changed],
+                  complexity: complexity,
+                  details: details)
       end
     end
   end
