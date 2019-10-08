@@ -26,6 +26,9 @@ $navbar-light-disabled-color:       $gray-800 !default;
 $navbar-light-brand-color:                $navbar-light-active-color !default;
 $navbar-light-brand-hover-color:          $navbar-light-active-color !default;
 
+$card-cap-bg: $gray-100;
+$card-cap-color: $gray-800;
+
 $border-radius: 4px;
 $border-width: 1px;
 $border-color: $gray-200 !default;
@@ -76,7 +79,7 @@ $btn-active-box-shadow: 0;
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_type';
 
 body {
-  background: $gray-100;
+  background: $gray-200;
 
   & > .container {
     margin-top: 3rem !important;
@@ -177,3 +180,6 @@ footer {
   height: 38px;
 }
 
+.method-table {
+  font-size: 0.8rem;
+}

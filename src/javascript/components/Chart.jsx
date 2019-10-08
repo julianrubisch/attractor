@@ -190,9 +190,21 @@ const Chart = () => {
               <h6 className="text-muted">Additional information</h6>
             </div>
             <div className="card-body">
-              <h6 className="text-muted:">
+              <h6 className="text-muted">
                 <strong>Method Teardown</strong>
               </h6>
+              <table className="table table-borderless mt-3 method-table">
+                <tbody>
+                  {Object.entries(activeFile.details).map(([method, score]) => (
+                    <tr className="row">
+                      <td className="px-3 col-9 text-truncate">{method}</td>
+                      <td className="px-3 col-3">
+                        {Math.round(score * 100) / 100}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
