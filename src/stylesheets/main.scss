@@ -70,6 +70,7 @@ $btn-active-box-shadow: 0;
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_text';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_buttons';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_card';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_close';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_forms';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_input-group';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_nav';
@@ -141,10 +142,17 @@ footer {
   @include box-shadow(0 2px 4px 0 rgba(16,42,67,0.5));
 }
 
-.card-body {
+.card-body, .card-header {
   h5.card-title {
     font-size: 1.2rem;
     font-weight: bold;
+    width: 80%;
+  }
+
+  button.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
   }
 }
 

@@ -29,7 +29,6 @@ const Chart = () => {
   };
 
   const fileClickCallback = details => {
-    console.log(details);
     setActiveFile(details);
   };
 
@@ -188,6 +187,16 @@ const Chart = () => {
             <div className="card-header">
               <h5 className="card-title">{activeFile.file_path}</h5>
               <h6 className="text-muted">Additional information</h6>
+              <button
+                type="button"
+                className="close"
+                aria-label="Close"
+                onClick={() => {
+                  setActiveFile({});
+                }}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div className="card-body">
               <h6 className="text-muted">
@@ -196,7 +205,7 @@ const Chart = () => {
               <table className="table table-borderless mt-3 method-table">
                 <tbody>
                   {Object.entries(activeFile.details).map(([method, score]) => (
-                    <tr className="row">
+                    <tr className="row" key={method}>
                       <td className="px-3 col-9 text-truncate">{method}</td>
                       <td className="px-3 col-3">
                         {Math.round(score * 100) / 100}
