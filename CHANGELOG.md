@@ -1,3 +1,7 @@
+## RELEASE 0.5.0
+
+* FEATURE: display additional information (method teardown, git file history) when you click on a data point
+
 ## RELEASE 0.4.3
 
 * ENHANCEMENT: Client side filtering of data points via text input
