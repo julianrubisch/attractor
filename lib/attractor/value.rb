@@ -5,13 +5,14 @@ require 'json'
 module Attractor
   # holds a churn/complexity value
   class Value
-    attr_reader :file_path, :churn, :complexity, :details
+    attr_reader :file_path, :churn, :complexity, :details, :history
 
-    def initialize(file_path: '', churn: 1, complexity: 0, details: [])
+    def initialize(file_path: '', churn: 1, complexity: 0, details: [], history: [])
       @file_path = file_path
       @churn = churn
       @complexity = complexity
       @details = details
+      @history = history
     end
 
     def to_s
@@ -19,7 +20,7 @@ module Attractor
     end
 
     def to_h
-      { file_path: file_path, x: churn, y: complexity, details: details }
+      { file_path: file_path, x: churn, y: complexity, details: details, history: history }
     end
 
     def to_json(_opt)
