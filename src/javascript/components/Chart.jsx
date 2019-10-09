@@ -28,8 +28,8 @@ const Chart = () => {
     return data;
   };
 
-  const fileClickCallback = details => {
-    setActiveFile(details);
+  const fileClickCallback = data => {
+    setActiveFile(data);
   };
 
   useEffect(() => {
@@ -202,13 +202,30 @@ const Chart = () => {
               <h6 className="text-muted">
                 <strong>Method Teardown</strong>
               </h6>
-              <table className="table table-borderless mt-3 method-table">
+              <table className="table table-borderless mt-0 method-table">
                 <tbody>
                   {Object.entries(activeFile.details).map(([method, score]) => (
                     <tr className="row" key={method}>
-                      <td className="px-3 col-9 text-truncate">{method}</td>
-                      <td className="px-3 col-3">
+                      <td className="px-3 py-1 col-9 text-truncate">
+                        {method}
+                      </td>
+                      <td className="px-3 py-1 col-3">
                         {Math.round(score * 100) / 100}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <h6 className="text-muted mt-3">Git history (last 10 commits)</h6>
+              <table className="table table-borderless mt-0 method-table">
+                <tbody>
+                  {activeFile.history.map(([commitRef, commitMessage]) => (
+                    <tr className="row" key={commitRef}>
+                      <td className="px-3 py-1 col-3 text-truncate">
+                        {commitRef}
+                      </td>
+                      <td className="px-3 py-1 col-8 text-truncate">
+                        {commitMessage}
                       </td>
                     </tr>
                   ))}
