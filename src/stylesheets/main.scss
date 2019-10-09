@@ -26,6 +26,9 @@ $navbar-light-disabled-color:       $gray-800 !default;
 $navbar-light-brand-color:                $navbar-light-active-color !default;
 $navbar-light-brand-hover-color:          $navbar-light-active-color !default;
 
+$card-cap-bg: $gray-100;
+$card-cap-color: $gray-800;
+
 $border-radius: 4px;
 $border-width: 1px;
 $border-color: $gray-200 !default;
@@ -67,6 +70,7 @@ $btn-active-box-shadow: 0;
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/utilities/_text';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_buttons';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_card';
+@import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_close';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_forms';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_input-group';
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_nav';
@@ -76,7 +80,7 @@ $btn-active-box-shadow: 0;
 @import 'tmp/bootstrap-4.3.1/assets/stylesheets/bootstrap/_type';
 
 body {
-  background: $gray-100;
+  background: $gray-200;
 
   & > .container {
     margin-top: 3rem !important;
@@ -138,10 +142,17 @@ footer {
   @include box-shadow(0 2px 4px 0 rgba(16,42,67,0.5));
 }
 
-.card-body {
+.card-body, .card-header {
   h5.card-title {
     font-size: 1.2rem;
     font-weight: bold;
+    width: 80%;
+  }
+
+  button.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
   }
 }
 
@@ -177,3 +188,7 @@ footer {
   height: 38px;
 }
 
+.method-table {
+  font-size: 0.8rem;
+  table-layout: fixed;
+}

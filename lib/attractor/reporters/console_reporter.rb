@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Attractor
   # console reporter
   class ConsoleReporter < BaseReporter

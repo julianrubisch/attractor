@@ -29,7 +29,24 @@ module Attractor
         flogger = Flog.new(all: true)
         flogger.flog(change[:file_path])
         complexity = flogger.total_score
-        Value.new(file_path: change[:file_path], churn: change[:times_changed], complexity: complexity)
+        details = flogger.totals
+        Value.new(file_path: change[:file_path],
+                  churn: change[:times_changed],
+                  complexity: complexity,
+                  details: details,
+                  history: git_history_for_file(file_path: change[:file_path]))
+      end
+    end
+
+    private
+
+    def git_history_for_file(file_path:, limit: 10)
+      history = `git log --oneline --follow -n #{limit} -- #{file_path}`
+      history.split("\n")
+             .map do |log_entry|
+        log_entry.partition(/\A(\S+)\s/)
+                 .map(&:strip)
+                 .reject(&:empty?)
       end
     end
   end

@@ -22,7 +22,8 @@ export const chart = (
   canvas,
   displayRegression = true,
   regressionType = 0,
-  path = ""
+  path = "",
+  callback = () => {}
 ) => {
   canvas.innerHTML = "";
   const width = 600;
@@ -128,8 +129,12 @@ export const chart = (
         .append("text")
         .attr("dy", "0.35em")
         .attr("x", 7)
+        .attr("style", "cursor:pointer")
         .text(d => d.file_path)
-    );
+    )
+    .on("click", d => {
+      callback(d);
+    });
 
   if (displayRegression) {
     const regressionGenerator = (function(regressionType) {
