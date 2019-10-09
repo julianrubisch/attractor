@@ -13,7 +13,7 @@ module Attractor
       quantile = products.percentile(threshold.to_i)
 
       @values.select { |val| val.churn * val.complexity > quantile }
-        .sort_by { |val| val.churn * val.complexity }.reverse
+             .sort_by { |val| val.churn * val.complexity }.reverse
     end
   end
 end
