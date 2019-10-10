@@ -9,7 +9,8 @@ export const RegressionTypes = {
 
 const Chart = () => {
   const canvas = useRef(null);
-  const [displayRegression, setDisplayRegression] = useState(true);
+  const [displayRegression, setDisplayRegression] = useState(false);
+  const [displayFilenames, setDisplayFilenames] = useState(false);
   const [regressionType, setRegressionType] = useState(true);
   const [values, setValues] = useState([]);
   const [filePrefix, setFilePrefix] = useState("");
@@ -48,8 +49,9 @@ const Chart = () => {
       chart(
         values,
         canvas.current,
-        true,
+        false,
         RegressionTypes.POWER_LAW,
+        false,
         filePrefix["file_prefix"] || "",
         fileClickCallback
       );
@@ -64,6 +66,21 @@ const Chart = () => {
       canvas.current,
       !displayRegression,
       regressionType,
+      displayFilenames,
+      `${filePrefix}${path}`,
+      fileClickCallback
+    );
+  };
+
+  const handleFilenamesDisplayChange = () => {
+    setDisplayFilenames(!displayFilenames);
+
+    chart(
+      values,
+      canvas.current,
+      displayRegression,
+      regressionType,
+      !displayFilenames,
       `${filePrefix}${path}`,
       fileClickCallback
     );
@@ -77,6 +94,7 @@ const Chart = () => {
       canvas.current,
       displayRegression,
       parseInt(e.currentTarget.value),
+      displayFilenames,
       `${filePrefix}${path}`,
       fileClickCallback
     );
@@ -90,6 +108,7 @@ const Chart = () => {
       canvas.current,
       displayRegression,
       regressionType,
+      displayFilenames,
       `${filePrefix}${e.target.value}`,
       fileClickCallback
     );
@@ -141,11 +160,26 @@ const Chart = () => {
             </div>
             <div className="mt-3">
               <h6 className="text-muted">
-                <strong>Regression</strong>
+                <strong>Display options</strong>
               </h6>
               <form>
                 <div className="form-row">
-                  <div className="form-group col-3">
+                  <div className="form-group col-2">
+                    <input
+                      checked={displayFilenames}
+                      className="form-check-input"
+                      type="checkbox"
+                      id="filenames-check"
+                      onChange={handleFilenamesDisplayChange}
+                    />
+                    <label
+                      className="form-check-label text-muted"
+                      htmlFor="filenames-check"
+                    >
+                      <small>Display filenames</small>
+                    </label>
+                  </div>
+                  <div className="form-group col-2">
                     <input
                       checked={displayRegression}
                       className="form-check-input"
