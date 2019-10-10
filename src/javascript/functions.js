@@ -22,6 +22,7 @@ export const chart = (
   canvas,
   displayRegression = true,
   regressionType = 0,
+  displayFilenames = false,
   path = "",
   callback = () => {}
 ) => {
@@ -33,10 +34,15 @@ export const chart = (
 
   const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
-  const color = d3
+  const borderColor = d3
     .scaleLog()
     .domain(d3.extent(data.filter(d => d.y > 0), d => d.x * d.y))
     .range(["green", "red"]);
+
+  const fillColor = d3
+    .scaleLog()
+    .domain(d3.extent(data.filter(d => d.y > 0), d => d.x * d.y))
+    .range(["lightgreen", "tomato"]);
 
   const xScale = d3
     .scaleLinear()
@@ -120,18 +126,23 @@ export const chart = (
     .call(g =>
       g
         .append("circle")
-        .attr("fill", d => color(d.x * d.y))
-        .attr("stroke", d => color(d.x * d.y))
+        .attr("fill", d => fillColor(d.x * d.y))
+        .attr("stroke", d => borderColor(d.x * d.y))
+        .attr("style", "cursor:pointer")
         .attr("r", 4)
     )
-    .call(g =>
-      g
-        .append("text")
-        .attr("dy", "0.35em")
-        .attr("x", 7)
-        .attr("style", "cursor:pointer")
-        .text(d => d.file_path)
-    )
+    .call(g => {
+      if (displayFilenames) {
+        return g
+          .append("text")
+          .attr("dy", "0.35em")
+          .attr("x", 7)
+          .attr("style", "cursor:pointer")
+          .text(d => d.file_path);
+      } else {
+        return null;
+      }
+    })
     .on("click", d => {
       callback(d);
     });
@@ -143,14 +154,14 @@ export const chart = (
           return regressionLinear()
             .x(d => d.x)
             .y(d => d.y)
-            .domain([0, d3.max(data, item => item.x)]);
+            .domain([3, d3.max(data, item => item.x)]);
         case RegressionTypes.POWER_LAW:
         default:
           data = data.filter(d => d.y > 0);
           return regressionPow()
             .x(d => d.x)
             .y(d => d.y)
-            .domain([0, d3.max(data, item => item.x)]);
+            .domain([3, d3.max(data, item => item.x)]);
       }
     })(regressionType);
 
