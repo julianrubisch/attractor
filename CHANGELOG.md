@@ -1,3 +1,7 @@
+## RELEASE 0.5.1
+
+* ENHANCEMENT: Make filenames in graph optional
+
 ## RELEASE 0.5.0
 
 * FEATURE: display additional information (method teardown, git file history) when you click on a data point
