@@ -1,6 +1,13 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useCallback,
+  useReducer,
+  useEffect,
+  useRef
+} from "react";
 
 import ActiveFileDetails from "./ActiveFileDetails";
+import DisplayOptions from "./DisplayOptions";
 import { chart } from "../functions";
 
 export const RegressionTypes = {
@@ -8,15 +15,59 @@ export const RegressionTypes = {
   LINEAR: 1
 };
 
+const initialState = {
+  displayRegression: false,
+  displayFilenames: false,
+  regressionType: RegressionTypes.POWER_LAW,
+  values: [],
+  filePrefix: "",
+  path: "",
+  activeFile: {}
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SET_DISPLAY_REGRESSION":
+      return {
+        ...state,
+        displayRegression: action.displayRegression
+      };
+    case "SET_DISPLAY_FILENAMES":
+      return {
+        ...state,
+        displayFilenames: action.displayFilenames
+      };
+    case "SET_REGRESSION_TYPE":
+      return {
+        ...state,
+        regressionType: action.regressionType
+      };
+    case "SET_VALUES":
+      return {
+        ...state,
+        values: action.values
+      };
+    case "SET_FILE_PREFIX":
+      return {
+        ...state,
+        filePrefix: action.filePrefix
+      };
+    case "SET_PATH":
+      return {
+        ...state,
+        path: action.path
+      };
+    case "SET_ACTIVE_FILE":
+      return {
+        ...state,
+        activeFile: action.activeFile
+      };
+  }
+};
+
 const Chart = () => {
   const canvas = useRef(null);
-  const [displayRegression, setDisplayRegression] = useState(false);
-  const [displayFilenames, setDisplayFilenames] = useState(false);
-  const [regressionType, setRegressionType] = useState(true);
-  const [values, setValues] = useState([]);
-  const [filePrefix, setFilePrefix] = useState("");
-  const [path, setPath] = useState("");
-  const [activeFile, setActiveFile] = useState({});
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchValues = async () => {
     const data = await (await fetch(`/values`)).json();
@@ -31,7 +82,7 @@ const Chart = () => {
   };
 
   const fileClickCallback = data => {
-    setActiveFile(data);
+    dispatch({ type: "SET_ACTIVE_FILE", activeFile: data });
   };
 
   useEffect(() => {
@@ -41,10 +92,13 @@ const Chart = () => {
         fetchFilePrefix()
       ]);
 
-      setValues(values);
+      dispatch({ type: "SET_VALUES", values });
 
       if (filePrefix["file_prefix"]) {
-        setFilePrefix(filePrefix["file_prefix"]);
+        dispatch({
+          type: "SET_FILE_PREFIX",
+          filePrefix: filePrefix["file_prefix"]
+        });
       }
 
       chart(
@@ -60,57 +114,69 @@ const Chart = () => {
   }, []);
 
   const handleRegressionDisplayChange = () => {
-    setDisplayRegression(!displayRegression);
+    dispatch({
+      type: "SET_DISPLAY_REGRESSION",
+      displayRegression: !state.displayRegression
+    });
 
     chart(
-      values,
+      state.values,
       canvas.current,
-      !displayRegression,
-      regressionType,
-      displayFilenames,
-      `${filePrefix}${path}`,
+      !state.displayRegression,
+      state.regressionType,
+      state.displayFilenames,
+      `${state.filePrefix}${state.path}`,
       fileClickCallback
     );
   };
 
   const handleFilenamesDisplayChange = () => {
-    setDisplayFilenames(!displayFilenames);
+    dispatch({
+      type: "SET_DISPLAY_REGRESSION",
+      displayFilenames: !state.displayFilenames
+    });
 
     chart(
-      values,
+      state.values,
       canvas.current,
-      displayRegression,
-      regressionType,
-      !displayFilenames,
-      `${filePrefix}${path}`,
+      state.displayRegression,
+      state.regressionType,
+      !state.displayFilenames,
+      `${state.filePrefix}${state.path}`,
       fileClickCallback
     );
   };
 
   const handleRegressionTypeChange = e => {
-    setRegressionType(parseInt(e.currentTarget.value));
+    dispatch({
+      type: "SET_REGRESSION_TYPE",
+      regressionType: parseInt(e.currentTarget.value)
+    });
 
     chart(
-      values,
+      state.values,
       canvas.current,
-      displayRegression,
+      state.displayRegression,
       parseInt(e.currentTarget.value),
-      displayFilenames,
-      `${filePrefix}${path}`,
+      state.displayFilenames,
+      `${state.filePrefix}${state.path}`,
       fileClickCallback
     );
   };
 
   const handlePathChange = e => {
-    setPath(e.target.value);
+    dispatch({
+      type: "SET_PATH",
+      path: e.target.value
+    });
 
     chart(
-      values,
+      state.values,
       canvas.current,
-      displayRegression,
-      regressionType,
-      displayFilenames,
-      `${filePrefix}${e.target.value}`,
+      state.displayRegression,
+      state.regressionType,
+      state.displayFilenames,
+      `${state.filePrefix}${e.target.value}`,
       fileClickCallback
     );
   };
@@ -118,7 +184,9 @@ const Chart = () => {
   return (
     <div className="row">
       <div
-        className={Object.keys(activeFile).length === 0 ? "col-12" : "col-8"}
+        className={
+          Object.keys(state.activeFile).length === 0 ? "col-12" : "col-8"
+        }
       >
         <div className="card">
           <div className="card-header">
@@ -138,7 +206,7 @@ const Chart = () => {
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="path-text">
-                        {`./${filePrefix || ""}`}
+                        {`./${state.filePrefix || ""}`}
                       </span>
                     </div>
                     <input
@@ -148,7 +216,7 @@ const Chart = () => {
                       aria-label=""
                       aria-describedby="path-text"
                       id="path"
-                      value={path}
+                      value={state.path}
                       onChange={handlePathChange}
                     />
                   </div>
@@ -159,68 +227,18 @@ const Chart = () => {
             <div className="d-flex justify-items-center" id="canvas-wrapper">
               <div id="canvas" ref={canvas}></div>
             </div>
-            <div className="mt-3">
-              <h6 className="text-muted">
-                <strong>Display options</strong>
-              </h6>
-              <form>
-                <div className="form-row">
-                  <div className="form-group col-2">
-                    <input
-                      checked={displayFilenames}
-                      className="form-check-input"
-                      type="checkbox"
-                      id="filenames-check"
-                      onChange={handleFilenamesDisplayChange}
-                    />
-                    <label
-                      className="form-check-label text-muted"
-                      htmlFor="filenames-check"
-                    >
-                      <small>Display filenames</small>
-                    </label>
-                  </div>
-                  <div className="form-group col-2">
-                    <input
-                      checked={displayRegression}
-                      className="form-check-input"
-                      type="checkbox"
-                      id="regression-check"
-                      onChange={handleRegressionDisplayChange}
-                    />
-                    <label
-                      className="form-check-label text-muted"
-                      htmlFor="regression-check"
-                    >
-                      <small>Display regression</small>
-                    </label>
-                  </div>
-                  <div className="form-group col-3">
-                    <label htmlFor="regression-type" className="text-muted">
-                      <small>Regression Type</small>
-                    </label>
-                    <select
-                      id="regression-type"
-                      className="form-control"
-                      onChange={handleRegressionTypeChange}
-                    >
-                      <option selected value="0">
-                        Power Law
-                      </option>
-                      <option value="1">Linear</option>
-                    </select>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <DisplayOptions state={state} dispath={dispatch} />
           </div>
         </div>
       </div>
-      {Object.keys(activeFile).length > 0 && (
+      {Object.keys(state.activeFile).length > 0 && (
         <ActiveFileDetails
-          activeFile={activeFile}
+          activeFile={state.activeFile}
           handleClose={() => {
-            setActiveFile({});
+            dispatch({
+              type: "SET_ACTIVE_FILE",
+              activeFile: {}
+            });
           }}
         />
       )}
