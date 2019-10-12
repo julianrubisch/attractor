@@ -8,7 +8,7 @@ import React, {
 
 import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
-import { chart } from "../functions";
+import { scatterPlot } from "../functions";
 
 export const RegressionTypes = {
   POWER_LAW: 0,
@@ -101,7 +101,7 @@ const Chart = () => {
         });
       }
 
-      chart(
+      scatterPlot(
         values,
         canvas.current,
         false,
@@ -119,7 +119,7 @@ const Chart = () => {
       displayRegression: !state.displayRegression
     });
 
-    chart(
+    scatterPlot(
       state.values,
       canvas.current,
       !state.displayRegression,
@@ -136,7 +136,7 @@ const Chart = () => {
       displayFilenames: !state.displayFilenames
     });
 
-    chart(
+    scatterPlot(
       state.values,
       canvas.current,
       state.displayRegression,
@@ -153,7 +153,7 @@ const Chart = () => {
       regressionType: parseInt(e.currentTarget.value)
     });
 
-    chart(
+    scatterPlot(
       state.values,
       canvas.current,
       state.displayRegression,
@@ -170,7 +170,7 @@ const Chart = () => {
       path: e.target.value
     });
 
-    chart(
+    scatterPlot(
       state.values,
       canvas.current,
       state.displayRegression,

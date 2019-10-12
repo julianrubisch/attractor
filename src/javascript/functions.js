@@ -17,7 +17,7 @@ const regressionLabel = (regressionType, regressionData) => {
   }
 };
 
-export const chart = (
+export const scatterPlot = (
   data,
   canvas,
   displayRegression = true,

@@ -1,5 +1,5 @@
 const data = <%= JSON.generate(@values) %>;
 
 document.addEventListener('DOMContentLoaded', () => {
-  const svg = chart(data, document.querySelector('#graph'));
+  const svg = scatterPlot(data, document.querySelector('#graph'));
 });
