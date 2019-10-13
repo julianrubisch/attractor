@@ -41,7 +41,7 @@ module Attractor
     private
 
     def git_history_for_file(file_path:, limit: 10)
-      history = `git log --oneline --follow -n #{limit} -- #{file_path}`
+      history = `git log --oneline -n #{limit} -- #{file_path}`
       history.split("\n")
              .map do |log_entry|
         log_entry.partition(/\A(\S+)\s/)
