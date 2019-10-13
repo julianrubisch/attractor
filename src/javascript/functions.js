@@ -18,19 +18,23 @@ const regressionLabel = (regressionType, regressionData) => {
 };
 
 export const scatterPlot = (
-  data,
   canvas,
-  displayRegression = true,
-  regressionType = 0,
-  displayFilenames = false,
-  path = "",
+  {
+    values: data,
+    displayRegression = true,
+    regressionType = 0,
+    displayFilenames = false,
+    filePrefix = "",
+    path = "",
+    activeFile = {}
+  },
   callback = () => {}
 ) => {
   canvas.innerHTML = "";
   const width = 600;
   const height = 600;
 
-  data = data.filter(d => d.file_path.startsWith(path));
+  data = data.filter(d => d.file_path.startsWith(`${filePrefix}${path}`));
 
   const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 

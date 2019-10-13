@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useReducer,
-  useEffect,
-  useRef
-} from "react";
+import React, { useCallback, useReducer, useEffect, useRef } from "react";
 
 import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
@@ -25,47 +19,57 @@ const initialState = {
   activeFile: {}
 };
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_DISPLAY_REGRESSION":
-      return {
-        ...state,
-        displayRegression: action.displayRegression
-      };
-    case "SET_DISPLAY_FILENAMES":
-      return {
-        ...state,
-        displayFilenames: action.displayFilenames
-      };
-    case "SET_REGRESSION_TYPE":
-      return {
-        ...state,
-        regressionType: action.regressionType
-      };
-    case "SET_VALUES":
-      return {
-        ...state,
-        values: action.values
-      };
-    case "SET_FILE_PREFIX":
-      return {
-        ...state,
-        filePrefix: action.filePrefix
-      };
-    case "SET_PATH":
-      return {
-        ...state,
-        path: action.path
-      };
-    case "SET_ACTIVE_FILE":
-      return {
-        ...state,
-        activeFile: action.activeFile
-      };
-  }
-};
-
 const Chart = () => {
+  const reducer = (state, action) => {
+    let newState = state;
+    switch (action.type) {
+      case "SET_DISPLAY_REGRESSION":
+        newState = {
+          ...state,
+          displayRegression: action.displayRegression
+        };
+        break;
+      case "SET_DISPLAY_FILENAMES":
+        newState = {
+          ...state,
+          displayFilenames: action.displayFilenames
+        };
+        break;
+      case "SET_REGRESSION_TYPE":
+        newState = {
+          ...state,
+          regressionType: action.regressionType
+        };
+        break;
+      case "SET_VALUES":
+        newState = {
+          ...state,
+          values: action.values
+        };
+        break;
+      case "SET_FILE_PREFIX":
+        newState = {
+          ...state,
+          filePrefix: action.filePrefix
+        };
+        break;
+      case "SET_PATH":
+        newState = {
+          ...state,
+          path: action.path
+        };
+        break;
+      case "SET_ACTIVE_FILE":
+        newState = {
+          ...state,
+          activeFile: action.activeFile
+        };
+        break;
+    }
+    scatterPlot(canvas.current, newState, fileClickCallback);
+    return newState;
+  };
+
   const canvas = useRef(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -81,9 +85,9 @@ const Chart = () => {
     return data;
   };
 
-  const fileClickCallback = data => {
+  function fileClickCallback(data) {
     dispatch({ type: "SET_ACTIVE_FILE", activeFile: data });
-  };
+  }
 
   useEffect(() => {
     (async () => {
@@ -102,90 +106,35 @@ const Chart = () => {
       }
 
       scatterPlot(
-        values,
         canvas.current,
-        false,
-        RegressionTypes.POWER_LAW,
-        false,
-        filePrefix["file_prefix"] || "",
+        {
+          values,
+          displayRegression: false,
+          regressionType: RegressionTypes.POWER_LAW,
+          displayFilenames: false,
+          filePrefix: filePrefix["file_prefix"] || "",
+          path: "",
+          activeFile: {}
+        },
         fileClickCallback
       );
     })();
   }, []);
-
-  const handleRegressionDisplayChange = () => {
-    dispatch({
-      type: "SET_DISPLAY_REGRESSION",
-      displayRegression: !state.displayRegression
-    });
-
-    scatterPlot(
-      state.values,
-      canvas.current,
-      !state.displayRegression,
-      state.regressionType,
-      state.displayFilenames,
-      `${state.filePrefix}${state.path}`,
-      fileClickCallback
-    );
-  };
-
-  const handleFilenamesDisplayChange = () => {
-    dispatch({
-      type: "SET_DISPLAY_REGRESSION",
-      displayFilenames: !state.displayFilenames
-    });
-
-    scatterPlot(
-      state.values,
-      canvas.current,
-      state.displayRegression,
-      state.regressionType,
-      !state.displayFilenames,
-      `${state.filePrefix}${state.path}`,
-      fileClickCallback
-    );
-  };
-
-  const handleRegressionTypeChange = e => {
-    dispatch({
-      type: "SET_REGRESSION_TYPE",
-      regressionType: parseInt(e.currentTarget.value)
-    });
-
-    scatterPlot(
-      state.values,
-      canvas.current,
-      state.displayRegression,
-      parseInt(e.currentTarget.value),
-      state.displayFilenames,
-      `${state.filePrefix}${state.path}`,
-      fileClickCallback
-    );
-  };
 
   const handlePathChange = e => {
     dispatch({
       type: "SET_PATH",
       path: e.target.value
     });
-
-    scatterPlot(
-      state.values,
-      canvas.current,
-      state.displayRegression,
-      state.regressionType,
-      state.displayFilenames,
-      `${state.filePrefix}${e.target.value}`,
-      fileClickCallback
-    );
   };
 
   return (
     <div className="row">
       <div
         className={
-          Object.keys(state.activeFile).length === 0 ? "col-12" : "col-8"
+          !state.activeFile || Object.keys(state.activeFile).length === 0
+            ? "col-12"
+            : "col-8"
         }
       >
         <div className="card">
@@ -227,11 +176,11 @@ const Chart = () => {
             <div className="d-flex justify-items-center" id="canvas-wrapper">
               <div id="canvas" ref={canvas}></div>
             </div>
-            <DisplayOptions state={state} dispath={dispatch} />
+            <DisplayOptions state={state} dispatch={dispatch} />
           </div>
         </div>
       </div>
-      {Object.keys(state.activeFile).length > 0 && (
+      {state.activeFile && Object.keys(state.activeFile).length > 0 && (
         <ActiveFileDetails
           activeFile={state.activeFile}
           handleClose={() => {
