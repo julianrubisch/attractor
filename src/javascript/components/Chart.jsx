@@ -1,8 +1,9 @@
-import React, { useCallback, useReducer, useEffect, useRef } from "react";
+import React, { useReducer, useEffect } from "react";
 
 import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
-import { scatterPlot } from "../functions";
+import ScatterPlot from "./ScatterPlot";
+import reducer from "../reducers/chartReducer";
 
 export const RegressionTypes = {
   POWER_LAW: 0,
@@ -20,57 +21,6 @@ const initialState = {
 };
 
 const Chart = () => {
-  const reducer = (state, action) => {
-    let newState = state;
-    switch (action.type) {
-      case "SET_DISPLAY_REGRESSION":
-        newState = {
-          ...state,
-          displayRegression: action.displayRegression
-        };
-        break;
-      case "SET_DISPLAY_FILENAMES":
-        newState = {
-          ...state,
-          displayFilenames: action.displayFilenames
-        };
-        break;
-      case "SET_REGRESSION_TYPE":
-        newState = {
-          ...state,
-          regressionType: action.regressionType
-        };
-        break;
-      case "SET_VALUES":
-        newState = {
-          ...state,
-          values: action.values
-        };
-        break;
-      case "SET_FILE_PREFIX":
-        newState = {
-          ...state,
-          filePrefix: action.filePrefix
-        };
-        break;
-      case "SET_PATH":
-        newState = {
-          ...state,
-          path: action.path
-        };
-        break;
-      case "SET_ACTIVE_FILE":
-        newState = {
-          ...state,
-          activeFile: action.activeFile
-        };
-        break;
-    }
-    scatterPlot(canvas.current, newState, fileClickCallback);
-    return newState;
-  };
-
-  const canvas = useRef(null);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchValues = async () => {
@@ -104,20 +54,6 @@ const Chart = () => {
           filePrefix: filePrefix["file_prefix"]
         });
       }
-
-      scatterPlot(
-        canvas.current,
-        {
-          values,
-          displayRegression: false,
-          regressionType: RegressionTypes.POWER_LAW,
-          displayFilenames: false,
-          filePrefix: filePrefix["file_prefix"] || "",
-          path: "",
-          activeFile: {}
-        },
-        fileClickCallback
-      );
     })();
   }, []);
 
@@ -174,7 +110,7 @@ const Chart = () => {
               <div className="col-2 col-lg-3" />
             </div>
             <div className="d-flex justify-items-center" id="canvas-wrapper">
-              <div id="canvas" ref={canvas}></div>
+              <ScatterPlot fileClickCallback={fileClickCallback} {...state} />
             </div>
             <DisplayOptions state={state} dispatch={dispatch} />
           </div>
