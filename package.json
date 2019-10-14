@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
+    "build": "webpack --mode development",
     "watch": "webpack --watch --mode development"
   },
   "repository": {
@@ -29,7 +29,9 @@
     "@fortawesome/fontawesome-free": "^5.11.2",
     "babel-loader": "^8.0.6",
     "d3": "^5.12.0",
+    "d3-array": "^2.3.2",
     "d3-regression": "^1.2.4",
+    "d3-tile": "^1.0.0",
     "eslint": "^6.5.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",

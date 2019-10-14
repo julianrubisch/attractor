@@ -3,6 +3,7 @@ import React, { useReducer, useEffect } from "react";
 import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
 import ScatterPlot from "./ScatterPlot";
+import TreeMap from "./TreeMap";
 import reducer from "../reducers/chartReducer";
 
 export const RegressionTypes = {
@@ -110,7 +111,8 @@ const Chart = () => {
               <div className="col-2 col-lg-3" />
             </div>
             <div className="d-flex justify-items-center" id="canvas-wrapper">
-              <ScatterPlot fileClickCallback={fileClickCallback} {...state} />
+              {/* <ScatterPlot fileClickCallback={fileClickCallback} {...state} /> */}
+              <TreeMap fileClickCallback={fileClickCallback} {...state} />
             </div>
             <DisplayOptions state={state} dispatch={dispatch} />
           </div>
