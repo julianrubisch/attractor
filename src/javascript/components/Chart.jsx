@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 
 import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
@@ -9,6 +9,11 @@ import reducer from "../reducers/chartReducer";
 export const RegressionTypes = {
   POWER_LAW: 0,
   LINEAR: 1
+};
+
+export const PlotTypes = {
+  SCATTER_PLOT: 0,
+  TREE_MAP: 1
 };
 
 const initialState = {
@@ -23,6 +28,7 @@ const initialState = {
 
 const Chart = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [activePlot, setActivePlot] = useState(0);
 
   const fetchValues = async () => {
     const data = await (await fetch(`/values`)).json();
@@ -83,7 +89,6 @@ const Chart = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <div className="col-2 col-lg-3" />
               <div className="col-8 col-lg-6">
                 <div id="path-input-group">
                   <label htmlFor="path" className="text-muted">
@@ -108,11 +113,44 @@ const Chart = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-2 col-lg-3" />
+              <div className="col-4 col-lg-6">
+                <label htmlFor="path" className="text-muted d-block">
+                  <small>Plot Type</small>
+                </label>
+                <div
+                  className="btn-group btn-group-toggle"
+                  role="toolbar"
+                  ariaLabel="Plot Type"
+                >
+                  <button
+                    className={`btn btn-secondary ${activePlot ===
+                      PlotTypes.SCATTER_PLOT && "active"}`}
+                    onClick={e => {
+                      e.preventDefault();
+                      setActivePlot(PlotTypes.SCATTER_PLOT);
+                    }}
+                  >
+                    Scatterplot
+                  </button>
+                  <button
+                    className={`btn btn-secondary ${activePlot ===
+                      PlotTypes.TREE_MAP && "active"}`}
+                    onClick={e => {
+                      e.preventDefault();
+                      setActivePlot(PlotTypes.TREE_MAP);
+                    }}
+                  >
+                    Treemap
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="d-flex justify-items-center" id="canvas-wrapper">
-              {/* <ScatterPlot fileClickCallback={fileClickCallback} {...state} /> */}
-              <TreeMap fileClickCallback={fileClickCallback} {...state} />
+            <div className="d-flex justify-items-start" id="canvas-wrapper">
+              {activePlot === PlotTypes.SCATTER_PLOT ? (
+                <ScatterPlot fileClickCallback={fileClickCallback} {...state} />
+              ) : (
+                <TreeMap fileClickCallback={fileClickCallback} {...state} />
+              )}
             </div>
             <DisplayOptions state={state} dispatch={dispatch} />
           </div>
