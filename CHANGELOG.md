@@ -1,3 +1,7 @@
+## RELEASE 0.6.0
+
+* FEATURE: Add treemap visualization
+
 ## RELEASE 0.5.1
 
 * ENHANCEMENT: Make filenames in graph optional
