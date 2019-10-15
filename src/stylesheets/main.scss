@@ -36,7 +36,6 @@ $border-color: $gray-200 !default;
 
 $label-margin-bottom:                   .2rem !default;
 $input-bg:                              $gray-100 !default;
-// $input-disabled-bg:                     $gray-200 !default;
 
 $input-color:                           $gray-800;
 $input-border-color:                    $gray-100 !default;
@@ -44,6 +43,7 @@ $input-border-color:                    $gray-100 !default;
 $input-box-shadow: none;
 
 $input-focus-border-color:              $gray-800;
+$input-disabled-bg:                     $gray-100 !default;
 
 $enable-shadows: true;
 
@@ -89,6 +89,10 @@ body {
   }
 }
 
+.form-control:disabled, label.disabled {
+  opacity: 0.5;
+}
+
 input[type=checkbox] {
   display: none;
 }
@@ -97,6 +101,14 @@ input[type=checkbox] + label {
   margin-top: 0.2rem;
   vertical-align: top;
 }
+
+input[type=checkbox]:disabled + label {
+  opacity: 0.5;
+}
+
+// select:disabled ~ label {
+//   opacity: 0.5;
+// }
 
 input[type=checkbox] + label:after {
   content: '';

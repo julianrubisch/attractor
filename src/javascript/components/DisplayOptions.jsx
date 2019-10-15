@@ -1,6 +1,8 @@
 import React from "react";
 
-const DisplayOptions = ({ state, dispatch }) => {
+import { PlotTypes } from "./Chart";
+
+const DisplayOptions = ({ state, dispatch, activePlot }) => {
   const handleFilenamesDisplayChange = () => {
     dispatch({
       type: "SET_DISPLAY_FILENAMES",
@@ -50,6 +52,7 @@ const DisplayOptions = ({ state, dispatch }) => {
               className="form-check-input"
               type="checkbox"
               id="regression-check"
+              disabled={activePlot !== PlotTypes.SCATTER_PLOT}
               onChange={handleRegressionDisplayChange}
             />
             <label
@@ -60,12 +63,18 @@ const DisplayOptions = ({ state, dispatch }) => {
             </label>
           </div>
           <div className="form-group col-3">
-            <label htmlFor="regression-type" className="text-muted">
+            <label
+              htmlFor="regression-type"
+              className={`text-muted ${activePlot === PlotTypes.TREE_MAP &&
+                "disabled"}`}
+            >
               <small>Regression Type</small>
             </label>
             <select
               id="regression-type"
               className="form-control"
+              disabled={activePlot !== PlotTypes.SCATTER_PLOT}
+              /* disabled={true} */
               onChange={handleRegressionTypeChange}
             >
               <option selected value="0">
