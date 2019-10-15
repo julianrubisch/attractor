@@ -1,21 +1,34 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 
-import { chart } from "../functions";
+import ActiveFileDetails from "./ActiveFileDetails";
+import DisplayOptions from "./DisplayOptions";
+import ScatterPlot from "./ScatterPlot";
+import TreeMap from "./TreeMap";
+import reducer from "../reducers/chartReducer";
 
 export const RegressionTypes = {
   POWER_LAW: 0,
   LINEAR: 1
 };
 
+export const PlotTypes = {
+  SCATTER_PLOT: 0,
+  TREE_MAP: 1
+};
+
+const initialState = {
+  displayRegression: false,
+  displayFilenames: false,
+  regressionType: RegressionTypes.POWER_LAW,
+  values: [],
+  filePrefix: "",
+  path: "",
+  activeFile: {}
+};
+
 const Chart = () => {
-  const canvas = useRef(null);
-  const [displayRegression, setDisplayRegression] = useState(false);
-  const [displayFilenames, setDisplayFilenames] = useState(false);
-  const [regressionType, setRegressionType] = useState(true);
-  const [values, setValues] = useState([]);
-  const [filePrefix, setFilePrefix] = useState("");
-  const [path, setPath] = useState("");
-  const [activeFile, setActiveFile] = useState({});
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [activePlot, setActivePlot] = useState(0);
 
   const fetchValues = async () => {
     const data = await (await fetch(`/values`)).json();
@@ -29,9 +42,9 @@ const Chart = () => {
     return data;
   };
 
-  const fileClickCallback = data => {
-    setActiveFile(data);
-  };
+  function fileClickCallback(data) {
+    dispatch({ type: "SET_ACTIVE_FILE", activeFile: data });
+  }
 
   useEffect(() => {
     (async () => {
@@ -40,84 +53,32 @@ const Chart = () => {
         fetchFilePrefix()
       ]);
 
-      setValues(values);
+      dispatch({ type: "SET_VALUES", values });
 
       if (filePrefix["file_prefix"]) {
-        setFilePrefix(filePrefix["file_prefix"]);
+        dispatch({
+          type: "SET_FILE_PREFIX",
+          filePrefix: filePrefix["file_prefix"]
+        });
       }
-
-      chart(
-        values,
-        canvas.current,
-        false,
-        RegressionTypes.POWER_LAW,
-        false,
-        filePrefix["file_prefix"] || "",
-        fileClickCallback
-      );
     })();
   }, []);
 
-  const handleRegressionDisplayChange = () => {
-    setDisplayRegression(!displayRegression);
-
-    chart(
-      values,
-      canvas.current,
-      !displayRegression,
-      regressionType,
-      displayFilenames,
-      `${filePrefix}${path}`,
-      fileClickCallback
-    );
-  };
-
-  const handleFilenamesDisplayChange = () => {
-    setDisplayFilenames(!displayFilenames);
-
-    chart(
-      values,
-      canvas.current,
-      displayRegression,
-      regressionType,
-      !displayFilenames,
-      `${filePrefix}${path}`,
-      fileClickCallback
-    );
-  };
-
-  const handleRegressionTypeChange = e => {
-    setRegressionType(parseInt(e.currentTarget.value));
-
-    chart(
-      values,
-      canvas.current,
-      displayRegression,
-      parseInt(e.currentTarget.value),
-      displayFilenames,
-      `${filePrefix}${path}`,
-      fileClickCallback
-    );
-  };
-
   const handlePathChange = e => {
-    setPath(e.target.value);
-
-    chart(
-      values,
-      canvas.current,
-      displayRegression,
-      regressionType,
-      displayFilenames,
-      `${filePrefix}${e.target.value}`,
-      fileClickCallback
-    );
+    dispatch({
+      type: "SET_PATH",
+      path: e.target.value
+    });
   };
 
   return (
     <div className="row">
       <div
-        className={Object.keys(activeFile).length === 0 ? "col-12" : "col-8"}
+        className={
+          !state.activeFile || Object.keys(state.activeFile).length === 0
+            ? "col-12"
+            : "col-8"
+        }
       >
         <div className="card">
           <div className="card-header">
@@ -128,7 +89,6 @@ const Chart = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <div className="col-2 col-lg-3" />
               <div className="col-8 col-lg-6">
                 <div id="path-input-group">
                   <label htmlFor="path" className="text-muted">
@@ -137,7 +97,7 @@ const Chart = () => {
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="path-text">
-                        {`./${filePrefix || ""}`}
+                        {`./${state.filePrefix || ""}`}
                       </span>
                     </div>
                     <input
@@ -147,127 +107,69 @@ const Chart = () => {
                       aria-label=""
                       aria-describedby="path-text"
                       id="path"
-                      value={path}
+                      value={state.path}
                       onChange={handlePathChange}
                     />
                   </div>
                 </div>
               </div>
-              <div className="col-2 col-lg-3" />
-            </div>
-            <div className="d-flex justify-items-center" id="canvas-wrapper">
-              <div id="canvas" ref={canvas}></div>
-            </div>
-            <div className="mt-3">
-              <h6 className="text-muted">
-                <strong>Display options</strong>
-              </h6>
-              <form>
-                <div className="form-row">
-                  <div className="form-group col-2">
-                    <input
-                      checked={displayFilenames}
-                      className="form-check-input"
-                      type="checkbox"
-                      id="filenames-check"
-                      onChange={handleFilenamesDisplayChange}
-                    />
-                    <label
-                      className="form-check-label text-muted"
-                      htmlFor="filenames-check"
-                    >
-                      <small>Display filenames</small>
-                    </label>
-                  </div>
-                  <div className="form-group col-2">
-                    <input
-                      checked={displayRegression}
-                      className="form-check-input"
-                      type="checkbox"
-                      id="regression-check"
-                      onChange={handleRegressionDisplayChange}
-                    />
-                    <label
-                      className="form-check-label text-muted"
-                      htmlFor="regression-check"
-                    >
-                      <small>Display regression</small>
-                    </label>
-                  </div>
-                  <div className="form-group col-3">
-                    <label htmlFor="regression-type" className="text-muted">
-                      <small>Regression Type</small>
-                    </label>
-                    <select
-                      id="regression-type"
-                      className="form-control"
-                      onChange={handleRegressionTypeChange}
-                    >
-                      <option selected value="0">
-                        Power Law
-                      </option>
-                      <option value="1">Linear</option>
-                    </select>
-                  </div>
+              <div className="col-4 col-lg-6">
+                <label htmlFor="path" className="text-muted d-block">
+                  <small>Plot Type</small>
+                </label>
+                <div
+                  className="btn-group btn-group-toggle"
+                  role="toolbar"
+                  aria-label="Plot Type"
+                >
+                  <button
+                    className={`btn btn-secondary ${activePlot ===
+                      PlotTypes.SCATTER_PLOT && "active"}`}
+                    onClick={e => {
+                      e.preventDefault();
+                      setActivePlot(PlotTypes.SCATTER_PLOT);
+                    }}
+                  >
+                    Scatterplot
+                  </button>
+                  <button
+                    className={`btn btn-secondary ${activePlot ===
+                      PlotTypes.TREE_MAP && "active"}`}
+                    onClick={e => {
+                      e.preventDefault();
+                      setActivePlot(PlotTypes.TREE_MAP);
+                    }}
+                  >
+                    Treemap
+                  </button>
                 </div>
-              </form>
+              </div>
             </div>
+            <div className="d-flex justify-items-start" id="canvas-wrapper">
+              {activePlot === PlotTypes.SCATTER_PLOT ? (
+                <ScatterPlot fileClickCallback={fileClickCallback} {...state} />
+              ) : (
+                <TreeMap fileClickCallback={fileClickCallback} {...state} />
+              )}
+            </div>
+            <DisplayOptions
+              state={state}
+              dispatch={dispatch}
+              activePlot={activePlot}
+            />
           </div>
         </div>
       </div>
-      {Object.keys(activeFile).length > 0 && (
-        <div className="col-4">
-          <div className="card">
-            <div className="card-header">
-              <h5 className="card-title">{activeFile.file_path}</h5>
-              <h6 className="text-muted">Additional information</h6>
-              <button
-                type="button"
-                className="close"
-                aria-label="Close"
-                onClick={() => {
-                  setActiveFile({});
-                }}
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="card-body">
-              <h6 className="text-muted">
-                <strong>Method Teardown</strong>
-              </h6>
-              <table className="table table-borderless mt-0 method-table">
-                <tbody>
-                  {Object.entries(activeFile.details).map(([method, score]) => (
-                    <tr className="row" key={method}>
-                      <td className="px-3 py-1 col-9 text-truncate">
-                        {method}
-                      </td>
-                      <td className="px-3 py-1 col-3">
-                        {Math.round(score * 100) / 100}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <h6 className="text-muted mt-3">Git history (last 10 commits)</h6>
-              <table className="table table-borderless mt-0 method-table">
-                <tbody>
-                  {activeFile.history.map(([commitRef, commitMessage]) => (
-                    <tr className="row" key={commitRef}>
-                      <td className="px-3 py-1 col-3 text-truncate">
-                        {commitRef}
-                      </td>
-                      <td className="px-3 py-1 col-8 text-truncate">
-                        {commitMessage}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      {state.activeFile && Object.keys(state.activeFile).length > 0 && (
+        <ActiveFileDetails
+          activeFile={state.activeFile}
+          handleClose={() => {
+            dispatch({
+              type: "SET_ACTIVE_FILE",
+              activeFile: {}
+            });
+          }}
+        />
       )}
     </div>
   );

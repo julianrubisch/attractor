@@ -1,5 +1,7 @@
 import * as d3 from "d3";
 import { regressionPow, regressionLinear } from "d3-regression";
+import "d3-tile";
+import { group } from "d3-array";
 
 import { RegressionTypes } from "./components/Chart";
 
@@ -17,20 +19,158 @@ const regressionLabel = (regressionType, regressionData) => {
   }
 };
 
-export const chart = (
-  data,
+const makeTreemap = (data, width, height) =>
+  d3
+    .treemap()
+    .tile(d3["treemapSquarify"])
+    .size([width, height])
+    .padding(1)
+    .round(true)(
+    d3
+      .hierarchy(data)
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value)
+  );
+
+const format = d3.format(",d");
+
+const addLeafText = leaf => {
+  leaf
+    .append("text")
+    // .attr("clip-path", d => d.clipUid)
+    .selectAll("tspan")
+    .data(d => d.data.name.concat(format(d.value)))
+    .join("tspan")
+    .attr("x", 3)
+    .attr(
+      "y",
+      (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`
+    )
+    .attr("fill-opacity", (d, i, nodes) =>
+      i === nodes.length - 1 ? 0.7 : null
+    )
+    .text(d => d);
+};
+
+export const treemap = (
   canvas,
-  displayRegression = true,
-  regressionType = 0,
-  displayFilenames = false,
-  path = "",
+  {
+    values: data,
+    displayRegression = true,
+    regressionType = 0,
+    displayFilenames = false,
+    filePrefix = "",
+    path = "",
+    activeFile = {}
+  },
   callback = () => {}
 ) => {
   canvas.innerHTML = "";
   const width = 600;
   const height = 600;
 
-  data = data.filter(d => d.file_path.startsWith(path));
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+  data = data.filter(d => d.file_path.startsWith(`${filePrefix}${path}`));
+
+  const dataSplitPath = data
+    .map(d => ({
+      name: d.file_path.substring(filePrefix.length + 1),
+      value: d.y * d.x,
+      file_path: d.file_path,
+      details: d.details,
+      history: d.history
+    }))
+    .map(d => ({
+      name: d.name.split("/"),
+      value: d.value,
+      file_path: d.file_path,
+      details: d.details,
+      history: d.history
+    }));
+
+  const sanitizedData = {
+    name: filePrefix,
+    children: Array.from(
+      group(dataSplitPath, d => d.name[0]),
+      ([name, children]) => ({
+        name,
+        children: Array.from(
+          group(children, d => d.name[1]),
+          ([name, children]) => ({ name, children })
+        )
+      })
+    )
+  };
+
+  const svgCanvas = d3
+    .select(canvas)
+    .append("svg")
+    .attr("viewBox", [0, 0, width, height])
+    .style("font-size", "10px");
+
+  if (sanitizedData.children.length > 0) {
+    const root = makeTreemap(sanitizedData, width, height);
+
+    const leaf = svgCanvas
+      .selectAll("g")
+      .data(root.leaves())
+      .join("g")
+      .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+    leaf.append("title").text(
+      d =>
+        `${d
+          .ancestors()
+          .reverse()
+          .map(d => d.data.name)
+          .join("/")}\n${format(d.value)}`
+    );
+
+    leaf
+      .append("rect")
+      // .attr("id", d => (d.leafUid = DOM.uid("leaf")).id)
+      .attr("fill", d => {
+        while (d.depth > 1) d = d.parent;
+        return color(d.data.name);
+      })
+      .attr("fill-opacity", 0.6)
+      .attr("width", d => d.x1 - d.x0)
+      .attr("height", d => d.y1 - d.y0)
+      .on("click", d => {
+        callback(d.data);
+      });
+
+    // leaf
+    // .append("clipPath")
+    // .attr("id", d => (d.clipUid = DOM.uid("clip")).id)
+    // .append("use");
+    // .attr("xlink:href", d => d.leafUid.href);
+
+    if (displayFilenames) {
+      addLeafText(leaf);
+    }
+  }
+};
+
+export const scatterPlot = (
+  canvas,
+  {
+    values: data,
+    displayRegression = true,
+    regressionType = 0,
+    displayFilenames = false,
+    filePrefix = "",
+    path = "",
+    activeFile = {}
+  },
+  callback = () => {}
+) => {
+  canvas.innerHTML = "";
+  const width = 600;
+  const height = 600;
+
+  data = data.filter(d => d.file_path.startsWith(`${filePrefix}${path}`));
 
   const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
