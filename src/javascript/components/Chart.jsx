@@ -120,7 +120,7 @@ const Chart = () => {
                 <div
                   className="btn-group btn-group-toggle"
                   role="toolbar"
-                  ariaLabel="Plot Type"
+                  aria-label="Plot Type"
                 >
                   <button
                     className={`btn btn-secondary ${activePlot ===
@@ -152,7 +152,11 @@ const Chart = () => {
                 <TreeMap fileClickCallback={fileClickCallback} {...state} />
               )}
             </div>
-            <DisplayOptions state={state} dispatch={dispatch} />
+            <DisplayOptions
+              state={state}
+              dispatch={dispatch}
+              activePlot={activePlot}
+            />
           </div>
         </div>
       </div>

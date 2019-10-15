@@ -32,6 +32,26 @@ const makeTreemap = (data, width, height) =>
       .sort((a, b) => b.value - a.value)
   );
 
+const format = d3.format(",d");
+
+const addLeafText = leaf => {
+  leaf
+    .append("text")
+    // .attr("clip-path", d => d.clipUid)
+    .selectAll("tspan")
+    .data(d => d.data.name.concat(format(d.value)))
+    .join("tspan")
+    .attr("x", 3)
+    .attr(
+      "y",
+      (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`
+    )
+    .attr("fill-opacity", (d, i, nodes) =>
+      i === nodes.length - 1 ? 0.7 : null
+    )
+    .text(d => d);
+};
+
 export const treemap = (
   canvas,
   {
@@ -50,7 +70,6 @@ export const treemap = (
   const height = 600;
 
   const color = d3.scaleOrdinal(d3.schemeCategory10);
-  const format = d3.format(",d");
 
   data = data.filter(d => d.file_path.startsWith(`${filePrefix}${path}`));
 
@@ -128,21 +147,9 @@ export const treemap = (
     // .append("use");
     // .attr("xlink:href", d => d.leafUid.href);
 
-    leaf
-      .append("text")
-      // .attr("clip-path", d => d.clipUid)
-      .selectAll("tspan")
-      .data(d => d.data.name.concat(format(d.value)))
-      .join("tspan")
-      .attr("x", 3)
-      .attr(
-        "y",
-        (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`
-      )
-      .attr("fill-opacity", (d, i, nodes) =>
-        i === nodes.length - 1 ? 0.7 : null
-      )
-      .text(d => d);
+    if (displayFilenames) {
+      addLeafText(leaf);
+    }
   }
 };
 
