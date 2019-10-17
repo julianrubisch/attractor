@@ -4,6 +4,7 @@ import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
 import ScatterPlot from "./ScatterPlot";
 import TreeMap from "./TreeMap";
+import Histogram from "./Histogram";
 import reducer from "../reducers/chartReducer";
 
 export const RegressionTypes = {
@@ -107,7 +108,7 @@ const Chart = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <div className="col-8 col-lg-6">
+              <div className="col-12 col-lg-4">
                 <div id="path-input-group">
                   <label htmlFor="path" className="text-muted">
                     <small>Base Path</small>
@@ -131,7 +132,7 @@ const Chart = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-4 col-lg-3">
+              <div className="col-6 col-lg-4">
                 <label htmlFor="path" className="text-muted d-block">
                   <small>Plot Type</small>
                 </label>
@@ -148,7 +149,7 @@ const Chart = () => {
                       setActivePlot(PlotTypes.SCATTER_PLOT);
                     }}
                   >
-                    Scatterplot
+                    Scatterplot/Hist
                   </button>
                   <button
                     className={`btn btn-secondary ${activePlot ===
@@ -162,7 +163,7 @@ const Chart = () => {
                   </button>
                 </div>
               </div>
-              <div className="col-4 col-lg-3">
+              <div className="col-6 col-lg-4">
                 <div className="form-group">
                   <label htmlFor="measurement-type" className="text-muted">
                     <small>Measurement</small>
@@ -183,7 +184,14 @@ const Chart = () => {
             </div>
             <div className="d-flex justify-items-start" id="canvas-wrapper">
               {activePlot === PlotTypes.SCATTER_PLOT ? (
-                <ScatterPlot fileClickCallback={fileClickCallback} {...state} />
+                state.measurementType === MeasurementTypes.CHURN_COMPLEXITY ? (
+                  <ScatterPlot
+                    fileClickCallback={fileClickCallback}
+                    {...state}
+                  />
+                ) : (
+                  <Histogram fileClickCallback={fileClickCallback} {...state} />
+                )
               ) : (
                 <TreeMap fileClickCallback={fileClickCallback} {...state} />
               )}

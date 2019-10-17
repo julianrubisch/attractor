@@ -168,12 +168,93 @@ export const treemap = (
   }
 };
 
+export const histogram = (
+  canvas,
+  {
+    values: data,
+    displayRegression = true,
+    regressionType = 0,
+    measurementType = 0,
+    displayFilenames = false,
+    filePrefix = "",
+    path = "",
+    activeFile = {}
+  },
+  callback = () => {}
+) => {
+  canvas.innerHTML = "";
+  const width = 600;
+  const height = 600;
+
+  data = data.filter(d => d.file_path.startsWith(`${filePrefix}${path}`));
+
+  const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+
+  const svgCanvas = d3
+    .select(canvas)
+    .append("svg")
+    .attr("viewBox", [0, 0, width, height])
+    .style("font-size", "10px");
+
+  const sanitized_data = data.map(d =>
+    measurementType === MeasurementTypes.COMPLEXITY ? d.y : d.x
+  );
+
+  const color = d3
+    .scaleLinear()
+    .domain(d3.extent(sanitized_data))
+    .range(["green", "red"]);
+
+  const xScale = d3
+    .scaleLinear()
+    .domain(d3.extent(sanitized_data))
+    .nice(20)
+    .range([margin.left, width - margin.right]);
+
+  const bins = d3
+    .histogram()
+    .domain(xScale.domain())
+    .thresholds(xScale.ticks(20))(sanitized_data);
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(bins, d => d.length)])
+    .nice()
+    .range([height - margin.bottom, margin.top]);
+
+  const xAxis = g =>
+    g
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(xScale).tickSizeOuter(0));
+
+  const yAxis = g =>
+    g
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(yScale));
+
+  svgCanvas
+    .append("g")
+    .selectAll("rect")
+    .data(bins)
+    .join("rect")
+    .attr("fill", d => color(d.x0))
+    .attr("x", d => xScale(d.x0) + 1)
+    .attr("width", d => Math.max(0, xScale(d.x1) - xScale(d.x0) - 1))
+    .attr("y", d => yScale(d.length))
+    .attr("height", d => yScale(0) - yScale(d.length));
+
+  svgCanvas.append("g").call(xAxis);
+
+  svgCanvas.append("g").call(yAxis);
+};
+
 export const scatterPlot = (
   canvas,
   {
     values: data,
     displayRegression = true,
     regressionType = 0,
+    measurementType = 0,
     displayFilenames = false,
     filePrefix = "",
     path = "",
