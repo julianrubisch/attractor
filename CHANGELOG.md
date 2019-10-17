@@ -1,3 +1,7 @@
+## RELEASE 0.6.1
+
+* ENHANCEMENT: add histogram for complexity/churn only measurements
+
 ## RELEASE 0.6.0
 
 * FEATURE: Add treemap visualization
