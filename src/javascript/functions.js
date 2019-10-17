@@ -3,7 +3,7 @@ import { regressionPow, regressionLinear } from "d3-regression";
 import "d3-tile";
 import { group } from "d3-array";
 
-import { RegressionTypes } from "./components/Chart";
+import { RegressionTypes, MeasurementTypes } from "./components/Chart";
 
 const regressionLabel = (regressionType, regressionData) => {
   switch (regressionType) {
@@ -58,6 +58,7 @@ export const treemap = (
     values: data,
     displayRegression = true,
     regressionType = 0,
+    measurementType = 0,
     displayFilenames = false,
     filePrefix = "",
     path = "",
@@ -74,13 +75,27 @@ export const treemap = (
   data = data.filter(d => d.file_path.startsWith(`${filePrefix}${path}`));
 
   const dataSplitPath = data
-    .map(d => ({
-      name: d.file_path.substring(filePrefix.length + 1),
-      value: d.y * d.x,
-      file_path: d.file_path,
-      details: d.details,
-      history: d.history
-    }))
+    .map(d => {
+      let value;
+      switch (measurementType) {
+        case MeasurementTypes.COMPLEXITY:
+          value = d.y;
+          break;
+        case MeasurementTypes.CHURN:
+          value = d.x;
+          break;
+        case MeasurementTypes.CHURN_COMPLEXITY:
+        default:
+          value = d.y * d.x;
+      }
+      return {
+        name: d.file_path.substring(filePrefix.length + 1),
+        value,
+        file_path: d.file_path,
+        details: d.details,
+        history: d.history
+      };
+    })
     .map(d => ({
       name: d.name.split("/"),
       value: d.value,

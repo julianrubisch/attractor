@@ -16,10 +16,17 @@ export const PlotTypes = {
   TREE_MAP: 1
 };
 
+export const MeasurementTypes = {
+  CHURN_COMPLEXITY: 0,
+  COMPLEXITY: 1,
+  CHURN: 2
+};
+
 const initialState = {
   displayRegression: false,
   displayFilenames: false,
   regressionType: RegressionTypes.POWER_LAW,
+  measurementType: MeasurementTypes.CHURN_COMPLEXITY,
   values: [],
   filePrefix: "",
   path: "",
@@ -65,9 +72,20 @@ const Chart = () => {
   }, []);
 
   const handlePathChange = e => {
+    e.preventDefault();
+
     dispatch({
       type: "SET_PATH",
       path: e.target.value
+    });
+  };
+
+  const handleMeasurementTypeChange = e => {
+    e.preventDefault();
+
+    dispatch({
+      type: "SET_MEASUREMENT_TYPE",
+      measurementType: parseInt(e.target.value)
     });
   };
 
@@ -113,7 +131,7 @@ const Chart = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-4 col-lg-6">
+              <div className="col-4 col-lg-3">
                 <label htmlFor="path" className="text-muted d-block">
                   <small>Plot Type</small>
                 </label>
@@ -142,6 +160,24 @@ const Chart = () => {
                   >
                     Treemap
                   </button>
+                </div>
+              </div>
+              <div className="col-4 col-lg-3">
+                <div className="form-group">
+                  <label htmlFor="measurement-type" className="text-muted">
+                    <small>Measurement</small>
+                  </label>
+                  <select
+                    id="measurement-type"
+                    className="form-control"
+                    onChange={handleMeasurementTypeChange}
+                  >
+                    <option selected value="0">
+                      Churn * Complexity
+                    </option>
+                    <option value="1">Complexity</option>
+                    <option value="2">Churn</option>
+                  </select>
                 </div>
               </div>
             </div>
