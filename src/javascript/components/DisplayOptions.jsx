@@ -74,7 +74,6 @@ const DisplayOptions = ({ state, dispatch, activePlot }) => {
               id="regression-type"
               className="form-control"
               disabled={activePlot !== PlotTypes.SCATTER_PLOT}
-              /* disabled={true} */
               onChange={handleRegressionTypeChange}
             >
               <option selected value="0">

@@ -19,6 +19,12 @@ const reducer = (state, action) => {
         regressionType: action.regressionType
       };
       break;
+    case "SET_MEASUREMENT_TYPE":
+      newState = {
+        ...state,
+        measurementType: action.measurementType
+      };
+      break;
     case "SET_VALUES":
       newState = {
         ...state,

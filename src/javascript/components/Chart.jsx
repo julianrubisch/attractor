@@ -4,6 +4,7 @@ import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
 import ScatterPlot from "./ScatterPlot";
 import TreeMap from "./TreeMap";
+import Histogram from "./Histogram";
 import reducer from "../reducers/chartReducer";
 
 export const RegressionTypes = {
@@ -16,10 +17,17 @@ export const PlotTypes = {
   TREE_MAP: 1
 };
 
+export const MeasurementTypes = {
+  CHURN_COMPLEXITY: 0,
+  COMPLEXITY: 1,
+  CHURN: 2
+};
+
 const initialState = {
   displayRegression: false,
   displayFilenames: false,
   regressionType: RegressionTypes.POWER_LAW,
+  measurementType: MeasurementTypes.CHURN_COMPLEXITY,
   values: [],
   filePrefix: "",
   path: "",
@@ -65,9 +73,20 @@ const Chart = () => {
   }, []);
 
   const handlePathChange = e => {
+    e.preventDefault();
+
     dispatch({
       type: "SET_PATH",
       path: e.target.value
+    });
+  };
+
+  const handleMeasurementTypeChange = e => {
+    e.preventDefault();
+
+    dispatch({
+      type: "SET_MEASUREMENT_TYPE",
+      measurementType: parseInt(e.target.value)
     });
   };
 
@@ -89,7 +108,7 @@ const Chart = () => {
           </div>
           <div className="card-body">
             <div className="row">
-              <div className="col-8 col-lg-6">
+              <div className="col-12 col-lg-4">
                 <div id="path-input-group">
                   <label htmlFor="path" className="text-muted">
                     <small>Base Path</small>
@@ -113,7 +132,7 @@ const Chart = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-4 col-lg-6">
+              <div className="col-6 col-lg-4">
                 <label htmlFor="path" className="text-muted d-block">
                   <small>Plot Type</small>
                 </label>
@@ -130,7 +149,7 @@ const Chart = () => {
                       setActivePlot(PlotTypes.SCATTER_PLOT);
                     }}
                   >
-                    Scatterplot
+                    Scatterplot/Hist
                   </button>
                   <button
                     className={`btn btn-secondary ${activePlot ===
@@ -144,10 +163,35 @@ const Chart = () => {
                   </button>
                 </div>
               </div>
+              <div className="col-6 col-lg-4">
+                <div className="form-group">
+                  <label htmlFor="measurement-type" className="text-muted">
+                    <small>Measurement</small>
+                  </label>
+                  <select
+                    id="measurement-type"
+                    className="form-control"
+                    onChange={handleMeasurementTypeChange}
+                  >
+                    <option selected value="0">
+                      Churn * Complexity
+                    </option>
+                    <option value="1">Complexity</option>
+                    <option value="2">Churn</option>
+                  </select>
+                </div>
+              </div>
             </div>
             <div className="d-flex justify-items-start" id="canvas-wrapper">
               {activePlot === PlotTypes.SCATTER_PLOT ? (
-                <ScatterPlot fileClickCallback={fileClickCallback} {...state} />
+                state.measurementType === MeasurementTypes.CHURN_COMPLEXITY ? (
+                  <ScatterPlot
+                    fileClickCallback={fileClickCallback}
+                    {...state}
+                  />
+                ) : (
+                  <Histogram fileClickCallback={fileClickCallback} {...state} />
+                )
               ) : (
                 <TreeMap fileClickCallback={fileClickCallback} {...state} />
               )}

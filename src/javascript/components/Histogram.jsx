@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 
-import { treemap } from "../functions";
+import { histogram } from "../functions";
 
-const TreeMap = ({
+const Histogram = ({
   fileClickCallback,
   values,
   filePrefix,
@@ -16,7 +16,7 @@ const TreeMap = ({
   const canvas = useRef(null);
 
   useEffect(() => {
-    treemap(
+    histogram(
       canvas.current,
       {
         values,
@@ -34,4 +34,4 @@ const TreeMap = ({
   return <div id="canvas" ref={canvas}></div>;
 };
 
-export default TreeMap;
+export default Histogram;
