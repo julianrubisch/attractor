@@ -12,9 +12,9 @@ module Attractor
     attr_accessor :values, :file_prefix
     def_delegator :@watcher, :watch
 
-    def initialize(file_prefix: '')
+    def initialize(file_prefix: '', calculators:)
       @file_prefix = file_prefix
-      @calculator = Calculator.new(file_prefix: file_prefix)
+      @calculator = calculators.first
       @values = @calculator.calculate
       @suggester = Suggester.new(values)
 

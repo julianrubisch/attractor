@@ -11,11 +11,13 @@ module Attractor
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
     def calc
+      file_prefix = options[:file_prefix]
+      calculator = RubyCalculator.new(file_prefix: file_prefix)
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::ConsoleReporter.new(file_prefix: options[:file_prefix]).watch
+        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
       else
-        Attractor::ConsoleReporter.new(file_prefix: options[:file_prefix]).report
+        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: [calculator]).report
       end
     end
 
@@ -24,15 +26,17 @@ module Attractor
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
     def report
+      file_prefix = options[:file_prefix]
+      calculator = RubyCalculator.new(file_prefix: file_prefix)
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::HtmlReporter.new(file_prefix: options[:file_prefix]).watch
+        Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
       else
         case options[:format]
         when 'html'
-          Attractor::HtmlReporter.new(file_prefix: options[:file_prefix]).report
+          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: [calculator]).report
         else
-          Attractor::HtmlReporter.new(file_prefix: options[:file_prefix]).report
+          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: [calculator]).report
         end
       end
     end
@@ -42,15 +46,17 @@ module Attractor
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
     def serve
+      file_prefix = options[:file_prefix]
+      calculator = RubyCalculator.new(file_prefix: file_prefix)
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::SinatraReporter.new(file_prefix: options[:file_prefix]).watch
+        Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
       else
         case options[:format]
         when 'html'
-          Attractor::SinatraReporter.new(file_prefix: options[:file_prefix]).report
+          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: [calculator]).report
         else
-          Attractor::SinatraReporter.new(file_prefix: options[:file_prefix]).report
+          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: [calculator]).report
         end
       end
     end

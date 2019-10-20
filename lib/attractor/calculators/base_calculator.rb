@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
 require 'churn/calculator'
-require 'csv'
-require 'date'
-require 'flog'
-require 'listen'
 
 require 'attractor/value'
 
 module Attractor
   # calculates churn and complexity
-  class Calculator
-    def initialize(file_prefix: '')
+  class BaseCalculator
+    def initialize(file_prefix: '', file_extension: 'rb', minimum_churn_count: 3)
       @file_prefix = file_prefix
-      @file_extension = 'rb'
-      @minimum_churn_count = 3
+      @file_extension = file_extension
+      @minimum_churn_count = minimum_churn_count
     end
 
     def calculate
@@ -26,10 +22,7 @@ module Attractor
       ).report(false)
 
       churn[:churn][:changes].map do |change|
-        flogger = Flog.new(all: true)
-        flogger.flog(change[:file_path])
-        complexity = flogger.total_score
-        details = flogger.totals
+        complexity, details = yield(change)
         Value.new(file_path: change[:file_path],
                   churn: change[:times_changed],
                   complexity: complexity,
