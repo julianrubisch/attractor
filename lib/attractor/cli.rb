@@ -12,7 +12,7 @@ module Attractor
     option :watch, aliases: :w, type: :boolean
     def calc
       file_prefix = options[:file_prefix]
-      calculator = Calculator.new(file_prefix: file_prefix)
+      calculator = RubyCalculator.new(file_prefix: file_prefix)
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
@@ -27,7 +27,7 @@ module Attractor
     option :watch, aliases: :w, type: :boolean
     def report
       file_prefix = options[:file_prefix]
-      calculator = Calculator.new(file_prefix: file_prefix)
+      calculator = RubyCalculator.new(file_prefix: file_prefix)
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
@@ -47,7 +47,7 @@ module Attractor
     option :watch, aliases: :w, type: :boolean
     def serve
       file_prefix = options[:file_prefix]
-      calculator = Calculator.new(file_prefix: file_prefix)
+      calculator = RubyCalculator.new(file_prefix: file_prefix)
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
