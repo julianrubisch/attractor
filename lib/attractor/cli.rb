@@ -10,9 +10,15 @@ module Attractor
     desc 'calc', 'Calculates churn and complexity for all ruby files in current directory'
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
+    option :type, aliases: :t
     def calc
       file_prefix = options[:file_prefix]
-      calculator = RubyCalculator.new(file_prefix: file_prefix)
+      calculator = case options[:type]
+                   when 'js'
+                     JsCalculator.new(file_prefix: file_prefix)
+                   else
+                     RubyCalculator.new(file_prefix: file_prefix)
+                   end
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
