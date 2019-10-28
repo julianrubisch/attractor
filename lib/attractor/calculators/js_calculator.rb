@@ -10,11 +10,8 @@ module Attractor
 
     def calculate
       super do |change|
-        complexity, details = ExecJS.exec('return [5, {test: 2}]')
-        # flogger = Flog.new(all: true)
-        # flogger.flog(change[:file_path])
-        # complexity = flogger.total_score
-        # details = flogger.totals
+        complexity, details = JSON.parse(`node dist/calculator.bundle.js #{change[:file_path]}`)
+
         [complexity, details]
       end
     end

@@ -36,7 +36,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'churn', '>= 1.0.4'
   spec.add_dependency 'descriptive_statistics'
-  spec.add_dependency 'execjs'
   spec.add_dependency 'flog', '~> 4.0'
   spec.add_dependency 'launchy'
   spec.add_dependency 'listen', '~> 3.0'
