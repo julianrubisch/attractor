@@ -10,7 +10,7 @@ module Attractor
 
     def calculate
       super do |change|
-        complexity, details = JSON.parse(`node dist/calculator.bundle.js #{change[:file_path]}`)
+        complexity, details = JSON.parse(`node #{__dir__}/../../../dist/calculator.bundle.js #{change[:file_path]}`)
 
         [complexity, details]
       end
