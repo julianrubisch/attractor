@@ -34,12 +34,12 @@ const initialState = {
   activeFile: {}
 };
 
-const Chart = () => {
+const Chart = ({ type }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [activePlot, setActivePlot] = useState(0);
 
   const fetchValues = async () => {
-    const data = await (await fetch(`/values`)).json();
+    const data = await (await fetch(`/values?type=${type}`)).json();
 
     return data;
   };
@@ -70,7 +70,7 @@ const Chart = () => {
         });
       }
     })();
-  }, []);
+  }, [type]);
 
   const handlePathChange = e => {
     e.preventDefault();

@@ -25,7 +25,8 @@ module Attractor
     end
 
     get '/values' do
-      @reporter.values.to_json
+      type = params[:type] || 'rb'
+      @reporter.values(type: type).to_json
     end
 
     get '/suggestions' do
@@ -56,6 +57,11 @@ module Attractor
       Launchy.open('http://localhost:7890')
 
       Rack::Handler::WEBrick.run Rack::LiveReload.new(app), Port: 7890
+    end
+
+    def values(type: 'rb')
+      @values = @calculators[type].calculate
+      @values
     end
   end
 end
