@@ -2,12 +2,17 @@ const fs = require("fs");
 const escomplex = require("typhonjs-escomplex");
 
 const file = process.argv[2];
-const report = escomplex.analyzeModule(fs.readFileSync(file).toString());
 
-const details = {};
+try {
+  const report = escomplex.analyzeModule(fs.readFileSync(file).toString());
 
-report.methods.forEach(m => {
-  details[m.name] = m.cyclomatic;
-});
+  const details = {};
 
-console.log(JSON.stringify([report.aggregate.cyclomatic, details]));
+  report.methods.forEach(m => {
+    details[m.name] = m.cyclomatic;
+  });
+
+  console.log(JSON.stringify([report.aggregate.cyclomatic, details]));
+} catch (e) {
+  console.log([0, {}]);
+}
