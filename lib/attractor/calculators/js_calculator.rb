@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'execjs'
-
 module Attractor
   class JsCalculator < BaseCalculator
     def initialize(file_prefix: '', minimum_churn_count: 3)
