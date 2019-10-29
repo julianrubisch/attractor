@@ -91,7 +91,7 @@ const Chart = () => {
   };
 
   return (
-    <div className="row">
+    <div className="row pt-4">
       <div
         className={
           !state.activeFile || Object.keys(state.activeFile).length === 0

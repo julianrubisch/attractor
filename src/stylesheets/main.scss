@@ -89,6 +89,11 @@ body {
   }
 }
 
+#react-root > .container {
+  margin-top: 3rem !important;
+  margin-bottom: 5rem !important;
+}
+
 .form-control:disabled, label.disabled {
   opacity: 0.5;
 }
@@ -175,7 +180,7 @@ footer {
   // margin: 0 auto;
 }
 
-#react-graph {
+#react-root {
   #canvas-wrapper{
     width: 600px;
     height: 600px;
