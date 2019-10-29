@@ -18,9 +18,33 @@ export default function App() {
           ></img>
           Attractor
         </a>
+        <ul className="navbar-nav mx-auto">
+          <li className={`nav-item ${type === "rb" ? "active" : ""}`}>
+            <a
+              className="nav-link"
+              href="#"
+              onClick={() => {
+                setType("rb");
+              }}
+            >
+              Ruby
+            </a>
+          </li>
+          <li className={`nav-item ${type === "js" ? "active" : ""}`}>
+            <a
+              className="nav-link"
+              href="#"
+              onClick={() => {
+                setType("js");
+              }}
+            >
+              Javascript
+            </a>
+          </li>
+        </ul>
       </nav>
       <div className="container">
-        <Chart />
+        <Chart type={type} />
 
         <div className="row mt-3">
           <div className="col-12">
