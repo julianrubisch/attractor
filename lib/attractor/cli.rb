@@ -31,9 +31,15 @@ module Attractor
     option :format, aliases: :f, default: 'html'
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
+    option :type, aliases: :t
     def report
       file_prefix = options[:file_prefix]
-      calculator = RubyCalculator.new(file_prefix: file_prefix)
+      calculator = case options[:type]
+                   when 'js'
+                     JsCalculator.new(file_prefix: file_prefix)
+                   else
+                     RubyCalculator.new(file_prefix: file_prefix)
+                   end
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
@@ -51,9 +57,15 @@ module Attractor
     option :format, aliases: :f, default: 'html'
     option :file_prefix, aliases: :p
     option :watch, aliases: :w, type: :boolean
+    option :type, aliases: :t
     def serve
       file_prefix = options[:file_prefix]
-      calculator = RubyCalculator.new(file_prefix: file_prefix)
+      calculator = case options[:type]
+                   when 'js'
+                     JsCalculator.new(file_prefix: file_prefix)
+                   else
+                     RubyCalculator.new(file_prefix: file_prefix)
+                   end
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: [calculator]).watch
