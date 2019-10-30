@@ -34,7 +34,7 @@ const initialState = {
   activeFile: {}
 };
 
-const Chart = ({ type }) => {
+const Chart = ({ type, finishedLoadingCallback }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [activePlot, setActivePlot] = useState(0);
 
@@ -69,6 +69,8 @@ const Chart = ({ type }) => {
           filePrefix: filePrefix["file_prefix"]
         });
       }
+
+      finishedLoadingCallback();
     })();
   }, [type]);
 

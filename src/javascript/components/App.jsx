@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <>
-      <Progress isAnimating={isLoading} />
+      <Progress isAnimating={isLoading} key={type} />
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <a className="navbar-brand" href="#">
           <img
@@ -27,6 +27,7 @@ export default function App() {
               className="nav-link"
               href="#"
               onClick={() => {
+                setIsLoading(true);
                 setType("rb");
               }}
             >
@@ -38,6 +39,7 @@ export default function App() {
               className="nav-link"
               href="#"
               onClick={() => {
+                setIsLoading(true);
                 setType("js");
               }}
             >
@@ -47,7 +49,12 @@ export default function App() {
         </ul>
       </nav>
       <div className="container">
-        <Chart type={type} />
+        <Chart
+          type={type}
+          finishedLoadingCallback={() => {
+            setIsLoading(false);
+          }}
+        />
 
         <div className="row mt-3">
           <div className="col-12">
