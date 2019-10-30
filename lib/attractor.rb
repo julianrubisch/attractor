@@ -13,5 +13,17 @@ require 'attractor/watcher'
 
 module Attractor
   class Error < StandardError; end
-  # Your code goes here...
+
+  def calculators_for_type(type, file_prefix)
+    case type
+    when 'js'
+      { 'js' => JsCalculator.new(file_prefix: file_prefix) }
+    when 'rb'
+      { 'rb' => RubyCalculator.new(file_prefix: file_prefix) }
+    else
+      { 'rb' => RubyCalculator.new(file_prefix: file_prefix), 'js' => JsCalculator.new(file_prefix: file_prefix)}
+    end
+  end
+
+  module_function :calculators_for_type
 end
