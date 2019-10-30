@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
+    "build": "webpack --mode development",
     "watch": "webpack --watch --mode development"
   },
   "repository": {
@@ -27,6 +27,7 @@
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-react": "^7.0.0",
     "@fortawesome/fontawesome-free": "^5.11.2",
+    "@tanem/react-nprogress": "^3.0.6",
     "babel-loader": "^8.0.6",
     "d3": "^5.12.0",
     "d3-array": "^2.3.2",

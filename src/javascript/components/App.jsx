@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 
 import Suggestions from "./Suggestions.jsx";
 import Chart from "./Chart.jsx";
+import Progress from "./Progress.jsx";
 
 export default function App() {
   const [type, setType] = useState("rb");
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
+      <Progress isAnimating={isLoading} />
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <a className="navbar-brand" href="#">
           <img

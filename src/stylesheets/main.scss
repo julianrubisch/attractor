@@ -224,3 +224,24 @@ footer {
   font-size: 0.8rem;
   table-layout: fixed;
 }
+
+.progressbar {
+  background: $primary;
+  height: 2px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1031;
+
+  .shadow {
+    box-shadow: 0 0 10px $primary, 0 0 5px $primary;
+    display: block;
+    height: 100%;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    transform: rotate(3deg) translate(0px, -4px);
+    width: 100;
+  }
+}
