@@ -15,6 +15,7 @@ module Attractor
 
     enable :static
     set :public_folder, File.expand_path('../../../app/assets', __dir__)
+    set :show_exceptions, :after_handler
 
     get '/' do
       erb File.read(File.expand_path('../../../app/views/index.html.erb', __dir__))
@@ -32,6 +33,10 @@ module Attractor
     get '/suggestions' do
       threshold = params[:t] || 95
       @reporter.suggestions(threshold).to_json
+    end
+
+    error NoMethodError do
+      { error: env['sinatra.error'].message }.to_json
     end
   end
 

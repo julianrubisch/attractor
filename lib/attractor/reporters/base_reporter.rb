@@ -21,6 +21,8 @@ module Attractor
       @watcher = Watcher.new(file_prefix, lambda do
         report
       end)
+    rescue NoMethodError => e
+      raise 'There was a problem gathering churn changes'
     end
 
     def suggestions(quantile)

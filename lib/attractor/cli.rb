@@ -20,6 +20,8 @@ module Attractor
       else
         Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators).report
       end
+    rescue RuntimeError => e
+      puts "Runtime error: #{e.message}"
     end
 
     desc 'report', 'Generates an HTML report'
@@ -41,6 +43,8 @@ module Attractor
           Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators).report
         end
       end
+    rescue RuntimeError => e
+      puts "Runtime error: #{e.message}"
     end
 
     desc 'serve', 'Serves the report on localhost'
