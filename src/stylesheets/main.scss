@@ -245,3 +245,10 @@ footer {
     width: 100;
   }
 }
+
+.error {
+  svg {
+    color: $secondary;
+    margin-bottom: 1.5rem;
+  }
+}

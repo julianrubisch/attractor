@@ -1,4 +1,6 @@
 import React, { useReducer, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSadTear } from "@fortawesome/free-solid-svg-icons";
 
 import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
@@ -34,9 +36,10 @@ const initialState = {
   activeFile: {}
 };
 
-const Chart = ({ type, finishedLoadingCallback }) => {
+const Chart = ({ type, finishedLoadingCallback, errorCallback }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [activePlot, setActivePlot] = useState(0);
+  const [loadingError, setLoadingError] = useState(false);
 
   const fetchValues = async () => {
     const data = await (await fetch(`/values?type=${type}`)).json();
@@ -61,13 +64,19 @@ const Chart = ({ type, finishedLoadingCallback }) => {
         fetchFilePrefix()
       ]);
 
-      dispatch({ type: "SET_VALUES", values });
+      if (values.error === undefined) {
+        setLoadingError(false);
 
-      if (filePrefix["file_prefix"]) {
-        dispatch({
-          type: "SET_FILE_PREFIX",
-          filePrefix: filePrefix["file_prefix"]
-        });
+        dispatch({ type: "SET_VALUES", values });
+
+        if (filePrefix["file_prefix"]) {
+          dispatch({
+            type: "SET_FILE_PREFIX",
+            filePrefix: filePrefix["file_prefix"]
+          });
+        }
+      } else {
+        setLoadingError(true);
       }
 
       finishedLoadingCallback();
@@ -184,18 +193,39 @@ const Chart = ({ type, finishedLoadingCallback }) => {
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-items-start" id="canvas-wrapper">
-              {activePlot === PlotTypes.SCATTER_PLOT ? (
-                state.measurementType === MeasurementTypes.CHURN_COMPLEXITY ? (
-                  <ScatterPlot
-                    fileClickCallback={fileClickCallback}
-                    {...state}
-                  />
-                ) : (
-                  <Histogram fileClickCallback={fileClickCallback} {...state} />
-                )
+            <div
+              className={`d-flex ${
+                loadingError
+                  ? "justify-content-center align-items-center"
+                  : "justify-content-start"
+              }`}
+              id="canvas-wrapper"
+            >
+              {loadingError ? (
+                <div className="text-center error">
+                  <FontAwesomeIcon icon={faSadTear} size="6x" />
+                  <h3>Oh snap!</h3>
+                  There has been an error loading the churn count.
+                </div>
               ) : (
-                <TreeMap fileClickCallback={fileClickCallback} {...state} />
+                <>
+                  {activePlot === PlotTypes.SCATTER_PLOT ? (
+                    state.measurementType ===
+                    MeasurementTypes.CHURN_COMPLEXITY ? (
+                      <ScatterPlot
+                        fileClickCallback={fileClickCallback}
+                        {...state}
+                      />
+                    ) : (
+                      <Histogram
+                        fileClickCallback={fileClickCallback}
+                        {...state}
+                      />
+                    )
+                  ) : (
+                    <TreeMap fileClickCallback={fileClickCallback} {...state} />
+                  )}
+                </>
               )}
             </div>
             <DisplayOptions
