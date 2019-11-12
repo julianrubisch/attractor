@@ -14,13 +14,15 @@ module Attractor
 
     def initialize(file_prefix: '', calculators:)
       @file_prefix = file_prefix
-      @calculator = calculators.first
-      @values = @calculator.calculate
+      @calculators = calculators
+      @values = @calculators.first.last.calculate
       @suggester = Suggester.new(values)
 
       @watcher = Watcher.new(file_prefix, lambda do
         report
       end)
+    rescue NoMethodError => e
+      raise 'There was a problem gathering churn changes'
     end
 
     def suggestions(quantile)

@@ -8,7 +8,7 @@ const Histogram = ({
   filePrefix,
   displayRegression,
   regressionType,
-  measurementType,
+  metricType,
   displayFilenames,
   path,
   activeFile
@@ -22,7 +22,7 @@ const Histogram = ({
         values,
         displayRegression,
         regressionType,
-        measurementType,
+        metricType,
         displayFilenames,
         filePrefix,
         path,

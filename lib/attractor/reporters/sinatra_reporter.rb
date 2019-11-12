@@ -15,6 +15,7 @@ module Attractor
 
     enable :static
     set :public_folder, File.expand_path('../../../app/assets', __dir__)
+    set :show_exceptions, :after_handler
 
     get '/' do
       erb File.read(File.expand_path('../../../app/views/index.html.erb', __dir__))
@@ -25,12 +26,17 @@ module Attractor
     end
 
     get '/values' do
-      @reporter.values.to_json
+      type = params[:type] || 'rb'
+      @reporter.values(type: type).to_json
     end
 
     get '/suggestions' do
       threshold = params[:t] || 95
       @reporter.suggestions(threshold).to_json
+    end
+
+    error NoMethodError do
+      { error: env['sinatra.error'].message }.to_json
     end
   end
 
@@ -56,6 +62,11 @@ module Attractor
       Launchy.open('http://localhost:7890')
 
       Rack::Handler::WEBrick.run Rack::LiveReload.new(app), Port: 7890
+    end
+
+    def values(type: 'rb')
+      @values = @calculators[type].calculate
+      @values
     end
   end
 end

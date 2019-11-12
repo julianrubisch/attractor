@@ -3,7 +3,7 @@ import { regressionPow, regressionLinear } from "d3-regression";
 import "d3-tile";
 import { group } from "d3-array";
 
-import { RegressionTypes, MeasurementTypes } from "./components/Chart";
+import { RegressionTypes, MetricTypes } from "./components/Chart";
 
 const regressionLabel = (regressionType, regressionData) => {
   switch (regressionType) {
@@ -58,7 +58,7 @@ export const treemap = (
     values: data,
     displayRegression = true,
     regressionType = 0,
-    measurementType = 0,
+    metricType = 0,
     displayFilenames = false,
     filePrefix = "",
     path = "",
@@ -77,14 +77,14 @@ export const treemap = (
   const dataSplitPath = data
     .map(d => {
       let value;
-      switch (measurementType) {
-        case MeasurementTypes.COMPLEXITY:
+      switch (metricType) {
+        case MetricTypes.COMPLEXITY:
           value = d.y;
           break;
-        case MeasurementTypes.CHURN:
+        case MetricTypes.CHURN:
           value = d.x;
           break;
-        case MeasurementTypes.CHURN_COMPLEXITY:
+        case MetricTypes.CHURN_COMPLEXITY:
         default:
           value = d.y * d.x;
       }
@@ -174,7 +174,7 @@ export const histogram = (
     values: data,
     displayRegression = true,
     regressionType = 0,
-    measurementType = 0,
+    metricType = 0,
     displayFilenames = false,
     filePrefix = "",
     path = "",
@@ -197,7 +197,7 @@ export const histogram = (
     .style("font-size", "10px");
 
   const sanitized_data = data.map(d =>
-    measurementType === MeasurementTypes.COMPLEXITY ? d.y : d.x
+    metricType === MetricTypes.COMPLEXITY ? d.y : d.x
   );
 
   const color = d3
@@ -254,7 +254,7 @@ export const scatterPlot = (
     values: data,
     displayRegression = true,
     regressionType = 0,
-    measurementType = 0,
+    metricType = 0,
     displayFilenames = false,
     filePrefix = "",
     path = "",

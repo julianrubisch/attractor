@@ -16,10 +16,10 @@ $gray-800: #102A43 !default;
 
 $text-muted: $gray-400;
 
-$navbar-light-color:                $gray-800 !default;
+$navbar-light-color:                $gray-400 !default;
 $navbar-light-hover-color:          $gray-800 !default;
-$navbar-light-active-color:         $gray-800 !default;
-$navbar-light-disabled-color:       $gray-800 !default;
+$navbar-light-active-color:         $primary !default;
+$navbar-light-disabled-color:       $gray-200 !default;
 // $navbar-light-toggler-icon-bg:      str-replace(url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='#{$navbar-light-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"), "#", "%23") !default;
 // $navbar-light-toggler-border-color: rgba($black, .1) !default;
 
@@ -89,6 +89,11 @@ body {
   }
 }
 
+#react-root > .container {
+  margin-top: 3rem !important;
+  margin-bottom: 5rem !important;
+}
+
 .form-control:disabled, label.disabled {
   opacity: 0.5;
 }
@@ -141,6 +146,20 @@ nav.navbar-light {
   position: fixed !important;
   background: white;
   box-shadow: 0 2px 2px 0 rgba(188,204,220,0.8);
+  font-size: 1.125rem;
+  padding-bottom: 2px;
+  padding-top: 2px;
+
+  .navbar-nav {
+    line-height: 2rem;
+  }
+
+  .nav-item {
+    &.active {
+      box-shadow: 0 2px 0 0 $primary;
+      position: relative;
+    }
+  }
 }
 
 footer {
@@ -175,7 +194,7 @@ footer {
   // margin: 0 auto;
 }
 
-#react-graph {
+#react-root {
   #canvas-wrapper{
     width: 600px;
     height: 600px;
@@ -204,4 +223,32 @@ footer {
 .method-table {
   font-size: 0.8rem;
   table-layout: fixed;
+}
+
+.progressbar {
+  background: $primary;
+  height: 2px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1031;
+
+  .shadow {
+    box-shadow: 0 0 10px $primary, 0 0 5px $primary;
+    display: block;
+    height: 100%;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    transform: rotate(3deg) translate(0px, -4px);
+    width: 100;
+  }
+}
+
+.error {
+  svg {
+    color: $secondary;
+    margin-bottom: 1.5rem;
+  }
 }

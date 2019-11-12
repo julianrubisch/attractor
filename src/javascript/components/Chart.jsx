@@ -1,4 +1,6 @@
 import React, { useReducer, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSadTear } from "@fortawesome/free-solid-svg-icons";
 
 import ActiveFileDetails from "./ActiveFileDetails";
 import DisplayOptions from "./DisplayOptions";
@@ -17,7 +19,7 @@ export const PlotTypes = {
   TREE_MAP: 1
 };
 
-export const MeasurementTypes = {
+export const MetricTypes = {
   CHURN_COMPLEXITY: 0,
   COMPLEXITY: 1,
   CHURN: 2
@@ -27,19 +29,20 @@ const initialState = {
   displayRegression: false,
   displayFilenames: false,
   regressionType: RegressionTypes.POWER_LAW,
-  measurementType: MeasurementTypes.CHURN_COMPLEXITY,
+  metricType: MetricTypes.CHURN_COMPLEXITY,
   values: [],
   filePrefix: "",
   path: "",
   activeFile: {}
 };
 
-const Chart = () => {
+const Chart = ({ type, finishedLoadingCallback, errorCallback }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [activePlot, setActivePlot] = useState(0);
+  const [loadingError, setLoadingError] = useState(false);
 
   const fetchValues = async () => {
-    const data = await (await fetch(`/values`)).json();
+    const data = await (await fetch(`/values?type=${type}`)).json();
 
     return data;
   };
@@ -61,16 +64,24 @@ const Chart = () => {
         fetchFilePrefix()
       ]);
 
-      dispatch({ type: "SET_VALUES", values });
+      if (values.error === undefined) {
+        setLoadingError(false);
 
-      if (filePrefix["file_prefix"]) {
-        dispatch({
-          type: "SET_FILE_PREFIX",
-          filePrefix: filePrefix["file_prefix"]
-        });
+        dispatch({ type: "SET_VALUES", values });
+
+        if (filePrefix["file_prefix"]) {
+          dispatch({
+            type: "SET_FILE_PREFIX",
+            filePrefix: filePrefix["file_prefix"]
+          });
+        }
+      } else {
+        setLoadingError(true);
       }
+
+      finishedLoadingCallback();
     })();
-  }, []);
+  }, [type]);
 
   const handlePathChange = e => {
     e.preventDefault();
@@ -81,17 +92,17 @@ const Chart = () => {
     });
   };
 
-  const handleMeasurementTypeChange = e => {
+  const handleMetricTypeChange = e => {
     e.preventDefault();
 
     dispatch({
-      type: "SET_MEASUREMENT_TYPE",
-      measurementType: parseInt(e.target.value)
+      type: "SET_METRIC_TYPE",
+      metricType: parseInt(e.target.value)
     });
   };
 
   return (
-    <div className="row">
+    <div className="row pt-4">
       <div
         className={
           !state.activeFile || Object.keys(state.activeFile).length === 0
@@ -165,13 +176,13 @@ const Chart = () => {
               </div>
               <div className="col-6 col-lg-4">
                 <div className="form-group">
-                  <label htmlFor="measurement-type" className="text-muted">
-                    <small>Measurement</small>
+                  <label htmlFor="metric-type" className="text-muted">
+                    <small>Metric</small>
                   </label>
                   <select
-                    id="measurement-type"
+                    id="metric-type"
                     className="form-control"
-                    onChange={handleMeasurementTypeChange}
+                    onChange={handleMetricTypeChange}
                   >
                     <option selected value="0">
                       Churn * Complexity
@@ -182,18 +193,38 @@ const Chart = () => {
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-items-start" id="canvas-wrapper">
-              {activePlot === PlotTypes.SCATTER_PLOT ? (
-                state.measurementType === MeasurementTypes.CHURN_COMPLEXITY ? (
-                  <ScatterPlot
-                    fileClickCallback={fileClickCallback}
-                    {...state}
-                  />
-                ) : (
-                  <Histogram fileClickCallback={fileClickCallback} {...state} />
-                )
+            <div
+              className={`d-flex ${
+                loadingError
+                  ? "justify-content-center align-items-center"
+                  : "justify-content-start"
+              }`}
+              id="canvas-wrapper"
+            >
+              {loadingError ? (
+                <div className="text-center error">
+                  <FontAwesomeIcon icon={faSadTear} size="6x" />
+                  <h3>Oh snap!</h3>
+                  There has been an error loading the churn count.
+                </div>
               ) : (
-                <TreeMap fileClickCallback={fileClickCallback} {...state} />
+                <>
+                  {activePlot === PlotTypes.SCATTER_PLOT ? (
+                    state.metricType === MetricTypes.CHURN_COMPLEXITY ? (
+                      <ScatterPlot
+                        fileClickCallback={fileClickCallback}
+                        {...state}
+                      />
+                    ) : (
+                      <Histogram
+                        fileClickCallback={fileClickCallback}
+                        {...state}
+                      />
+                    )
+                  ) : (
+                    <TreeMap fileClickCallback={fileClickCallback} {...state} />
+                  )}
+                </>
               )}
             </div>
             <DisplayOptions
