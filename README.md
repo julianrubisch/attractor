@@ -34,6 +34,10 @@ Or shorter:
 
     $ attractor report -p app/models
 
+Check javascript:
+
+    $ attractor report -p app/javascript -t js
+
 Watch for file changes:
 
     $ attractor report -p app/models --watch
@@ -56,12 +60,14 @@ Print a simple output to console:
 
     $ attractor calc
     $   --file_prefix|-p app/models
+    $   --type|-t rb|js
     $   --watch|-w
 
 Generate a full report
 
     $ attractor report 
     $   --file_prefix|-p app/models
+    $   --type|-t rb|js
     $   --watch|-w
 
 Serve the output on http://localhost:7890
