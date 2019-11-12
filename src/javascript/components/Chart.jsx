@@ -19,7 +19,7 @@ export const PlotTypes = {
   TREE_MAP: 1
 };
 
-export const MeasurementTypes = {
+export const MetricTypes = {
   CHURN_COMPLEXITY: 0,
   COMPLEXITY: 1,
   CHURN: 2
@@ -29,7 +29,7 @@ const initialState = {
   displayRegression: false,
   displayFilenames: false,
   regressionType: RegressionTypes.POWER_LAW,
-  measurementType: MeasurementTypes.CHURN_COMPLEXITY,
+  metricType: MetricTypes.CHURN_COMPLEXITY,
   values: [],
   filePrefix: "",
   path: "",
@@ -92,12 +92,12 @@ const Chart = ({ type, finishedLoadingCallback, errorCallback }) => {
     });
   };
 
-  const handleMeasurementTypeChange = e => {
+  const handleMetricTypeChange = e => {
     e.preventDefault();
 
     dispatch({
-      type: "SET_MEASUREMENT_TYPE",
-      measurementType: parseInt(e.target.value)
+      type: "SET_METRIC_TYPE",
+      metricType: parseInt(e.target.value)
     });
   };
 
@@ -176,13 +176,13 @@ const Chart = ({ type, finishedLoadingCallback, errorCallback }) => {
               </div>
               <div className="col-6 col-lg-4">
                 <div className="form-group">
-                  <label htmlFor="measurement-type" className="text-muted">
-                    <small>Measurement</small>
+                  <label htmlFor="metric-type" className="text-muted">
+                    <small>Metric</small>
                   </label>
                   <select
-                    id="measurement-type"
+                    id="metric-type"
                     className="form-control"
-                    onChange={handleMeasurementTypeChange}
+                    onChange={handleMetricTypeChange}
                   >
                     <option selected value="0">
                       Churn * Complexity
@@ -210,8 +210,7 @@ const Chart = ({ type, finishedLoadingCallback, errorCallback }) => {
               ) : (
                 <>
                   {activePlot === PlotTypes.SCATTER_PLOT ? (
-                    state.measurementType ===
-                    MeasurementTypes.CHURN_COMPLEXITY ? (
+                    state.metricType === MetricTypes.CHURN_COMPLEXITY ? (
                       <ScatterPlot
                         fileClickCallback={fileClickCallback}
                         {...state}

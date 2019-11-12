@@ -8,7 +8,7 @@ const TreeMap = ({
   filePrefix,
   displayRegression,
   regressionType,
-  measurementType,
+  metricType,
   displayFilenames,
   path,
   activeFile
@@ -22,7 +22,7 @@ const TreeMap = ({
         values,
         displayRegression,
         regressionType,
-        measurementType,
+        metricType,
         displayFilenames,
         filePrefix,
         path,
