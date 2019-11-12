@@ -1,7 +1,3 @@
-## RELEASE 1.0.0
-
-* BREAKING: Add Javascript / ES6 support via typhonjs-escomplex
-
 ## RELEASE 0.6.1
 
 * ENHANCEMENT: add histogram for complexity/churn only measurements
