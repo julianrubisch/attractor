@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 require 'rack/livereload'
 require 'rack'
 require 'sinatra/base'
