@@ -11,7 +11,12 @@ Feature: Attractor
     When I run `attractor report --format html`
     # Then an HTML file should be generated
     Then the output should contain "Generated HTML report at"
-    Then  the output should contain "attractor_output/index.html"
+    Then the output should contain "attractor_output/index.html"
+    Then the output should contain "Opening browser window..."
+
+  Scenario:
+    When I run `attractor report --no-open-browser`
+    Then the output should not contain "Opening browser window..."
 
   Scenario:
     When I run `attractor report --watch`
@@ -20,3 +25,8 @@ Feature: Attractor
   Scenario:
     When I run `attractor serve`
     Then the output should contain "Serving attractor at http://localhost:7890"
+    Then the output should contain "Opening browser window..."
+
+  Scenario:
+    When I run `attractor serve --ci`
+    Then the output should not contain "Opening browser window..."
