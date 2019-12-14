@@ -1,3 +1,7 @@
+## RELEASE 1.0.1
+
+* FIX: fix sinatra reporter
+
 ## RELEASE 1.0.0
 
 * BREAKING: Add Javascript / ES6 support via typhonjs-escomplex
