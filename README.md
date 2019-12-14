@@ -4,6 +4,19 @@
 
 Many authors ([Michael Feathers](https://www.agileconnection.com/article/getting-empirical-about-refactoring), [Sandi Metz](https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth)) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
+## Table of Contents
+
+  * [Installation](#installation)
+  * [Usage](#usage)
+    + [Live Reloading](#live-reloading)
+  * [CI Usage](#ci-usage)
+    + [Gitlab Example](#gitlab-example)
+  * [CLI Commands and Options](#cli-commands-and-options)
+  * [Development](#development)
+  * [Contributing](#contributing)
+  * [Social](#social)
+  * [Logo Attribution](#logo-attribution)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -53,6 +66,29 @@ Enable rack-livereload:
 ### Live Reloading
 
 If you have `guard-livereload` (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
+
+## CI Usage
+
+To use this CLI in a CI environment, use the `--ci` option, which will suppress automatic opening of a browser window.
+
+### Gitlab Example
+
+The simplest use case is to store the `attractor_output` directory as an artifact.
+
+```yml
+attractor:
+  stage: your-stage-label
+  image: ruby:latest
+  script:
+    - gem install attractor
+    - attractor report --ci
+  artifacts:
+    when: on_success
+    paths:
+      - attractor_output
+```
+
+Alternatively, 
 
 ## CLI Commands and Options
 
