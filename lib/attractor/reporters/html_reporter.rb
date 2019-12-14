@@ -22,7 +22,10 @@ module Attractor
       File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
       puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
 
-      Launchy.open(File.expand_path('./attractor_output/index.html'))
+      if @open_browser
+        Launchy.open(File.expand_path('./attractor_output/index.html'))
+        puts "Opening browser window..."
+      end
     end
 
     def logo

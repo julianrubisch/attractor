@@ -69,12 +69,14 @@ Generate a full report
     $   --file_prefix|-p app/models
     $   --type|-t rb|js
     $   --watch|-w
+    $   --no-open-browser|--ci
 
 Serve the output on http://localhost:7890
 
     $ attractor serve
     $   --file_prefix|-p app/models
     $   --watch|-w
+    $   --no-open-browser|--ci
 
 ## Development
 

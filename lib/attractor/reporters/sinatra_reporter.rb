@@ -47,7 +47,11 @@ module Attractor
       app = AttractorApp.new(self)
 
       puts 'Serving attractor at http://localhost:7890'
-      Launchy.open('http://localhost:7890')
+
+      if @open_browser
+        Launchy.open('http://localhost:7890') if @open_browser
+        puts "Opening browser window..."
+      end
 
       Rack::Handler::WEBrick.run app, Port: 7890
     end
@@ -58,7 +62,10 @@ module Attractor
       app = AttractorApp.new(self)
 
       puts 'Serving attractor at http://localhost:7890'
-      Launchy.open('http://localhost:7890')
+      if @open_browser
+        Launchy.open('http://localhost:7890')
+        puts "Opening browser window..."
+      end
 
       Rack::Handler::WEBrick.run Rack::LiveReload.new(app), Port: 7890
     end
