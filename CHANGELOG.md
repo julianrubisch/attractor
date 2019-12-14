@@ -1,3 +1,7 @@
+## RELEASE 1.0.2
+
+* ENHANCEMENT: make launching of browser optional
+
 ## RELEASE 1.0.1
 
 * FIX: fix sinatra reporter
