@@ -24,7 +24,10 @@ module Attractor
     when 'rb'
       { 'rb' => RubyCalculator.new(file_prefix: file_prefix) }
     else
-      { 'rb' => RubyCalculator.new(file_prefix: file_prefix), 'js' => JsCalculator.new(file_prefix: file_prefix)}
+      {}.tap do |hash|
+        hash['rb'] = RubyCalculator.new(file_prefix: file_prefix) if RubyDetector.new.detect
+        hash['js'] = JsCalculator.new(file_prefix: file_prefix) if JsDetector.new.detect
+      end
     end
   end
 
