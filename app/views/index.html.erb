@@ -5,7 +5,7 @@
     <title>Attractor Output</title>
     <script src="javascripts/index.pack.js"></script>
     <% if @serve_static %>
-      <script src="javascripts/index.js"></script>
+      <script src="javascripts/index<%= ".#{@short_type}" unless @short_type.nil? %>.js"></script>
     <% end %>
   </head>
   <body class="d-flex flex-column h-100">
@@ -15,6 +15,13 @@
           <img class="mr-3" src="images/attractor_logo.svg" alt="" width="36">
           Attractor
         </a>
+        <ul class="navbar-nav mx-auto">
+          <% @short_types.each do |type| %>
+            <li class="nav-item <%= "active" if @short_type == type %>">
+              <a class="nav-link" href="index.<%= type %>.html"><%= type %></a>
+            </li>
+          <% end %>
+        </ul>
       </nav>
       <div class="container">
         <div class="row mt-4">

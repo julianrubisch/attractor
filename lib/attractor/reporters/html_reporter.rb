@@ -16,16 +16,35 @@ module Attractor
 
       File.open('./attractor_output/images/attractor_logo.svg', 'w') { |file| file.write(logo) }
       File.open('./attractor_output/stylesheets/main.css', 'w') { |file| file.write(css) }
-      File.open('./attractor_output/javascripts/index.js', 'w') { |file| file.write(javascript) }
       File.open('./attractor_output/javascripts/index.pack.js', 'w') { |file| file.write(javascript_pack) }
 
-      File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
-      puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
+      if @calculators.size > 1
+        @short_types = @calculators.map(&:first)
+        @calculators.each do |calc|
+          @short_type = calc.first
+          @values = calc.last.calculate
+          suggester = Suggester.new(values)
+          @suggestions = suggester.suggest
 
-      if @open_browser
-        Launchy.open(File.expand_path('./attractor_output/index.html'))
-        puts "Opening browser window..."
+          File.open("./attractor_output/javascripts/index.#{@short_type}.js", 'w') { |file| file.write(javascript) }
+          File.open("./attractor_output/index.#{@short_type}.html", 'w') { |file| file.write(render) }
+          puts "Generated HTML report at #{File.expand_path './attractor_output/'}/index.#{@short_type}.html"
+        end
+
+        if @open_browser
+          Launchy.open(File.expand_path("./attractor_output/index.#{@calculators.first.first}.html"))
+        end
+      else
+        File.open('./attractor_output/javascripts/index.js', 'w') { |file| file.write(javascript) }
+        File.open('./attractor_output/index.html', 'w') { |file| file.write(render) }
+        puts "Generated HTML report at #{File.expand_path './attractor_output/index.html'}"
+
+        if @open_browser
+          Launchy.open(File.expand_path('./attractor_output/index.html'))
+        end
       end
+
+      puts "Opening browser window..."
     end
 
     def logo
