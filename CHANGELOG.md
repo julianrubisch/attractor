@@ -1,3 +1,7 @@
+## RELEASE 1.1.0
+
+* FEATURE: Auto-detect ruby and js projects
+
 ## RELEASE 1.0.2
 
 * ENHANCEMENT: make launching of browser optional
