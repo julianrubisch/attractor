@@ -19,7 +19,6 @@ module Attractor
       File.open('./attractor_output/javascripts/index.pack.js', 'w') { |file| file.write(javascript_pack) }
 
       if @calculators.size > 1
-        @short_types = @calculators.map(&:first)
         @calculators.each do |calc|
           @short_type = calc.first
           @values = calc.last.calculate

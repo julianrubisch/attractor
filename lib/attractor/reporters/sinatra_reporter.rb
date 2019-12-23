@@ -17,6 +17,7 @@ module Attractor
     set :show_exceptions, :after_handler
 
     get '/' do
+      @types = @reporter.types
       erb File.read(File.expand_path('../../../app/views/index.html.erb', __dir__))
     end
 

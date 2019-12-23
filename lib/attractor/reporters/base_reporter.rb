@@ -10,6 +10,7 @@ module Attractor
   class BaseReporter
     extend Forwardable
     attr_accessor :values, :file_prefix
+    attr_reader :types
     def_delegator :@watcher, :watch
 
     def initialize(file_prefix: '', calculators:, open_browser: true)
@@ -33,6 +34,7 @@ module Attractor
 
     def report
       @suggestions = @suggester.suggest
+      @types = Hash[@calculators.map { |calc| [calc.first, calc.last.type] }]
     end
 
     def render

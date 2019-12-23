@@ -22,30 +22,20 @@ export default function App() {
           Attractor
         </a>
         <ul className="navbar-nav mx-auto">
-          <li className={`nav-item ${type === "rb" ? "active" : ""}`}>
-            <a
-              className="nav-link"
-              href="#"
-              onClick={() => {
-                setIsLoading(true);
-                setType("rb");
-              }}
-            >
-              Ruby
-            </a>
-          </li>
-          <li className={`nav-item ${type === "js" ? "active" : ""}`}>
-            <a
-              className="nav-link"
-              href="#"
-              onClick={() => {
-                setIsLoading(true);
-                setType("js");
-              }}
-            >
-              Javascript
-            </a>
-          </li>
+          {Object.entries(window.types).map(([shortType, longType]) => (
+            <li className={`nav-item ${type === shortType ? "active" : ""}`}>
+              <a
+                className="nav-link"
+                href="#"
+                onClick={() => {
+                  setIsLoading(true);
+                  setType(shortType);
+                }}
+              >
+                {longType}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
       <div className="container">
