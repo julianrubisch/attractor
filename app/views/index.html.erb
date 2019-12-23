@@ -3,9 +3,12 @@
     <link href="https://fonts.googleapis.com/css?family=Red+Hat+Display|Red+Hat+Text&display=swap" rel="stylesheet">
     <link href="stylesheets/main.css" rel="stylesheet" />
     <title>Attractor Output</title>
+    <script type="text/javascript">
+      window.types = <%= @types.to_json %>
+    </script>
     <script src="javascripts/index.pack.js"></script>
     <% if @serve_static %>
-      <script src="javascripts/index.js"></script>
+      <script src="javascripts/index<%= ".#{@short_type}" unless @short_type.nil? %>.js"></script>
     <% end %>
   </head>
   <body class="d-flex flex-column h-100">
@@ -15,6 +18,13 @@
           <img class="mr-3" src="images/attractor_logo.svg" alt="" width="36">
           Attractor
         </a>
+        <ul class="navbar-nav mx-auto">
+          <% @types.each do |short_type, type| %>
+            <li class="nav-item <%= "active" if @short_type == short_type %>">
+              <a class="nav-link" href="index.<%= short_type %>.html"><%= type %></a>
+            </li>
+          <% end %>
+        </ul>
       </nav>
       <div class="container">
         <div class="row mt-4">

@@ -4,6 +4,9 @@ require 'attractor/version'
 require 'attractor/calculators/base_calculator'
 require 'attractor/calculators/ruby_calculator'
 require 'attractor/calculators/js_calculator'
+require 'attractor/detectors/base_detector'
+require 'attractor/detectors/ruby_detector'
+require 'attractor/detectors/js_detector'
 require 'attractor/reporters/base_reporter'
 require 'attractor/reporters/console_reporter'
 require 'attractor/reporters/html_reporter'
@@ -21,7 +24,10 @@ module Attractor
     when 'rb'
       { 'rb' => RubyCalculator.new(file_prefix: file_prefix) }
     else
-      { 'rb' => RubyCalculator.new(file_prefix: file_prefix), 'js' => JsCalculator.new(file_prefix: file_prefix)}
+      {}.tap do |hash|
+        hash['rb'] = RubyCalculator.new(file_prefix: file_prefix) if RubyDetector.new.detect
+        hash['js'] = JsCalculator.new(file_prefix: file_prefix) if JsDetector.new.detect
+      end
     end
   end
 

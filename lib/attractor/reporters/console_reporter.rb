@@ -10,12 +10,19 @@ module Attractor
       puts "file_path#{' ' * 53}complexity   churn"
       puts '-' * 80
 
-      puts @values&.map(&:to_s)
+      @calculators.each do |calc|
+        # e.g. ['js', JsCalculator']
+        puts calc.last.type
 
-      puts
-      puts 'Suggestions for refactorings:'
-      @suggestions&.each { |sug| puts sug.file_path }
-      puts
+        values = calc.last.calculate
+        suggester = Suggester.new(values)
+
+        puts values&.map(&:to_s)
+        puts
+        puts 'Suggestions for refactorings:'
+        suggester.suggest&.each { |sug| puts sug.file_path }
+        puts
+      end
     end
   end
 end

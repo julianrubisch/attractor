@@ -6,6 +6,7 @@ module Attractor
   class RubyCalculator < BaseCalculator
     def initialize(file_prefix: '', minimum_churn_count: 3)
       super(file_prefix: file_prefix, file_extension: 'rb', minimum_churn_count: minimum_churn_count)
+      @type = "Ruby"
     end
 
     def calculate

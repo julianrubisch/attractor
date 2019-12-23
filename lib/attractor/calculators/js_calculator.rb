@@ -4,6 +4,7 @@ module Attractor
   class JsCalculator < BaseCalculator
     def initialize(file_prefix: '', minimum_churn_count: 3)
       super(file_prefix: file_prefix, file_extension: '(js|jsx)', minimum_churn_count: minimum_churn_count)
+      @type = "JavaScript"
     end
 
     def calculate
