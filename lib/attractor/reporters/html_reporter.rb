@@ -32,6 +32,7 @@ module Attractor
 
         if @open_browser
           Launchy.open(File.expand_path("./attractor_output/index.#{@calculators.first.first}.html"))
+          puts "Opening browser window..."
         end
       else
         File.open('./attractor_output/javascripts/index.js', 'w') { |file| file.write(javascript) }
@@ -40,10 +41,10 @@ module Attractor
 
         if @open_browser
           Launchy.open(File.expand_path('./attractor_output/index.html'))
+          puts "Opening browser window..."
         end
       end
 
-      puts "Opening browser window..."
     end
 
     def logo
