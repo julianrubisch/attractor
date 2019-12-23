@@ -7,6 +7,8 @@ require 'attractor/value'
 module Attractor
   # calculates churn and complexity
   class BaseCalculator
+    attr_reader :type
+
     def initialize(file_prefix: '', file_extension: 'rb', minimum_churn_count: 3)
       @file_prefix = file_prefix
       @file_extension = file_extension
