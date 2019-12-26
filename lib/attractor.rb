@@ -18,15 +18,16 @@ module Attractor
   class Error < StandardError; end
 
   def calculators_for_type(type, file_prefix, minimum_churn_count)
+    options = { file_prefix: file_prefix, minimum_churn_count: minimum_churn_count }
     case type
     when 'js'
-      { 'js' => JsCalculator.new(file_prefix: file_prefix, minimum_churn_count: minimum_churn_count) }
+      { 'js' => JsCalculator.new(**options) }
     when 'rb'
-      { 'rb' => RubyCalculator.new(file_prefix: file_prefix, minimum_churn_count: minimum_churn_count) }
+      { 'rb' => RubyCalculator.new(**options) }
     else
       {}.tap do |hash|
-        hash['rb'] = RubyCalculator.new(file_prefix: file_prefix, minimum_churn_count: minimum_churn_count) if RubyDetector.new.detect
-        hash['js'] = JsCalculator.new(file_prefix: file_prefix, minimum_churn_count: minimum_churn_count) if JsDetector.new.detect
+        hash['rb'] = RubyCalculator.new(**options) if RubyDetector.new.detect
+        hash['js'] = JsCalculator.new(**options) if JsDetector.new.detect
       end
     end
   end
