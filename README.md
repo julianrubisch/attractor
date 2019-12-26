@@ -15,6 +15,7 @@ Here's an [article on medium](https://medium.com/better-programming/why-i-made-m
   * [Usage](#usage)
     + [Live Reloading](#live-reloading)
   * [CI Usage](#ci-usage)
+    + [Github Action](#github-action)
     + [Gitlab Example](#gitlab-example)
   * [CLI Commands and Options](#cli-commands-and-options)
   * [Development](#development)
