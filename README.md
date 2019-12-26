@@ -7,6 +7,8 @@
 
 Many authors ([Michael Feathers](https://www.agileconnection.com/article/getting-empirical-about-refactoring), [Sandi Metz](https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth)) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
+Here's an [article on medium](https://medium.com/better-programming/why-i-made-my-own-code-quality-tool-c44b40ceaafd) explaining the approach in greater detail.
+
 ## Table of Contents
 
   * [Installation](#installation)
@@ -73,6 +75,10 @@ If you have `guard-livereload` (or a similar service) running on your project, y
 ## CI Usage
 
 To use this CLI in a CI environment, use the `--ci` option, which will suppress automatic opening of a browser window.
+
+### Github Action
+
+There is a dedicated [Github Action](https://github.com/julianrubisch/attractor-action) that will compile Attractor's output. Here's the action on the [Marketplace](https://github.com/marketplace/actions/attractor-action).
 
 ### Gitlab Example
 
