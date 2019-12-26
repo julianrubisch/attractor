@@ -7,10 +7,18 @@ require 'attractor'
 module Attractor
   # contains methods implementing the CLI
   class CLI < Thor
+    shared_options = [[:file_prefix, aliases: :p],
+                      [:watch, aliases: :w, type: :boolean],
+                      [:type, aliases: :t]]
+
+    advanced_options = [[:format, aliases: :f, default: 'html'],
+                        [:no_open_browser, type: :boolean],
+                        [:ci, type: :boolean]]
+
     desc 'calc', 'Calculates churn and complexity for all ruby files in current directory'
-    option :file_prefix, aliases: :p
-    option :watch, aliases: :w, type: :boolean
-    option :type, aliases: :t
+    shared_options.each do |shared_option|
+      option(*shared_option)
+    end
     def calc
       file_prefix = options[:file_prefix]
       calculators = Attractor.calculators_for_type(options[:type], file_prefix)
@@ -25,12 +33,9 @@ module Attractor
     end
 
     desc 'report', 'Generates an HTML report'
-    option :format, aliases: :f, default: 'html'
-    option :file_prefix, aliases: :p
-    option :watch, aliases: :w, type: :boolean
-    option :type, aliases: :t
-    option :no_open_browser, type: :boolean
-    option :ci, type: :boolean
+    (shared_options + advanced_options).each do |option|
+      option(*option)
+    end
     def report
       file_prefix = options[:file_prefix]
       calculators = Attractor.calculators_for_type(options[:type], file_prefix)
@@ -51,12 +56,9 @@ module Attractor
     end
 
     desc 'serve', 'Serves the report on localhost'
-    option :format, aliases: :f, default: 'html'
-    option :file_prefix, aliases: :p
-    option :watch, aliases: :w, type: :boolean
-    option :type, aliases: :t
-    option :no_open_browser, type: :boolean
-    option :ci, type: :boolean
+    (shared_options + advanced_options).each do |option|
+      option(*option)
+    end
     def serve
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci]) 
