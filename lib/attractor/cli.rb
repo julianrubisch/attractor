@@ -10,6 +10,7 @@ module Attractor
     shared_options = [[:file_prefix, aliases: :p],
                       [:watch, aliases: :w, type: :boolean],
                       [:minimum_churn, aliases: :c, type: :numeric, default: 3],
+                      [:start_ago, aliases: :s, type: :string, default: '5y'],
                       [:type, aliases: :t]]
 
     advanced_options = [[:format, aliases: :f, default: 'html'],
@@ -22,7 +23,7 @@ module Attractor
     end
     def calc
       file_prefix = options[:file_prefix]
-      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn])
+      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn], options[:start_ago])
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators).watch
@@ -39,7 +40,7 @@ module Attractor
     end
     def report
       file_prefix = options[:file_prefix]
-      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn])
+      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn], options[:start_ago])
       open_browser = !(options[:no_open_browser] || options[:ci]) 
       if options[:watch]
         puts 'Listening for file changes...'
@@ -63,7 +64,7 @@ module Attractor
     def serve
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci]) 
-      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn])
+      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn], options[:start_ago])
       if options[:watch]
         puts 'Listening for file changes...'
         Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators, open_browser: open_browser).watch
