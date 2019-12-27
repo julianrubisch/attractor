@@ -32,6 +32,11 @@ Feature: Attractor
     And I run `attractor serve`
     Then the output should contain "Serving attractor at http://localhost:7890"
     Then the output should contain "Opening browser window..."
+    Then the output should contain "Serving attractor at http://localhost:7890"
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And I run `attractor serve -t js`
 
   Scenario:
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
