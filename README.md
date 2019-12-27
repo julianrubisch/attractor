@@ -107,6 +107,8 @@ Print a simple output to console:
     $   --file_prefix|-p app/models
     $   --type|-t rb|js
     $   --watch|-w
+    $   --start_ago|-s  (e.g. 5y, 3m, 7w)
+    $   --minimum_churn|-c (minimum times a file must have changed to be processed)
 
 Generate a full report
 
@@ -115,6 +117,8 @@ Generate a full report
     $   --type|-t rb|js
     $   --watch|-w
     $   --no-open-browser|--ci
+    $   --start_ago|-s  (e.g. 5y, 3m, 7w)
+    $   --minimum_churn|-c (minimum times a file must have changed to be processed)
 
 Serve the output on http://localhost:7890
 
@@ -122,6 +126,8 @@ Serve the output on http://localhost:7890
     $   --file_prefix|-p app/models
     $   --watch|-w
     $   --no-open-browser|--ci
+    $   --start_ago|-s  (e.g. 5y, 3m, 7w)
+    $   --minimum_churn|-c (minimum times a file must have changed to be processed)
 
 ## Development
 
