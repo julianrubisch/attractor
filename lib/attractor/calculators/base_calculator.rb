@@ -9,10 +9,11 @@ module Attractor
   class BaseCalculator
     attr_reader :type
 
-    def initialize(file_prefix: '', file_extension: 'rb', minimum_churn_count: 3)
+    def initialize(file_prefix: '', file_extension: 'rb', minimum_churn_count: 3, start_ago: '5y')
       @file_prefix = file_prefix
       @file_extension = file_extension
       @minimum_churn_count = minimum_churn_count
+      @start_date = Date.today - Attractor::DurationParser.new(start_ago).duration
     end
 
     def calculate
@@ -20,7 +21,7 @@ module Attractor
         file_extension: @file_extension,
         file_prefix: @file_prefix,
         minimum_churn_count: @minimum_churn_count,
-        start_date: Date.today - 365 * 5
+        start_date: @start_date
       ).report(false)
 
       churn[:churn][:changes].map do |change|

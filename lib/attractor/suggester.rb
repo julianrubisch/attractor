@@ -4,7 +4,7 @@ module Attractor
   # makes suggestions for refactorings
   class Suggester
     def initialize(values)
-      @values = values
+      @values = values || []
     end
 
     def suggest(threshold = 95)
