@@ -29,10 +29,7 @@ end
 module Attractor
   class Error < StandardError; end
 
-  def calculators_for_type(type, file_prefix, minimum_churn_count, start_ago)
-    options = { file_prefix: file_prefix,
-                minimum_churn_count: minimum_churn_count,
-                start_ago: start_ago }
+  def calculators_for_type(type, **options)
     case type
     when 'js'
       { 'js' => JsCalculator.new(**options) }

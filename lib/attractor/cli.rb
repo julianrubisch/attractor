@@ -23,12 +23,11 @@ module Attractor
     end
     def calc
       file_prefix = options[:file_prefix]
-      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn], options[:start_ago])
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators).watch
+        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators(options)).watch
       else
-        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators).report
+        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators(options)).report
       end
     rescue RuntimeError => e
       puts "Runtime error: #{e.message}"
@@ -40,17 +39,16 @@ module Attractor
     end
     def report
       file_prefix = options[:file_prefix]
-      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn], options[:start_ago])
-      open_browser = !(options[:no_open_browser] || options[:ci]) 
+      open_browser = !(options[:no_open_browser] || options[:ci])
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators, open_browser: open_browser).watch
+        Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).watch
       else
         case options[:format]
         when 'html'
-          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators, open_browser: open_browser).report
+          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
         else
-          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators, open_browser: open_browser).report
+          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
         end
       end
     rescue RuntimeError => e
@@ -63,19 +61,27 @@ module Attractor
     end
     def serve
       file_prefix = options[:file_prefix]
-      open_browser = !(options[:no_open_browser] || options[:ci]) 
-      calculators = Attractor.calculators_for_type(options[:type], file_prefix, options[:minimum_churn], options[:start_ago])
+      open_browser = !(options[:no_open_browser] || options[:ci])
       if options[:watch]
         puts 'Listening for file changes...'
-        Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators, open_browser: open_browser).watch
+        Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).watch
       else
         case options[:format]
         when 'html'
-          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators, open_browser: open_browser).report
+          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
         else
-          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators, open_browser: open_browser).report
+          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
         end
       end
+    end
+
+    private
+
+    def calculators(options)
+      Attractor.calculators_for_type(options[:type],
+                                     file_prefix: options[:file_prefix],
+                                     minimum_churn_count: options[:minimum_churn],
+                                     start_ago: options[:start_ago])
     end
   end
 end
