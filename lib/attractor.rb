@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'attractor/version'
+require 'attractor/duration_parser'
 require 'attractor/calculators/base_calculator'
 require 'attractor/calculators/ruby_calculator'
 require 'attractor/calculators/js_calculator'
