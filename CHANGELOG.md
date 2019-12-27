@@ -1,3 +1,7 @@
+## RELEASE 1.1.1
+
+* ENHANCEMENT: `--minimum_churn` and `--start_ago` CLI options
+
 ## RELEASE 1.1.0
 
 * FEATURE: Auto-detect ruby and js projects
