@@ -15,6 +15,7 @@ module Attractor
       FileUtils.mkdir_p './attractor_output/javascripts'
 
       File.open('./attractor_output/images/attractor_logo.svg', 'w') { |file| file.write(logo) }
+      File.open('./attractor_output/images/attractor_favicon.png', 'w') { |file| file.write(favicon) }
       File.open('./attractor_output/stylesheets/main.css', 'w') { |file| file.write(css) }
       File.open('./attractor_output/javascripts/index.pack.js', 'w') { |file| file.write(javascript_pack) }
 
@@ -49,6 +50,10 @@ module Attractor
 
     def logo
       File.read(File.expand_path('../../../app/assets/images/attractor_logo.svg', __dir__))
+    end
+
+    def favicon
+      File.read(File.expand_path('../../../app/assets/images/attractor_favicon.png', __dir__))
     end
 
     def css
