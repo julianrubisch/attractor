@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { scatterPlot } from "./functions";
 import App from "./components/App.jsx";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,5 +8,3 @@ document.addEventListener("DOMContentLoaded", () => {
     ReactDOM.render(<App />, document.getElementById("react-root"));
   }
 });
-
-window.scatterPlot = scatterPlot;

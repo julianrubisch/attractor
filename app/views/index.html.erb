@@ -13,68 +13,7 @@
     <% end %>
   </head>
   <body class="d-flex flex-column h-100">
-    <% if @serve_static %>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="#">
-          <img class="mr-3" src="images/attractor_logo.svg" alt="" width="36">
-          Attractor
-        </a>
-        <ul class="navbar-nav mx-auto">
-          <% @types.each do |short_type, type| %>
-            <li class="nav-item <%= "active" if @short_type == short_type %>">
-              <a class="nav-link" href="index.<%= short_type %>.html"><%= type %></a>
-            </li>
-          <% end %>
-        </ul>
-      </nav>
-      <div class="container">
-        <div class="row mt-4">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Churn vs Complexity</h5>
-                <div class="d-flex justify-items-center">
-                  <div id="graph"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Refactoring Candidates</h5>
-                <h6 class="card-subtitle text-muted">Top 95 Percentile of Churn * Complexity</h6>
-                <table class="table mt-4">
-                  <thead>
-                    <tr>
-                      <th scope="col">File Path</th>
-                      <th scope="col">Churn</th>
-                      <th scope="col">Complexity</th>
-                      <th scope="col">Churn * Complexity</th>
-                    </tr>
-                  </thead>
-                  <tbody id="suggestions-table">
-                    <% @suggestions.each do |val| %>
-                      <tr>
-                        <td><%= val.file_path %></td>
-                        <td><%= val.churn %></td>
-                        <td><%= val.complexity %></td>
-                        <td><%= val.churn * val.complexity %></td>
-                      </tr>
-                    <% end %>
-                  <tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% else %>
-      <div id="react-root"></div>
-    <% end %>
+    <div id="react-root"></div>
     <footer class="footer mt-auto py-3 fixed-bottom">
       <div class="container d-flex justify-content-end">
         <span class="mx-3"><a target="_blank" href="https://www.patreon.com/user?u=24747270">Patreon</a></span>

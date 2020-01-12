@@ -5,7 +5,7 @@ import Chart from "./Chart.jsx";
 import Progress from "./Progress.jsx";
 
 export default function App() {
-  const [type, setType] = useState("rb");
+  const [type, setType] = useState(window.type || "rb");
   const [isLoading, setIsLoading] = useState(true);
 
   return (
@@ -26,10 +26,12 @@ export default function App() {
             <li className={`nav-item ${type === shortType ? "active" : ""}`}>
               <a
                 className="nav-link"
-                href="#"
+                href={window.serveStatic ? `index.${shortType}.html` : "#"}
                 onClick={() => {
-                  setIsLoading(true);
-                  setType(shortType);
+                  if (!window.serveStatic) {
+                    setIsLoading(true);
+                    setType(shortType);
+                  }
                 }}
               >
                 {longType}
