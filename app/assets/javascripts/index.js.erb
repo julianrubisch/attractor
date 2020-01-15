@@ -1,5 +1,4 @@
-const values = <%= JSON.generate(@values) %>;
-
-document.addEventListener('DOMContentLoaded', () => {
-  const svg = scatterPlot(document.querySelector('#graph'), { values: values, displayFilenames: true });
-});
+window.type = "<%= @short_type %>";
+window.serveStatic = <%= @serve_static %>;
+window.filePrefix = { file_prefix: "<%= @file_prefix %>" }; 
+window.values = <%= JSON.generate(@values) %>;
