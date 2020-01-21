@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'attractor/version'
+require 'attractor/gem_names'
 require 'attractor/duration_parser'
 require 'attractor/calculators/base_calculator'
 require 'attractor/detectors/base_detector'
@@ -8,16 +9,8 @@ require 'attractor/reporters/base_reporter'
 require 'attractor/suggester'
 require 'attractor/watcher'
 
-Dir[File.join(__dir__, 'attractor', 'calculators', '*.rb')].each do |file|
-  next if file.start_with?('base')
-
-  require file
-end
-
-Dir[File.join(__dir__, 'attractor', 'detectors', '*.rb')].each do |file|
-  next if file.start_with?('base')
-
-  require file
+Attractor::GemNames.new.to_a.each do |gem_name|
+  require "attractor/#{gem_name}"
 end
 
 Dir[File.join(__dir__, 'attractor', 'reporters', '*.rb')].each do |file|

@@ -29,7 +29,4 @@ task :assets do
 
   npm_output = `npm run build`
   puts npm_output
-
-  npm_output = `cd src/javascript/calculator && npm run build`
-  puts npm_output
 end
