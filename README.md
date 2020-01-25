@@ -1,77 +1,143 @@
-# Attractor ![build status](https://travis-ci.org/julianrubisch/attractor.svg?branch=master) <img src="https://user-images.githubusercontent.com/4352208/65411858-3dc84200-ddee-11e9-99b6-c9cdbeb533c5.png" width="32">
+<!-- MARKDOWN LINKS & IMAGES -->
+[attractor]: https://github.com/julianrubisch/attractor
+[forks-shield]: https://img.shields.io/github/forks/julianrubisch/attractor.svg?style=flat-square
+[forks-url]: https://github.com/julianrubisch/attractor/network/members
+[stars-shield]: https://img.shields.io/github/stars/julianrubisch/attractor.svg?style=flat-square
+[stars-url]: https://github.com/julianrubisch/attractor/stargazers
+[issues-shield]: https://img.shields.io/github/issues/julianrubisch/attractor.svg?style=flat-square
+[issues-url]: https://github.com/julianrubisch/attractor/issues
+[license-shield]: https://img.shields.io/github/license/julianrubisch/attractor.svg?style=flat-square
+[license-url]: https://github.com/julianrubisch/attractor/blob/master/LICENSE
+[build-status]: https://travis-ci.org/julianrubisch/attractor.svg?branch=master
+[twitter-shield]: https://img.shields.io/twitter/follow/AttractorGem?style=social
+[ruby-tests-action-shield]: https://github.com/julianrubisch/attractor/workflows/Ruby%20Tests/badge.svg
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/julianrubisch/attractor">
+    <img src="https://user-images.githubusercontent.com/4352208/65411858-3dc84200-ddee-11e9-99b6-c9cdbeb533c5.png" alt="Logo" width="80" height="80">
+  </a>
+  <h2 align="center">Attractor</h2>
+  <p align="center">A code complexity metrics visualization and exploration tool for Ruby and JavaScript</p>
+
+---
+
+<!-- PROJECT SHIELDS -->
+![Build Status][build-status]
+![Ruby Tests Action Status][ruby-tests-action-shield]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+<a href="https://www.patreon.com/user?u=24747270"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" alt="Become a Patron!" width="160" /></a>
+</div>
 
+<!-- GIF -->
 ![attractor_v0 6 1](https://user-images.githubusercontent.com/4352208/67033292-b41e4280-f115-11e9-8c91-81b3bea4451c.gif)
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Live Reloading](#live-reloading)
+- [CI Usage](#ci-usage)
+  - [Github Action](#github-action)
+  - [Gitlab Example](#gitlab-example)
+- [CLI Commands and Options](#cli-commands-and-options)
+- [Development](#development)
+- [Contributing](#contributing)
+- [Logo Attribution](#logo-attribution)
+- [Contributors ✨](#contributors-%e2%9c%a8)
+
+## Introduction
 
 Many authors ([Michael Feathers](https://www.agileconnection.com/article/getting-empirical-about-refactoring), [Sandi Metz](https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth)) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
 Here's an [article on medium](https://medium.com/better-programming/why-i-made-my-own-code-quality-tool-c44b40ceaafd) explaining the approach in greater detail.
 
-## Table of Contents
-
-  * [Installation](#installation)
-  * [Usage](#usage)
-    + [Live Reloading](#live-reloading)
-  * [CI Usage](#ci-usage)
-    + [Github Action](#github-action)
-    + [Gitlab Example](#gitlab-example)
-  * [CLI Commands and Options](#cli-commands-and-options)
-  * [Development](#development)
-  * [Contributing](#contributing)
-  * [Social](#social)
-  * [Logo Attribution](#logo-attribution)
-
 ## Installation
 
-Add this line to your application's Gemfile:
+Attractor's installation is standard for a Ruby gem:
+
+```sh
+gem install attractor
+```
+
+You'll also want to install some plugins to go along with the main gem:
+
+```sh
+gem install attractor-ruby
+gem install attractor-javascript
+```
+
+You will most likely want to install Attractor using [Bundler](https://bundler.io):
 
 ```ruby
+gem 'attractor'
+gem 'attractor-ruby'
 gem 'attractor'
 ```
 
 And then execute:
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install attractor
+```sh
+bundle
+```
 
 ## Usage
 
-To create a HTML report in `attractor_output/index.html`, try
-    
-    $ attractor report
+To create a HTML report in `attractor_output/index.html`:
+
+```sh
+attractor report
+```
 
 If you'd like to specify a directory, use the file prefix option:
 
-    $ attractor report --file_prefix app/models
+```sh
+attractor report --file_prefix app/models
+```
 
 Or shorter:
 
-    $ attractor report -p app/models
+```sh
+attractor report -p app/models
+```
 
-Check javascript:
+Check JavaScript:
 
-    $ attractor report -p app/javascript -t js
+```sh
+attractor report -p app/javascript -t js
+```
 
 Watch for file changes:
 
-    $ attractor report -p app/models --watch
+```sh
+attractor report -p app/models --watch
+```
 
-Serve at http://localhost:7890:
+Serve at `http://localhost:7890`:
 
-    $ attractor serve -p app/models
+```sh
+attractor serve -p app/models
+```
 
-Enable rack-livereload:
+Enable [rack-livereload](https://github.com/johnbintz/rack-livereload):
 
-    $ attractor serve -p app/models --watch
+```sh
+attractor serve -p app/models --watch
+```
+
+_Make sure you prefix these commands with `bundle exec` if you are using Bundler._
 
 ### Live Reloading
 
-If you have `guard-livereload` (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
+If you have [guard-livereload](https://github.com/guard/guard-livereload) (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
 
 ## CI Usage
 
@@ -98,37 +164,41 @@ attractor:
       - attractor_output
 ```
 
-Alternatively, 
-
 ## CLI Commands and Options
 
 Print a simple output to console:
 
-    $ attractor calc
-    $   --file_prefix|-p app/models
-    $   --type|-t rb|js
-    $   --watch|-w
-    $   --start_ago|-s  (e.g. 5y, 3m, 7w)
-    $   --minimum_churn|-c (minimum times a file must have changed to be processed)
+```sh
+attractor calc
+  --file_prefix|-p app/models
+  --type|-t rb|js
+  --watch|-w
+  --start_ago|-s  (e.g. 5y, 3m, 7w)
+  --minimum_churn|-c (minimum times a file must have changed to be processed)
+```
 
 Generate a full report
 
-    $ attractor report 
-    $   --file_prefix|-p app/models
-    $   --type|-t rb|js
-    $   --watch|-w
-    $   --no-open-browser|--ci
-    $   --start_ago|-s  (e.g. 5y, 3m, 7w)
-    $   --minimum_churn|-c (minimum times a file must have changed to be processed)
+```sh
+attractor report
+  --file_prefix|-p app/models
+  --type|-t rb|js
+  --watch|-w
+  --no-open-browser|--ci
+  --start_ago|-s  (e.g. 5y, 3m, 7w)
+  --minimum_churn|-c (minimum times a file must have changed to be processed)
+```
 
-Serve the output on http://localhost:7890
+Serve the output on `http://localhost:7890`
 
-    $ attractor serve
-    $   --file_prefix|-p app/models
-    $   --watch|-w
-    $   --no-open-browser|--ci
-    $   --start_ago|-s  (e.g. 5y, 3m, 7w)
-    $   --minimum_churn|-c (minimum times a file must have changed to be processed)
+```sh
+attractor serve
+  --file_prefix|-p app/models
+  --watch|-w
+  --no-open-browser|--ci
+  --start_ago|-s  (e.g. 5y, 3m, 7w)
+  --minimum_churn|-c (minimum times a file must have changed to be processed)
+```
 
 ## Development
 
@@ -139,12 +209,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/julianrubisch/attractor.
-
-## Social
-
-[Twitter](https://twitter.com/AttractorGem)
-
-[Patreon](https://www.patreon.com/user?u=24747270)
 
 ## Logo Attribution
 [Black Hole by Eynav Raphael from the Noun Project](https://thenounproject.com/term/black-hole/1043893)
