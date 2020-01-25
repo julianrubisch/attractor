@@ -1,5 +1,5 @@
 <!-- MARKDOWN LINKS & IMAGES -->
-[attractor]: https://github.com/julianrubisch/attractor
+<!-- Shields -->
 [forks-shield]: https://img.shields.io/github/forks/julianrubisch/attractor.svg?style=flat-square
 [forks-url]: https://github.com/julianrubisch/attractor/network/members
 [stars-shield]: https://img.shields.io/github/stars/julianrubisch/attractor.svg?style=flat-square
@@ -11,6 +11,19 @@
 [build-status]: https://travis-ci.org/julianrubisch/attractor.svg?branch=master
 [twitter-shield]: https://img.shields.io/twitter/follow/AttractorGem?style=social
 [ruby-tests-action-shield]: https://github.com/julianrubisch/attractor/workflows/Ruby%20Tests/badge.svg
+<!-- Media -->
+[demo-gif]: https://user-images.githubusercontent.com/4352208/67033292-b41e4280-f115-11e9-8c91-81b3bea4451c.gif
+[logo-source]: https://thenounproject.com/term/black-hole/1043893
+<!-- References -->
+[medium-article]: https://medium.com/better-programming/why-i-made-my-own-code-quality-tool-c44b40ceaafd
+[sandi-metz-article]: https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth
+[michael-feathers-article]: https://www.agileconnection.com/article/getting-empirical-about-refactoring
+[bundler]: https://bundler.io
+[rack-livereload]: https://github.com/johnbintz/rack-livereload
+[guard-livereload]: https://github.com/guard/guard-livereload
+[attractor-action]: https://github.com/julianrubisch/attractor-action
+[attractor-action-marketplace]: https://github.com/marketplace/actions/attractor-action
+[repo]: https://github.com/julianrubisch/attractor
 
 <!-- PROJECT LOGO -->
 <br />
@@ -37,7 +50,7 @@
 </div>
 
 <!-- GIF -->
-![attractor_v0 6 1](https://user-images.githubusercontent.com/4352208/67033292-b41e4280-f115-11e9-8c91-81b3bea4451c.gif)
+![attractor_v0 6 1][demo-gif]
 
 ## Table of Contents
 
@@ -56,9 +69,9 @@
 
 ## Introduction
 
-Many authors ([Michael Feathers](https://www.agileconnection.com/article/getting-empirical-about-refactoring), [Sandi Metz](https://www.sandimetz.com/blog/2017/9/13/breaking-up-the-behemoth)) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
+Many authors ([Michael Feathers][michael-feathers-article], [Sandi Metz][sandi-metz-article] have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
-Here's an [article on medium](https://medium.com/better-programming/why-i-made-my-own-code-quality-tool-c44b40ceaafd) explaining the approach in greater detail.
+Here's an [article on medium][medium-article] explaining the approach in greater detail.
 
 ## Installation
 
@@ -75,7 +88,7 @@ gem install attractor-ruby
 gem install attractor-javascript
 ```
 
-You will most likely want to install Attractor using [Bundler](https://bundler.io):
+You will most likely want to install Attractor using [Bundler][bundler]:
 
 ```ruby
 gem 'attractor'
@@ -127,7 +140,7 @@ Serve at `http://localhost:7890`:
 attractor serve -p app/models
 ```
 
-Enable [rack-livereload](https://github.com/johnbintz/rack-livereload):
+Enable [rack-livereload][rack-livereload]:
 
 ```sh
 attractor serve -p app/models --watch
@@ -137,7 +150,7 @@ _Make sure you prefix these commands with `bundle exec` if you are using Bundler
 
 ### Live Reloading
 
-If you have [guard-livereload](https://github.com/guard/guard-livereload) (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
+If you have [guard-livereload][guard-livereload] (or a similar service) running on your project, you can leverage the hot reloading functionality by specifying `--watch|-w`. Attractor will then live-reload the browser window when a file watched by `guard-livereload` changes.
 
 ## CI Usage
 
@@ -145,7 +158,9 @@ To use this CLI in a CI environment, use the `--ci` option, which will suppress 
 
 ### Github Action
 
-There is a dedicated [Github Action](https://github.com/julianrubisch/attractor-action) that will compile Attractor's output. Here's the action on the [Marketplace](https://github.com/marketplace/actions/attractor-action).
+There is a dedicated [Github Action][attractor-action] that will compile Attractor's output.
+
+You can quickly integrate it into your action's workflow by grabbing it on the [Marketplace][attractor-action-marketplace].
 
 ### Gitlab Example
 
@@ -208,10 +223,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/julianrubisch/attractor.
+Bug reports and pull requests are welcome on [GitHub][repo].
 
 ## Logo Attribution
-[Black Hole by Eynav Raphael from the Noun Project](https://thenounproject.com/term/black-hole/1043893)
+
+[Black Hole by Eynav Raphael from the Noun Project][logo-source]
 
 ## Contributors ✨
 
