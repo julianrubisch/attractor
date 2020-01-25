@@ -84,8 +84,8 @@ gem install attractor
 You'll also want to install some plugins to go along with the main gem:
 
 ```sh
-gem install attractor-ruby
-gem install attractor-javascript
+gem install attractor-ruby # https://github.com/julianrubisch/attractor-ruby
+gem install attractor-javascript # https://github.com/julianrubisch/attractor-javascript
 ```
 
 You will most likely want to install Attractor using [Bundler][bundler]:
