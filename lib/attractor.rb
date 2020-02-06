@@ -9,10 +9,6 @@ require 'attractor/reporters/base_reporter'
 require 'attractor/suggester'
 require 'attractor/watcher'
 
-Attractor::GemNames.new.to_a.each do |gem_name|
-  require "attractor/#{gem_name}"
-end
-
 Dir[File.join(__dir__, 'attractor', 'reporters', '*.rb')].each do |file|
   next if file.start_with?('base')
 
@@ -22,19 +18,27 @@ end
 module Attractor
   class Error < StandardError; end
 
+  @registry_entries = {}
+
+  def register(registry_entry)
+    @registry_entries[registry_entry.type] = registry_entry
+  end
+
   def calculators_for_type(type, **options)
-    case type
-    when 'js'
-      { 'js' => JsCalculator.new(**options) }
-    when 'rb'
-      { 'rb' => RubyCalculator.new(**options) }
-    else
-      {}.tap do |hash|
-        hash['rb'] = RubyCalculator.new(**options) if RubyDetector.new.detect
-        hash['js'] = JsCalculator.new(**options) if JsDetector.new.detect
-      end
-    end
+    registry_entry_for_type = @registry_entries[type]
+
+    return { type => registry_entry_for_type.calculator_class.new(**options) } if type
+
+    
+    Hash[@registry_entries.map do |type, entry|
+      [type, entry.calculator_class.new(**options)] if entry.detector_class.new.detect
+    end]
   end
 
   module_function :calculators_for_type
+  module_function :register
+end
+
+Attractor::GemNames.new.to_a.each do |gem_name|
+  require "attractor/#{gem_name}"
 end
