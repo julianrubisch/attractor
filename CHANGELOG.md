@@ -1,3 +1,7 @@
+## RELEASE 2.0.0
+
+* BREAKING: Move to a plug-in architecture, see README
+
 ## RELEASE 1.2.0
 
 * FEATURE: Backport React to static output
