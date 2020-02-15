@@ -42,3 +42,13 @@ Feature: Attractor
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
     And I run `attractor serve --ci`
     Then the output should not contain "Opening browser window..."
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And I run `attractor -v`
+    Then the output should contain "Attractor version"
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And I run `attractor --version`
+    Then the output should contain "Attractor version"

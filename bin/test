@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "== Running Specs =="
+bundle exec rspec
+echo "== Running Cucumber Features =="
+bundle exec cucumber
