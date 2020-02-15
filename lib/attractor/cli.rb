@@ -17,6 +17,14 @@ module Attractor
                         [:no_open_browser, type: :boolean],
                         [:ci, type: :boolean]]
 
+    desc "version", "Prints Attractor's version information"
+    map %w(-v --version) => :version
+    def version
+      puts "Attractor version #{Attractor::VERSION}"
+    rescue RuntimeError => e
+      puts "Runtime error: #{e.message}"
+    end
+
     desc 'calc', 'Calculates churn and complexity for all ruby files in current directory'
     shared_options.each do |shared_option|
       option(*shared_option)
