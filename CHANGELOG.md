@@ -1,3 +1,7 @@
+## RELEASE 2.0.1
+
+* ENHANCEMENT: Add CLI option to Output gem version
+
 ## RELEASE 2.0.0
 
 * BREAKING: Move to a plug-in architecture, see README
