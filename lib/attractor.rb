@@ -32,7 +32,7 @@ module Attractor
     
     Hash[@registry_entries.map do |type, entry|
       [type, entry.calculator_class.new(**options)] if entry.detector_class.new.detect
-    end]
+    end.compact]
   end
 
   module_function :calculators_for_type
