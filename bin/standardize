@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+bundle exec standardrb --fix
+cd ./src/javascript && npx prettier-standard --lint
