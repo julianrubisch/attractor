@@ -243,7 +243,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://www.julianrubisch.at"><img src="https://avatars0.githubusercontent.com/u/4352208?v=4" width="100px;" alt=""/><br /><sub><b>Julian Rubisch</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=julianrubisch" title="Code">💻</a> <a href="https://github.com/julianrubisch/attractor/commits?author=julianrubisch" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/olimart"><img src="https://avatars3.githubusercontent.com/u/547754?v=4" width="100px;" alt=""/><br /><sub><b>Olivier</b></sub></a><br /><a href="#maintenance-olimart" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="https://www.andrewmason.me/"><img src="https://avatars1.githubusercontent.com/u/18423853?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Mason</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=andrewmcodes" title="Code">💻</a> <a href="https://github.com/julianrubisch/attractor/pulls?q=is%3Apr+reviewed-by%3Aandrewmcodes" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://www.andrewmason.me/"><img src="https://avatars1.githubusercontent.com/u/18423853?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Mason</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=andrewmcodes" title="Code">💻</a> <a href="https://github.com/julianrubisch/attractor/pulls?q=is%3Apr+reviewed-by%3Aandrewmcodes" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/julianrubisch/attractor/commits?author=andrewmcodes" title="Documentation">📖</a></td>
   </tr>
 </table>
 
