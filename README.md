@@ -70,7 +70,7 @@
 
 ## Introduction
 
-Many authors ([Michael Feathers][michael-feathers-article], [Sandi Metz][sandi-metz-article] have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
+Many authors ([Michael Feathers][michael-feathers-article], [Sandi Metz][sandi-metz-article]) have shown that an evaluation of churn vs complexity of files in software projects provide a valuable metric towards code quality. This is another take on the matter, for ruby code, using the `churn` and `flog` projects.
 
 Here's an [article on medium][medium-article] explaining the approach in greater detail.
 
