@@ -1,3 +1,7 @@
+## RELEASE 2.0.2
+
+* FIX: Require forwardable
+
 ## RELEASE 2.0.1
 
 * ENHANCEMENT: Add CLI option to Output gem version
