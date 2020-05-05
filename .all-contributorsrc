@@ -34,6 +34,15 @@
         "review",
         "doc"
       ]
+    },
+    {
+      "login": "etagwerker",
+      "name": "Ernesto Tagwerker",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/17584?v=4",
+      "profile": "https://www.ombulabs.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
