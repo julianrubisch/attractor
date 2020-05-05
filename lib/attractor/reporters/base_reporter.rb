@@ -2,6 +2,7 @@
 
 require 'descriptive_statistics/safe'
 require 'fileutils'
+require 'forwardable'
 require 'launchy'
 require 'tilt'
 
