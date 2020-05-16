@@ -1,3 +1,7 @@
+## RELEASE 2.0.3
+
+* ENHANCEMENT: fetch from relative path, prepare for attractor-rails
+
 ## RELEASE 2.0.2
 
 * FIX: Require forwardable
