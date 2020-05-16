@@ -46,7 +46,7 @@ const Chart = ({ type, finishedLoadingCallback, errorCallback }) => {
     if (window.values) {
       data = new Promise((resolve, _reject) => resolve(window.values));
     } else {
-      data = await (await fetch(`/values?type=${type}`)).json();
+      data = await (await fetch(`values?type=${type}`)).json();
     }
 
     return data;
@@ -57,7 +57,7 @@ const Chart = ({ type, finishedLoadingCallback, errorCallback }) => {
     if (window.filePrefix) {
       data = new Promise((resolve, _reject) => resolve(window.filePrefix));
     } else {
-      data = await (await fetch("/file_prefix")).json();
+      data = await (await fetch("file_prefix")).json();
     }
 
     return data;

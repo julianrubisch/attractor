@@ -18,7 +18,7 @@ export default function Suggestions() {
 
       data = window.values.filter(d => d.x * d.y > threshold);
     } else {
-      data = await (await fetch(`/suggestions?t=${percentile}`)).json();
+      data = await (await fetch(`suggestions?t=${percentile}`)).json();
     }
     setSuggestions(data);
   };
