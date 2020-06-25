@@ -1,3 +1,8 @@
+## RELEASE 2.0.4
+
+* FIX: Suggestions now respect chosen file type
+* FIX: attractor CLI would crash if attractor-rails was installed
+
 ## RELEASE 2.0.3
 
 * ENHANCEMENT: fetch from relative path, prepare for attractor-rails
