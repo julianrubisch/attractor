@@ -22,8 +22,7 @@ module Attractor
       if @calculators.size > 1
         @calculators.each do |calc|
           @short_type = calc.first
-          @values = calc.last.calculate
-          suggester = Suggester.new(values)
+          suggester = Suggester.new(values(type: @short_type))
           @suggestions = suggester.suggest
 
           File.open("./attractor_output/javascripts/index.#{@short_type}.js", 'w') { |file| file.write(javascript) }

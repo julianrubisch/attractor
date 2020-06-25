@@ -3,6 +3,8 @@
 module Attractor
   # makes suggestions for refactorings
   class Suggester
+    attr_accessor :values
+    
     def initialize(values)
       @values = values || []
     end

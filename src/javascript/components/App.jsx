@@ -50,7 +50,7 @@ export default function App() {
 
         <div className="row mt-3">
           <div className="col-12">
-            <Suggestions />
+            <Suggestions type={type} />
           </div>
         </div>
       </div>

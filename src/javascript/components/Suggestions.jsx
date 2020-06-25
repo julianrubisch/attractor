@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { quantile } from "d3-array";
 
-export default function Suggestions() {
+export default function Suggestions({ type }) {
   const [percentile, setPercentile] = useState(95);
   const [suggestions, setSuggestions] = useState([]);
 
@@ -18,7 +18,9 @@ export default function Suggestions() {
 
       data = window.values.filter(d => d.x * d.y > threshold);
     } else {
-      data = await (await fetch(`suggestions?t=${percentile}`)).json();
+      data = await (await fetch(
+        `suggestions?t=${percentile}&type=${type}`
+      )).json();
     }
     setSuggestions(data);
   };
@@ -31,7 +33,7 @@ export default function Suggestions() {
 
   useEffect(() => {
     fetchSuggestions(percentile);
-  }, []);
+  }, [type]);
 
   return (
     <div className="card">

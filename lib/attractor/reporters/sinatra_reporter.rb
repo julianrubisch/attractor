@@ -32,7 +32,8 @@ module Attractor
 
     get '/suggestions' do
       threshold = params[:t] || 95
-      @reporter.suggestions(threshold).to_json
+      type = params[:type] || 'rb'
+      @reporter.suggestions(quantile: threshold, type: type).to_json
     end
 
     error NoMethodError do
@@ -69,13 +70,6 @@ module Attractor
       end
 
       Rack::Handler::WEBrick.run Rack::LiveReload.new(app), Port: 7890
-    end
-
-    def values(type: 'rb')
-      @values = @calculators[type].calculate
-      @values
-    rescue NoMethodError => e
-      puts "No calculator for type #{type}"
     end
   end
 end

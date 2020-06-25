@@ -28,7 +28,8 @@ module Attractor
       raise 'There was a problem gathering churn changes'
     end
 
-    def suggestions(quantile)
+    def suggestions(quantile:, type: 'rb')
+      @suggester.values = values(type: type)
       @suggestions = @suggester.suggest(quantile)
       @suggestions
     end
@@ -40,6 +41,13 @@ module Attractor
 
     def render
       'Attractor'
+    end
+
+    def values(type: 'rb')
+      @values = @calculators[type].calculate
+      @values
+    rescue NoMethodError => e
+      puts "No calculator for type #{type}"
     end
   end
 end
