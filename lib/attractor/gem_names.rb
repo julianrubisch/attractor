@@ -10,6 +10,8 @@ module Attractor
     def gems
       Gem::Specification.find_all.select do |gem|
         gem.name =~ /^attractor-/
+      end.reject do |gem|
+        gem.name =~ /attractor-rails/
       end
     end
   end
