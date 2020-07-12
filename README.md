@@ -8,6 +8,8 @@
 [issues-url]: https://github.com/julianrubisch/attractor/issues
 [license-shield]: https://img.shields.io/github/license/julianrubisch/attractor.svg?style=flat-square
 [license-url]: https://github.com/julianrubisch/attractor/blob/master/LICENSE
+[twitter-url]: https://twitter.com/AttractorGem
+[twitter-shield]: https://img.shields.io/twitter/follow/AttractorGem?style=social
 [build-status]: https://travis-ci.org/julianrubisch/attractor.svg?branch=master
 [twitter-shield]: https://img.shields.io/twitter/follow/AttractorGem?style=social
 [ruby-tests-action-shield]: https://github.com/julianrubisch/attractor/workflows/Ruby%20Tests/badge.svg
@@ -43,9 +45,11 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+[![Twitter follow][twitter-shield]][twitter-url]
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+
   <a href="https://www.patreon.com/user?u=24747270"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" alt="Become a Patron!" width="160" /></a>
 </div>
 
