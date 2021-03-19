@@ -31,12 +31,8 @@ module Attractor
     end
     def calc
       file_prefix = options[:file_prefix]
-      if options[:watch]
-        puts 'Listening for file changes...'
-        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators(options)).watch
-      else
-        Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators(options)).report
-      end
+
+      report! Attractor::ConsoleReporter.new(file_prefix: file_prefix,calculators: calculators(options))
     rescue RuntimeError => e
       puts "Runtime error: #{e.message}"
     end
@@ -48,17 +44,8 @@ module Attractor
     def report
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci])
-      if options[:watch]
-        puts 'Listening for file changes...'
-        Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).watch
-      else
-        case options[:format]
-        when 'html'
-          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
-        else
-          Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
-        end
-      end
+
+      report! Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser)
     rescue RuntimeError => e
       puts "Runtime error: #{e.message}"
     end
@@ -70,17 +57,8 @@ module Attractor
     def serve
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci])
-      if options[:watch]
-        puts 'Listening for file changes...'
-        Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).watch
-      else
-        case options[:format]
-        when 'html'
-          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
-        else
-          Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser).report
-        end
-      end
+
+      report! Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser)
     end
 
     private
@@ -90,6 +68,15 @@ module Attractor
                                      file_prefix: options[:file_prefix],
                                      minimum_churn_count: options[:minimum_churn],
                                      start_ago: options[:start_ago])
+    end
+
+    def report!(reporter)
+      if options[:watch]
+        puts 'Listening for file changes...'
+        reporter.watch
+      else
+        reporter.report
+      end
     end
   end
 end
