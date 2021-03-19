@@ -8,6 +8,7 @@ module Attractor
   # contains methods implementing the CLI
   class CLI < Thor
     shared_options = [[:file_prefix, aliases: :p],
+      [:ignore, aliases: :i, default: ""],
       [:watch, aliases: :w, type: :boolean],
       [:minimum_churn, aliases: :c, type: :numeric, default: 3],
       [:start_ago, aliases: :s, type: :string, default: "5y"],
@@ -32,7 +33,7 @@ module Attractor
     def calc
       file_prefix = options[:file_prefix]
 
-      report! Attractor::ConsoleReporter.new(file_prefix: file_prefix, calculators: calculators(options))
+      report! Attractor::ConsoleReporter.new(file_prefix: file_prefix, ignores: options[:ignore], calculators: calculators(options))
     rescue RuntimeError => e
       puts "Runtime error: #{e.message}"
     end
@@ -45,7 +46,7 @@ module Attractor
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci])
 
-      report! Attractor::HtmlReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser)
+      report! Attractor::HtmlReporter.new(file_prefix: file_prefix, ignores: options[:ignore], calculators: calculators(options), open_browser: open_browser)
     rescue RuntimeError => e
       puts "Runtime error: #{e.message}"
     end
@@ -58,7 +59,7 @@ module Attractor
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci])
 
-      report! Attractor::SinatraReporter.new(file_prefix: file_prefix, calculators: calculators(options), open_browser: open_browser)
+      report! Attractor::SinatraReporter.new(file_prefix: file_prefix, ignores: options[:ignore], calculators: calculators(options), open_browser: open_browser)
     end
 
     private
@@ -67,6 +68,7 @@ module Attractor
       Attractor.calculators_for_type(options[:type],
         file_prefix: options[:file_prefix],
         minimum_churn_count: options[:minimum_churn],
+        ignores: options[:ignore],
         start_ago: options[:start_ago])
     end
 
