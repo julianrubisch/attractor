@@ -15,14 +15,14 @@ module Attractor
     attr_writer :values
     def_delegator :@watcher, :watch
 
-    def initialize(file_prefix: '', calculators:, open_browser: true)
-      @file_prefix = file_prefix
+    def initialize(file_prefix:, calculators:, open_browser: true)
+      @file_prefix = file_prefix || ""
       @calculators = calculators
       @open_browser = open_browser
       @values = @calculators.first.last.calculate
       @suggester = Suggester.new(values)
 
-      @watcher = Watcher.new(file_prefix, lambda do
+      @watcher = Watcher.new(@file_prefix, lambda do
         report
       end)
     rescue NoMethodError => e
