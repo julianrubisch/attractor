@@ -7,11 +7,11 @@ RSpec.describe Attractor::BaseReporter do
   end
 
   it 'renders something' do
-    expect(described_class.new(calculators: { 'rb' => calc_dbl }).render).to eq 'Attractor'
+    expect(described_class.new(file_prefix: "", calculators: { 'rb' => calc_dbl }).render).to eq 'Attractor'
   end
 
   it 'allows injection of a calculator and calculates values' do
-    reporter = described_class.new(calculators: { 'rb' => calc_dbl })
+    reporter = described_class.new(file_prefix: "", calculators: { 'rb' => calc_dbl })
     expect(reporter.values).to eq(values)
   end
 end
