@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'churn/calculator'
+require "churn/calculator"
 
-require 'attractor/value'
+require "attractor/value"
 
 module Attractor
   # calculates churn and complexity
   class BaseCalculator
     attr_reader :type
 
-    def initialize(file_prefix: '', file_extension: 'rb', minimum_churn_count: 3, start_ago: '5y')
+    def initialize(file_prefix: "", file_extension: "rb", minimum_churn_count: 3, start_ago: "5y")
       @file_prefix = file_prefix
       @file_extension = file_extension
       @minimum_churn_count = minimum_churn_count
@@ -39,10 +39,10 @@ module Attractor
     def git_history_for_file(file_path:, limit: 10)
       history = `git log --oneline -n #{limit} -- #{file_path}`
       history.split("\n")
-             .map do |log_entry|
+        .map do |log_entry|
         log_entry.partition(/\A(\S+)\s/)
-                 .map(&:strip)
-                 .reject(&:empty?)
+          .map(&:strip)
+          .reject(&:empty?)
       end
     end
   end

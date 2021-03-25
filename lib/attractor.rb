@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'attractor/version'
-require 'attractor/gem_names'
-require 'attractor/duration_parser'
-require 'attractor/calculators/base_calculator'
-require 'attractor/detectors/base_detector'
-require 'attractor/reporters/base_reporter'
-require 'attractor/suggester'
-require 'attractor/watcher'
+require "attractor/version"
+require "attractor/gem_names"
+require "attractor/duration_parser"
+require "attractor/calculators/base_calculator"
+require "attractor/detectors/base_detector"
+require "attractor/reporters/base_reporter"
+require "attractor/suggester"
+require "attractor/watcher"
 
-Dir[File.join(__dir__, 'attractor', 'reporters', '*.rb')].each do |file|
-  next if file.start_with?('base')
+Dir[File.join(__dir__, "attractor", "reporters", "*.rb")].sort.each do |file|
+  next if file.start_with?("base")
 
   require file
 end
@@ -27,9 +27,8 @@ module Attractor
   def calculators_for_type(type, **options)
     registry_entry_for_type = @registry_entries[type]
 
-    return { type => registry_entry_for_type.calculator_class.new(**options) } if type
+    return {type => registry_entry_for_type.calculator_class.new(**options)} if type
 
-    
     Hash[@registry_entries.map do |type, entry|
       [type, entry.calculator_class.new(**options)] if entry.detector_class.new.detect
     end.compact]

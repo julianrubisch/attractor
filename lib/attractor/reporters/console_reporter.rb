@@ -5,10 +5,10 @@ module Attractor
   class ConsoleReporter < BaseReporter
     def report
       super
-      puts 'Calculated churn and complexity'
+      puts "Calculated churn and complexity"
       puts
-      puts "file_path#{' ' * 53}complexity   churn"
-      puts '-' * 80
+      puts "file_path#{" " * 53}complexity   churn"
+      puts "-" * 80
 
       @calculators.each do |calc|
         # e.g. ['js', JsCalculator']
@@ -19,7 +19,7 @@ module Attractor
 
         puts values&.map(&:to_s)
         puts
-        puts 'Suggestions for refactorings:'
+        puts "Suggestions for refactorings:"
         suggester.suggest&.each { |sug| puts sug.file_path }
         puts
       end

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'descriptive_statistics/safe'
-require 'fileutils'
-require 'forwardable'
-require 'launchy'
-require 'tilt'
+require "descriptive_statistics/safe"
+require "fileutils"
+require "forwardable"
+require "launchy"
+require "tilt"
 
 module Attractor
   # base reporter
@@ -25,11 +25,11 @@ module Attractor
       @watcher = Watcher.new(@file_prefix, lambda do
         report
       end)
-    rescue NoMethodError => e
-      raise 'There was a problem gathering churn changes'
+    rescue NoMethodError => _e
+      raise "There was a problem gathering churn changes"
     end
 
-    def suggestions(quantile:, type: 'rb')
+    def suggestions(quantile:, type: "rb")
       @suggester.values = values(type: type)
       @suggestions = @suggester.suggest(quantile)
       @suggestions
@@ -41,13 +41,13 @@ module Attractor
     end
 
     def render
-      'Attractor'
+      "Attractor"
     end
 
-    def values(type: 'rb')
+    def values(type: "rb")
       @values = @calculators[type].calculate
       @values
-    rescue NoMethodError => e
+    rescue NoMethodError => _e
       puts "No calculator for type #{type}"
     end
   end

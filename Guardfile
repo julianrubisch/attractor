@@ -21,7 +21,7 @@
 #   watch(%r{^app/.+\.scss})
 # end
 
-guard 'rake', task: 'install' do
+guard "rake", task: "install" do
   watch(%r{^lib/.+\.rb})
   watch(%r{^src/.+\.(scss|jsx?)$})
 end
