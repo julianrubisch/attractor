@@ -9,4 +9,3 @@ module Attractor
     end
   end
 end
-

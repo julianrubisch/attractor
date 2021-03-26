@@ -1,6 +1,11 @@
 name: Ruby Tests
 
-on: [push]
+on:
+  # Triggers the workflow on push or pull request events but only for the $default-branch branch
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches-ignore: [ $default-branch ]
 
 jobs:
   ruby_test:
@@ -22,3 +27,5 @@ jobs:
         bundle install --jobs 4 --retry 3
         bundle exec rspec spec
         bundle exec cucumber features
+    - name: Run StandardRB
+      run: bundle exec standardrb --format progress
