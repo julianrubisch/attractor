@@ -50,8 +50,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tilt"
 
   spec.add_development_dependency "aruba"
-  spec.add_development_dependency "attractor-javascript"
-  spec.add_development_dependency "attractor-ruby"
+  spec.add_development_dependency "attractor-javascript", "~> 0.2.0"
+  spec.add_development_dependency "attractor-ruby", "~> 0.2.0"
   spec.add_development_dependency "autoprefixer-rails"
   spec.add_development_dependency "bootstrap", "~> 4.3.1"
   spec.add_development_dependency "bundler", "~> 2.0"

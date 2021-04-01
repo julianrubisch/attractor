@@ -195,6 +195,7 @@ attractor calc
   --watch|-w
   --start_ago|-s  (e.g. 5y, 3m, 7w)
   --minimum_churn|-c (minimum times a file must have changed to be processed)
+  --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
 ```
 
 Generate a full report
@@ -207,6 +208,7 @@ attractor report
   --no-open-browser|--ci
   --start_ago|-s  (e.g. 5y, 3m, 7w)
   --minimum_churn|-c (minimum times a file must have changed to be processed)
+  --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
 ```
 
 Serve the output on `http://localhost:7890`
@@ -218,6 +220,7 @@ attractor serve
   --no-open-browser|--ci
   --start_ago|-s  (e.g. 5y, 3m, 7w)
   --minimum_churn|-c (minimum times a file must have changed to be processed)
+  --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
 ```
 
 ## Development
