@@ -47,7 +47,7 @@
 [![MIT License][license-shield]][license-url]
 [![Twitter follow][twitter-shield]][twitter-url]
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
   <a href="https://www.patreon.com/user?u=24747270"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" alt="Become a Patron!" width="160" /></a>
@@ -248,15 +248,17 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://www.julianrubisch.at"><img src="https://avatars0.githubusercontent.com/u/4352208?v=4" width="100px;" alt=""/><br /><sub><b>Julian Rubisch</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=julianrubisch" title="Code">💻</a> <a href="https://github.com/julianrubisch/attractor/commits?author=julianrubisch" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/olimart"><img src="https://avatars3.githubusercontent.com/u/547754?v=4" width="100px;" alt=""/><br /><sub><b>Olivier</b></sub></a><br /><a href="#maintenance-olimart" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="https://www.andrewmason.me/"><img src="https://avatars1.githubusercontent.com/u/18423853?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Mason</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=andrewmcodes" title="Code">💻</a> <a href="https://github.com/julianrubisch/attractor/pulls?q=is%3Apr+reviewed-by%3Aandrewmcodes" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/julianrubisch/attractor/commits?author=andrewmcodes" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://www.ombulabs.com"><img src="https://avatars2.githubusercontent.com/u/17584?v=4" width="100px;" alt=""/><br /><sub><b>Ernesto Tagwerker</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=etagwerker" title="Code">💻</a></td>
+    <td align="center"><a href="http://www.julianrubisch.at"><img src="https://avatars0.githubusercontent.com/u/4352208?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Julian Rubisch</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=julianrubisch" title="Code">💻</a> <a href="https://github.com/julianrubisch/attractor/commits?author=julianrubisch" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/olimart"><img src="https://avatars3.githubusercontent.com/u/547754?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Olivier</b></sub></a><br /><a href="#maintenance-olimart" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://www.andrewmason.me/"><img src="https://avatars1.githubusercontent.com/u/18423853?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Andrew Mason</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=andrewmcodes" title="Code">💻</a> <a href="https://github.com/julianrubisch/attractor/pulls?q=is%3Apr+reviewed-by%3Aandrewmcodes" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/julianrubisch/attractor/commits?author=andrewmcodes" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://www.ombulabs.com"><img src="https://avatars2.githubusercontent.com/u/17584?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ernesto Tagwerker</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=etagwerker" title="Code">💻</a></td>
+    <td align="center"><a href="https://experimentslabs.com"><img src="https://avatars.githubusercontent.com/u/1732268?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Manuel Tancoigne</b></sub></a><br /><a href="https://github.com/julianrubisch/attractor/commits?author=mtancoigne" title="Code">💻</a></td>
   </tr>
 </table>
 
-<!-- markdownlint-enable -->
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
