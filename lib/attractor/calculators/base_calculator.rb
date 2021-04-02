@@ -27,12 +27,19 @@ module Attractor
       ).report(false)
 
       churn[:churn][:changes].map do |change|
+        history = git_history_for_file(file_path: change[:file_path])
+        commit = history&.first&.first
+
         complexity, details = yield(change)
-        Value.new(file_path: change[:file_path],
-                  churn: change[:times_changed],
-                  complexity: complexity,
-                  details: details,
-                  history: git_history_for_file(file_path: change[:file_path]))
+
+        value = Value.new(file_path: change[:file_path],
+                          churn: change[:times_changed],
+                          complexity: complexity,
+                          details: details,
+                          history: history)
+        Cache.write(file_path: change[:file_path], value: value)
+
+        value
       end
     end
 

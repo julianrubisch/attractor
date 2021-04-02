@@ -8,6 +8,7 @@ require "attractor/detectors/base_detector"
 require "attractor/reporters/base_reporter"
 require "attractor/suggester"
 require "attractor/watcher"
+require "attractor/cache"
 
 Dir[File.join(__dir__, "attractor", "reporters", "*.rb")].sort.each do |file|
   next if file.start_with?("base")
