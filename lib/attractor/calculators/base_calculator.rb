@@ -32,7 +32,7 @@ module Attractor
 
         cached_value = Cache.read(file_path: change[:file_path])
 
-        if !cached_value.nil? && cached_value.current_commit == commit
+        if !cached_value.nil? && !cached_value.current_commit.nil? && cached_value.current_commit == commit
           value = cached_value
         else
           complexity, details = yield(change)
