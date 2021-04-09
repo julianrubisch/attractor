@@ -15,6 +15,10 @@ module Attractor
       @history = history
     end
 
+    def current_commit
+      history&.first&.first
+    end
+
     def to_s
       format("%-64s%8.1f%8i", @file_path, @complexity, @churn)
     end
