@@ -29,7 +29,7 @@ module Attractor
     desc "clean", "Clears attractor's cache"
     def clean
       puts "Clearing attractor cache"
-      Cache.clear
+      Attractor.clear
     end
 
     desc "init", "Initializes attractor's cache"
@@ -38,7 +38,7 @@ module Attractor
     end
     def init
       puts "Warming attractor cache"
-      calculators(options).each { |calc| calc.last.calculate }
+      Attractor.init(calculators(options))
     end
 
     desc "calc", "Calculates churn and complexity for all ruby files in current directory"

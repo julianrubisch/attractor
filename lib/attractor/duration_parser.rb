@@ -14,7 +14,9 @@ module Attractor
 
     def initialize(input)
       @input = input
-      @duration = 0
+      @duration = @input.is_a?(Numeric) ? @input : 0
+      return if @duration > 0
+
       parse
     end
 

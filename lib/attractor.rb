@@ -21,6 +21,15 @@ module Attractor
 
   @registry_entries = {}
 
+  def init(calculators)
+    calculators ||= all_registered_calculators
+    calculators.to_a.map(&:last).each(&:calculate)
+  end
+
+  def clear
+    Cache.clear
+  end
+
   def register(registry_entry)
     @registry_entries[registry_entry.type] = registry_entry
   end
@@ -30,13 +39,20 @@ module Attractor
 
     return {type => registry_entry_for_type.calculator_class.new(**options)} if type
 
+    all_registered_calculators(**options)
+  end
+
+  def all_registered_calculators(options = {})
     Hash[@registry_entries.map do |type, entry|
       [type, entry.calculator_class.new(**options)] if entry.detector_class.new.detect
     end.compact]
   end
 
   module_function :calculators_for_type
+  module_function :all_registered_calculators
   module_function :register
+  module_function :init
+  module_function :clear
 end
 
 Attractor::GemNames.new.to_a.each do |gem_name|
