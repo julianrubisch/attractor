@@ -26,6 +26,12 @@ module Attractor
       puts "Runtime error: #{e.message}"
     end
 
+    desc "clean", "Clears attractor's cache"
+    def clean
+      puts "Clearing attractor cache"
+      Cache.clear
+    end
+
     desc "calc", "Calculates churn and complexity for all ruby files in current directory"
     shared_options.each do |shared_option|
       option(*shared_option)

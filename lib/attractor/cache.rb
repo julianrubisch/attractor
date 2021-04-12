@@ -14,6 +14,10 @@ module Attractor
         adapter.write(file_path: file_path, value: value)
       end
 
+      def clear
+        adapter.clear
+      end
+
       private
 
       def adapter
@@ -57,6 +61,10 @@ module Attractor
         transformed_value = value.to_h.transform_keys { |k| mappings[k] || k }
         @store[file_path] = {value.current_commit => transformed_value}
         File.write(filename, ::JSON.dump(@store))
+      end
+
+      def clear
+        FileUtils.rm filename
       end
 
       def filename
