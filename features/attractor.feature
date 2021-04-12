@@ -52,3 +52,8 @@ Feature: Attractor
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
     And I run `attractor --version`
     Then the output should contain "Attractor version"
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And I run `attractor clean`
+    Then the output should contain "Clearing attractor cache"
