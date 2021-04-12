@@ -10,7 +10,7 @@ Feature: Attractor
 
   Scenario:
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
-    And I run `attractor report --format html`
+    And I run `attractor report`
     # Then an HTML file should be generated
     Then the output should contain "Generated HTML report at"
     Then the output should contain "attractor_output/index.rb.html"
@@ -57,3 +57,9 @@ Feature: Attractor
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
     And I run `attractor clean`
     Then the output should contain "Clearing attractor cache"
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And I run `attractor init`
+    Then the output should contain "Warming attractor cache"
+    Then the output should contain "Calculating"
