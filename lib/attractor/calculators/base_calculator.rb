@@ -26,7 +26,9 @@ module Attractor
         ignores: @ignores
       ).report(false)
 
-      churn[:churn][:changes].map do |change|
+      puts "Calculating churn and complexity values for #{churn[:churn][:changes].size} #{type} files"
+
+      values = churn[:churn][:changes].map do |change|
         history = git_history_for_file(file_path: change[:file_path])
         commit = history&.first&.first
 
@@ -45,8 +47,15 @@ module Attractor
           Cache.write(file_path: change[:file_path], value: value)
         end
 
+        print "."
         value
       end
+
+      Cache.persist!
+
+      print "\n\n"
+
+      values
     end
 
     private

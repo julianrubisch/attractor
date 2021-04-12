@@ -186,6 +186,17 @@ attractor:
 
 ## CLI Commands and Options
 
+Initialize the local cache:
+
+```sh
+attractor init
+  --file_prefix|-p app/models
+  --type|-t rb|js
+  --start_ago|-s  (e.g. 5y, 3m, 7w)
+  --minimum_churn|-c (minimum times a file must have changed to be processed)
+  --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
+``` 
+
 Print a simple output to console:
 
 ```sh
@@ -222,6 +233,13 @@ attractor serve
   --minimum_churn|-c (minimum times a file must have changed to be processed)
   --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
 ```
+
+Clear the local cache:
+
+```sh
+attractor clean
+``` 
+
 
 ## Development
 
