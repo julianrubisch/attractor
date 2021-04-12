@@ -32,6 +32,15 @@ module Attractor
       Cache.clear
     end
 
+    desc "init", "Initializes attractor's cache"
+    shared_options.each do |shared_option|
+      option(*shared_option)
+    end
+    def init
+      puts "Warming attractor cache"
+      calculators(options).each { |calc| calc.last.calculate }
+    end
+
     desc "calc", "Calculates churn and complexity for all ruby files in current directory"
     shared_options.each do |shared_option|
       option(*shared_option)
