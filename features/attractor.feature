@@ -10,6 +10,11 @@ Feature: Attractor
 
   Scenario:
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And I run `attractor calc --format=csv`
+    Then the output should contain "file_path,score,complexity,churn,type,refactor"
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
     And I run `attractor report`
     # Then an HTML file should be generated
     Then the output should contain "Generated HTML report at"

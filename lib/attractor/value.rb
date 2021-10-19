@@ -19,6 +19,10 @@ module Attractor
       history&.first&.first
     end
 
+    def score
+      @complexity * @churn
+    end
+
     def to_s
       format("%-64s%8.1f%8i", @file_path, @complexity, @churn)
     end
