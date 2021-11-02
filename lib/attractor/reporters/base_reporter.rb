@@ -36,7 +36,7 @@ module Attractor
 
     def report
       @suggestions = @suggester.suggest
-      @types = Hash[@calculators.map { |calc| [calc.first, calc.last.type] }]
+      @types = @calculators.map { |calc| [calc.first, calc.last.type] }.to_h
     end
 
     def render

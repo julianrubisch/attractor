@@ -56,7 +56,7 @@ module Attractor
                      CSVFormatter.new
                    else
                      TableFormatter.new
-                   end
+      end
     end
 
     def report
