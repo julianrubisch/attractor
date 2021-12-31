@@ -45,10 +45,12 @@ module Attractor
     shared_options.each do |shared_option|
       option(*shared_option)
     end
+    option(:format, aliases: :f, default: :table)
     def calc
       file_prefix = options[:file_prefix]
+      output_format = options[:format]
 
-      report! Attractor::ConsoleReporter.new(file_prefix: file_prefix, ignores: options[:ignore], calculators: calculators(options))
+      report! Attractor::ConsoleReporter.new(file_prefix: file_prefix, ignores: options[:ignore], calculators: calculators(options), format: output_format)
     rescue RuntimeError => e
       puts "Runtime error: #{e.message}"
     end

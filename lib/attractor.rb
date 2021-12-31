@@ -43,9 +43,9 @@ module Attractor
   end
 
   def all_registered_calculators(options = {})
-    Hash[@registry_entries.map do |type, entry|
+    @registry_entries.map do |type, entry|
       [type, entry.calculator_class.new(**options)] if entry.detector_class.new.detect
-    end.compact]
+    end.compact.to_h
   end
 
   module_function :calculators_for_type
