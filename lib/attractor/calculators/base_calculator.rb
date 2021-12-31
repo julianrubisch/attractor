@@ -40,10 +40,10 @@ module Attractor
           complexity, details = yield(change)
 
           value = Value.new(file_path: change[:file_path],
-                            churn: change[:times_changed],
-                            complexity: complexity,
-                            details: details,
-                            history: history)
+            churn: change[:times_changed],
+            complexity: complexity,
+            details: details,
+            history: history)
           Cache.write(file_path: change[:file_path], value: value)
         end
 

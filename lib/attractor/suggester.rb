@@ -10,12 +10,12 @@ module Attractor
     end
 
     def suggest(threshold = 95)
-      products = @values.map { |val| val.churn * val.complexity }
+      products = @values.map(&:score)
       products.extend(DescriptiveStatistics)
       quantile = products.percentile(threshold.to_i)
 
-      @values.select { |val| val.churn * val.complexity > quantile }
-        .sort_by { |val| val.churn * val.complexity }.reverse
+      @values.select { |val| val.score > quantile }
+        .sort_by { |val| val.score }.reverse
     end
   end
 end
