@@ -70,20 +70,20 @@ module Attractor
           ]
         end
 
-        puts Hash[result].to_json
+        puts result.to_h.to_json
       end
     end
 
     def initialize(format:, **other)
       super(**other)
       @formatter = case format.to_sym
-                   when :csv
-                     CSVFormatter.new
-                   when :json
-                     JSONFormatter.new
-                   else
-                     TableFormatter.new
-                   end
+      when :csv
+        CSVFormatter.new
+      when :json
+        JSONFormatter.new
+      else
+        TableFormatter.new
+      end
     end
 
     def report
