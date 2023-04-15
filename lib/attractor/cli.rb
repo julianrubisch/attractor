@@ -8,6 +8,7 @@ module Attractor
   # contains methods implementing the CLI
   class CLI < Thor
     shared_options = [[:file_prefix, aliases: :p],
+      [:verbose, aliases: :v, type: :boolean],
       [:ignore, aliases: :i, default: ""],
       [:watch, aliases: :w, type: :boolean],
       [:minimum_churn, aliases: :c, type: :numeric, default: 3],
@@ -86,7 +87,8 @@ module Attractor
         file_prefix: options[:file_prefix],
         minimum_churn_count: options[:minimum_churn],
         ignores: options[:ignore],
-        start_ago: options[:start_ago])
+        start_ago: options[:start_ago],
+        verbose: options[:verbose])
     end
 
     def report!(reporter)
