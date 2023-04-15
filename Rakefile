@@ -25,7 +25,7 @@ task :assets do
   sass = File.read(File.expand_path("./src/stylesheets/main.scss"))
   css = SassC::Engine.new(sass, style: :compressed).render
   prefixed = AutoprefixerRails.process(css)
-  File.open(File.expand_path("./app/assets/stylesheets/main.css"), "w") { |file| file.write(prefixed) }
+  File.write(File.expand_path("./app/assets/stylesheets/main.css"), prefixed)
 
   npm_output = `npm run build`
   puts npm_output
