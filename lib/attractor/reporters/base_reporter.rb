@@ -19,7 +19,7 @@ module Attractor
       @file_prefix = file_prefix || ""
       @calculators = calculators
       @open_browser = open_browser
-      @suggester = Suggester.new(values)
+      @suggester = Suggester.new
 
       @watcher = Watcher.new(@file_prefix, ignores, lambda do
         report

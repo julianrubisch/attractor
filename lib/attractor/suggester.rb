@@ -5,8 +5,8 @@ module Attractor
   class Suggester
     attr_accessor :values
 
-    def initialize(values)
-      @values = values || []
+    def initialize(values = [])
+      @values = values
     end
 
     def suggest(threshold = 95)
