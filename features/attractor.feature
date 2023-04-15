@@ -5,21 +5,21 @@ Feature: Attractor
 
   Scenario:
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
-    And I run `attractor calc`
+    And I run `attractor calc -v`
     Then the output should contain "Calculated churn and complexity"
 
   Scenario:
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
-    And I run `attractor calc --format=csv`
+    And I run `attractor calc --format=csv --type=rb`
     Then the output should contain "file_path,score,complexity,churn,type,refactor"
 
   Scenario:
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
-    And I run `attractor report`
+    And I run `attractor report --type=rb`
     # Then an HTML file should be generated
     Then the output should contain "Generated HTML report at"
-    Then the output should contain "attractor_output/index.rb.html"
-    Then the output should contain "attractor_output/index.js.html"
+    Then the output should contain "attractor_output/index.html"
+    # Then the output should contain "attractor_output/index.js.html"
     Then the output should contain "Opening browser window..."
 
   Scenario:
@@ -65,6 +65,6 @@ Feature: Attractor
 
   Scenario:
     When I cd to "../../spec/fixtures/rails_app_with_gemfile"
-    And I run `attractor init`
+    And I run `attractor init -v`
     Then the output should contain "Warming attractor cache"
     Then the output should contain "Calculating"
