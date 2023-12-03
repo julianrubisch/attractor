@@ -64,7 +64,9 @@ module Attractor
                 score: value.score,
                 complexity: value.complexity,
                 churn: value.churn,
-                refactor: to_be_refactored.include?(value.file_path)
+                refactor: to_be_refactored.include?(value.file_path),
+                details: value.details,
+                history: value.history
               }
             end
           ]
