@@ -10,7 +10,6 @@
 [license-url]: https://github.com/julianrubisch/attractor/blob/master/LICENSE
 [twitter-url]: https://twitter.com/AttractorGem
 [twitter-shield]: https://img.shields.io/twitter/follow/AttractorGem?style=social
-[build-status]: https://travis-ci.org/julianrubisch/attractor.svg?branch=master
 [twitter-shield]: https://img.shields.io/twitter/follow/AttractorGem?style=social
 [ruby-tests-action-shield]: https://github.com/julianrubisch/attractor/workflows/Ruby%20Tests/badge.svg
 <!-- Media -->
@@ -39,7 +38,6 @@
 ---
 
 <!-- PROJECT SHIELDS -->
-![Build Status][build-status]
 ![Ruby Tests Action Status][ruby-tests-action-shield]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
