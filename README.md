@@ -54,6 +54,8 @@
 <!-- GIF -->
 ![attractor_v0 6 1][demo-gif]
 
+**If you are looking for a managed solution to observe your code's quality, check out [UseAttractor](https://useattr.actor)**
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
