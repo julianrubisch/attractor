@@ -34,12 +34,12 @@ module Attractor
     @registry_entries[registry_entry.type] = registry_entry
   end
 
-  def calculators_for_type(type, **options)
+  def calculators_for_type(type, **)
     registry_entry_for_type = @registry_entries[type]
 
-    return {type => registry_entry_for_type.calculator_class.new(**options)} if type
+    return {type => registry_entry_for_type.calculator_class.new(**)} if type
 
-    all_registered_calculators(**options)
+    all_registered_calculators(**)
   end
 
   def all_registered_calculators(options = {})

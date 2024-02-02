@@ -16,15 +16,14 @@ jobs:
         ruby-version: ['3.0', '3.1', '3.2']
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Ruby ${{ matrix.ruby-version }}
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-    - name: Build and test with Rake
+        bundler-cache: true
+    - name: Test with Rake
       run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
         bundle exec rspec spec
         bundle exec cucumber features
     - name: Run StandardRB
