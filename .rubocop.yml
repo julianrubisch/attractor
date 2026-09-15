@@ -1,6 +1,2 @@
 Metrics/LineLength:
     Max: 120
-
-AllCops:
-  Exclude:
-    - "spec/fixtures/**/*"
