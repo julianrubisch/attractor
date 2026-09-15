@@ -39,7 +39,7 @@ RSpec.describe Attractor::BaseCalculator do
       calculator = described_class.new(files: ["lib/kept.rb", "lib/missing.rb"])
 
       result = calculator.calculate do |change|
-        change[:file_path] == "lib/kept.rb" ? [7, {}] : [nil, {}]
+        (change[:file_path] == "lib/kept.rb") ? [7, {}] : [nil, {}]
       end
 
       expect(result.map(&:file_path)).to contain_exactly("lib/kept.rb", "lib/missing.rb")

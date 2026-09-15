@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "churn/calculator"
-require "set"
 
 require "attractor/value"
 
