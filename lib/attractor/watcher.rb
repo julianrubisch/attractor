@@ -17,7 +17,7 @@ module Attractor
 
       listener = Listen.to(File.absolute_path(@file_prefix), ignore: ignore) do |modified, _added, _removed|
         if modified
-          puts "#{modified.map(&:to_s).join(", ")} modified, recalculating..."
+          puts "#{modified.join(", ")} modified, recalculating..."
           @callback.call
         end
       end
