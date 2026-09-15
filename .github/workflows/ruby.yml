@@ -21,9 +21,11 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        bundler: '2.1.4'
     - name: Build and test with Rake
+      env:
+        BUNDLER_VERSION: 2.7.2
       run: |
+        gem install bundler:2.7.2
         bundle install --jobs 4 --retry 3
         bundle exec rspec spec
         bundle exec cucumber features
