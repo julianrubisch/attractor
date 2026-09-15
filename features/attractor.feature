@@ -68,3 +68,9 @@ Feature: Attractor
     And I run `attractor init -v`
     Then the output should contain "Warming attractor cache"
     Then the output should contain "Calculating"
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And I run `attractor calc --files lib/attractor/cli.rb --format=json`
+    Then the output should contain "lib/attractor/cli.rb"
+    Then the output should contain "\"complexity\":null"

@@ -207,6 +207,8 @@ attractor calc
   --start_ago|-s  (e.g. 5y, 3m, 7w)
   --minimum_churn|-c (minimum times a file must have changed to be processed)
   --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
+  --files 'app/models/user.rb,app/models/post.rb'  # restrict to an explicit list of paths
+  --files -                                         # read newline-separated paths from stdin
 ```
 
 Generate a full report
@@ -220,6 +222,8 @@ attractor report
   --start_ago|-s  (e.g. 5y, 3m, 7w)
   --minimum_churn|-c (minimum times a file must have changed to be processed)
   --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
+  --files 'app/models/user.rb,app/models/post.rb'
+  --files -
 ```
 
 Serve the output on `http://localhost:7890`

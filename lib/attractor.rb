@@ -29,11 +29,20 @@ module Attractor
   end
 
   def calculators_for_type(type, **options)
+    files = options.delete(:files)
     registry_entry_for_type = @registry_entries[type]
 
-    return {type => registry_entry_for_type.calculator_class.new(**options)} if type
+    if type
+      calculator = registry_entry_for_type.calculator_class.new(**options)
+      calculator.files = files if calculator.respond_to?(:files=)
+      return {type => calculator}
+    end
 
-    all_registered_calculators(**options)
+    all_registered_calculators(**options).tap do |calculators|
+      calculators.each_value do |calculator|
+        calculator.files = files if calculator.respond_to?(:files=)
+      end
+    end
   end
 
   def all_registered_calculators(options = {})
