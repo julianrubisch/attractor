@@ -20,11 +20,14 @@ module Attractor
     end
 
     def score
+      return nil if @complexity.nil?
+
       @complexity * @churn
     end
 
     def to_s
-      format("%-64s%8.1f%8i", @file_path, @complexity, @churn)
+      complexity_str = @complexity.nil? ? "n/a" : format("%8.1f", @complexity)
+      format("%-64s%8s%8i", @file_path, complexity_str, @churn)
     end
 
     def to_h

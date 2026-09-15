@@ -10,6 +10,7 @@ module Attractor
     shared_options = [[:file_prefix, aliases: :p],
       [:verbose, aliases: :v, type: :boolean],
       [:ignore, aliases: :i, default: ""],
+      [:files, type: :string],
       [:watch, aliases: :w, type: :boolean],
       [:minimum_churn, aliases: :c, type: :numeric, default: 3],
       [:start_ago, aliases: :s, type: :string, default: "5y"],
@@ -94,7 +95,18 @@ module Attractor
         minimum_churn_count: options[:minimum_churn],
         ignores: options[:ignore],
         start_ago: options[:start_ago],
-        verbose: options[:verbose])
+        verbose: options[:verbose],
+        files: parse_files(options[:files]))
+    end
+
+    def parse_files(value)
+      return nil if value.nil? || value.to_s.empty?
+
+      if value == "-"
+        $stdin.read.lines(chomp: true).reject(&:empty?)
+      else
+        value.split(",").map(&:strip).reject(&:empty?)
+      end
     end
 
     def report!(reporter)
