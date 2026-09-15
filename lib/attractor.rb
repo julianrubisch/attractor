@@ -10,12 +10,6 @@ require "attractor/suggester"
 require "attractor/watcher"
 require "attractor/cache"
 
-Dir[File.join(__dir__, "attractor", "reporters", "*.rb")].sort.each do |file|
-  next if file.start_with?("base")
-
-  require file
-end
-
 module Attractor
   class Error < StandardError; end
 

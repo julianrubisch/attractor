@@ -48,6 +48,8 @@ module Attractor
     end
     option(:format, aliases: :f, default: :table)
     def calc
+      require "attractor/reporters/console_reporter"
+
       file_prefix = options[:file_prefix]
       output_format = options[:format]
 
@@ -61,6 +63,8 @@ module Attractor
       option(*option)
     end
     def report
+      require "attractor/reporters/html_reporter"
+
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci])
 
@@ -74,6 +78,8 @@ module Attractor
       option(*option)
     end
     def serve
+      require "attractor/reporters/sinatra_reporter"
+
       file_prefix = options[:file_prefix]
       open_browser = !(options[:no_open_browser] || options[:ci])
 

@@ -10,6 +10,7 @@ module Attractor
   # base reporter
   class BaseReporter
     extend Forwardable
+
     attr_accessor :file_prefix
     attr_reader :types
     attr_writer :values
