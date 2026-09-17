@@ -8,28 +8,37 @@ RSpec.describe Attractor::DiffCalculator do
   let(:base_calculators) { {"rb" => base_calculator} }
   let(:head_calculators) { {"rb" => head_calculator} }
 
+  let(:base_worktree) do
+    instance_double(Attractor::Git::Worktree, path: "/tmp/base", cleanup: true).tap do |wt|
+      allow(wt).to receive(:chdir).and_yield
+    end
+  end
+  let(:head_worktree) do
+    instance_double(Attractor::Git::Worktree, path: "/tmp/head", cleanup: true).tap do |wt|
+      allow(wt).to receive(:chdir).and_yield
+    end
+  end
+
   let(:calculator) do
     described_class.new(base_ref: "base", head_ref: "head")
   end
 
   before do
-    allow(calculator).to receive(:rev_parse).with("base").and_return("abc123")
-    allow(calculator).to receive(:rev_parse).with("head").and_return("def456")
-    allow(calculator).to receive(:default_files).and_return(["lib/foo.rb"])
-
-    allow(Dir).to receive(:mktmpdir).with("attractor-diff-base-").and_return("/tmp/attractor-diff-base-xxx")
-    allow(Dir).to receive(:mktmpdir).with("attractor-diff-head-").and_return("/tmp/attractor-diff-head-xxx")
-
-    allow(calculator).to receive(:create_worktree)
-    allow(calculator).to receive(:remove_worktree)
+    allow(Attractor::Git).to receive(:validate_ref!)
+    allow(Attractor::Git).to receive(:diff_files).and_return(["lib/foo.rb"])
+    allow(Attractor::Git::Worktree).to receive(:new).with("base").and_return(base_worktree)
+    allow(Attractor::Git::Worktree).to receive(:new).with("head").and_return(head_worktree)
+    allow(base_worktree).to receive(:checkout).and_return(base_worktree)
+    allow(head_worktree).to receive(:checkout).and_return(head_worktree)
     allow(Attractor::Cache).to receive(:reset!)
-    allow(Dir).to receive(:chdir).and_yield
     allow(Attractor).to receive(:calculators_for_type).and_return(base_calculators, head_calculators)
   end
 
-  it "validates refs and creates worktrees for both sides" do
-    expect(calculator).to receive(:create_worktree).with("/tmp/attractor-diff-base-xxx", "base")
-    expect(calculator).to receive(:create_worktree).with("/tmp/attractor-diff-head-xxx", "head")
+  it "validates refs and checks out both worktrees" do
+    expect(Attractor::Git).to receive(:validate_ref!).with("base")
+    expect(Attractor::Git).to receive(:validate_ref!).with("head")
+    expect(base_worktree).to receive(:checkout)
+    expect(head_worktree).to receive(:checkout)
 
     calculator.calculate
   end
@@ -56,7 +65,7 @@ RSpec.describe Attractor::DiffCalculator do
     large_base = Attractor::Value.new(file_path: "lib/large.rb", churn: 1, complexity: 5)
     large_head = Attractor::Value.new(file_path: "lib/large.rb", churn: 1, complexity: 100)
 
-    allow(calculator).to receive(:default_files).and_return(["lib/small.rb", "lib/large.rb"])
+    allow(Attractor::Git).to receive(:diff_files).and_return(["lib/small.rb", "lib/large.rb"])
     allow(Attractor).to receive(:calculators_for_type).and_return(
       {"rb" => double(calculate: [small_base, large_base])},
       {"rb" => double(calculate: [small_head, large_head])}
@@ -68,7 +77,7 @@ RSpec.describe Attractor::DiffCalculator do
 
   it "marks files new in head with nil complexity_base" do
     new_head = Attractor::Value.new(file_path: "lib/new.rb", churn: 1, complexity: 8)
-    allow(calculator).to receive(:default_files).and_return(["lib/new.rb"])
+    allow(Attractor::Git).to receive(:diff_files).and_return(["lib/new.rb"])
     allow(Attractor).to receive(:calculators_for_type).and_return(
       {"rb" => double(calculate: [])},
       {"rb" => double(calculate: [new_head])}
@@ -83,7 +92,7 @@ RSpec.describe Attractor::DiffCalculator do
 
   it "marks files deleted in head with nil complexity_head" do
     deleted_base = Attractor::Value.new(file_path: "lib/deleted.rb", churn: 1, complexity: 8)
-    allow(calculator).to receive(:default_files).and_return(["lib/deleted.rb"])
+    allow(Attractor::Git).to receive(:diff_files).and_return(["lib/deleted.rb"])
     allow(Attractor).to receive(:calculators_for_type).and_return(
       {"rb" => double(calculate: [deleted_base])},
       {"rb" => double(calculate: [])}
@@ -106,10 +115,8 @@ RSpec.describe Attractor::DiffCalculator do
 
   it "uses the provided file list instead of git diff" do
     calculator_with_files = described_class.new(base_ref: "base", head_ref: "head", files: ["lib/bar.rb"])
-    allow(calculator_with_files).to receive(:rev_parse).with("base").and_return("abc123")
-    allow(calculator_with_files).to receive(:rev_parse).with("head").and_return("def456")
-    allow(calculator_with_files).to receive(:create_worktree)
-    allow(calculator_with_files).to receive(:remove_worktree)
+    allow(Attractor::Git::Worktree).to receive(:new).with("base").and_return(base_worktree)
+    allow(Attractor::Git::Worktree).to receive(:new).with("head").and_return(head_worktree)
 
     bar_base = Attractor::Value.new(file_path: "lib/bar.rb", churn: 1, complexity: 5)
     bar_head = Attractor::Value.new(file_path: "lib/bar.rb", churn: 1, complexity: 7)
@@ -123,23 +130,24 @@ RSpec.describe Attractor::DiffCalculator do
   end
 
   it "raises an error when base_ref is invalid" do
-    bad_calculator = described_class.new(base_ref: "invalid", head_ref: "head")
-    allow(bad_calculator).to receive(:rev_parse).with("invalid").and_raise(ArgumentError, "Invalid git ref: invalid")
+    allow(Attractor::Git).to receive(:validate_ref!).with("base").and_raise(ArgumentError, "Invalid git ref: base")
 
-    expect { bad_calculator.calculate }.to raise_error(ArgumentError, /Invalid git ref/)
+    expect { calculator.calculate }.to raise_error(ArgumentError, /Invalid git ref/)
   end
 
   it "passes options through to calculators" do
     opts = {file_prefix: "app", minimum_churn_count: 5, ignores: "spec", start_ago: "1y", verbose: true, type: "rb"}
     calc = described_class.new(base_ref: "base", head_ref: "head", **opts)
-    allow(calc).to receive(:rev_parse).with("base").and_return("abc123")
-    allow(calc).to receive(:rev_parse).with("head").and_return("def456")
-    allow(calc).to receive(:default_files).and_return(["lib/foo.rb"])
-    allow(calc).to receive(:create_worktree)
-    allow(calc).to receive(:remove_worktree)
 
     expect(Attractor).to receive(:calculators_for_type).with("rb", hash_including(file_prefix: "app", minimum_churn_count: 5, ignores: "spec", start_ago: "1y", verbose: true, files: ["lib/foo.rb"])).twice.and_return(base_calculators, head_calculators)
 
     calc.calculate
+  end
+
+  it "cleans up worktrees in ensure block" do
+    expect(base_worktree).to receive(:cleanup)
+    expect(head_worktree).to receive(:cleanup)
+
+    calculator.calculate
   end
 end

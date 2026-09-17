@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-require "fileutils"
-require "tmpdir"
-
 require "attractor"
+require "attractor/git"
 
 module Attractor
   # Calculates complexity deltas between two git refs using temporary worktrees
@@ -19,60 +17,38 @@ module Attractor
 
     def calculate
       validate_refs!
-      file_list = @files || default_files
+      file_list = @files || Git.diff_files(@base_ref, @head_ref)
 
-      base_dir = Dir.mktmpdir("attractor-diff-base-")
-      head_dir = Dir.mktmpdir("attractor-diff-head-")
+      base_worktree = Git::Worktree.new(@base_ref).checkout
+      head_worktree = Git::Worktree.new(@head_ref).checkout
 
-      create_worktree(base_dir, @base_ref)
-      create_worktree(head_dir, @head_ref)
-
-      base_values = calculate_in_worktree(base_dir, file_list)
-      head_values = calculate_in_worktree(head_dir, file_list)
+      base_values = calculate_in_worktree(base_worktree, file_list)
+      head_values = calculate_in_worktree(head_worktree, file_list)
 
       Attractor::Cache.reset!
       build_diff(base_values, head_values, file_list)
     ensure
-      remove_worktree(base_dir) if base_dir
-      remove_worktree(head_dir) if head_dir
-      FileUtils.rm_rf(base_dir) if base_dir
-      FileUtils.rm_rf(head_dir) if head_dir
+      base_worktree&.cleanup
+      head_worktree&.cleanup
     end
 
     private
 
     def validate_refs!
-      raise ArgumentError, "base_ref is required" if @base_ref.nil? || @base_ref.empty?
-      raise ArgumentError, "head_ref is required" if @head_ref.nil? || @head_ref.empty?
-
-      rev_parse(@base_ref)
-      rev_parse(@head_ref)
+      case [@base_ref, @head_ref]
+      in [nil | "", _]
+        raise ArgumentError, "base_ref is required"
+      in [_, nil | ""]
+        raise ArgumentError, "head_ref is required"
+      else
+        Git.validate_ref!(@base_ref)
+        Git.validate_ref!(@head_ref)
+      end
     end
 
-    def rev_parse(ref)
-      output = `git rev-parse --verify #{ref}`
-      raise ArgumentError, "Invalid git ref: #{ref}" unless $CHILD_STATUS.success?
-
-      output.strip
-    end
-
-    def default_files
-      output = `git diff --name-only #{@base_ref}...#{@head_ref}`
-      output.lines(chomp: true).reject(&:empty?)
-    end
-
-    def create_worktree(path, ref)
-      success = system("git", "worktree", "add", "-f", path, ref, out: File::NULL, err: File::NULL)
-      raise "Failed to create git worktree for #{ref} at #{path}" unless success
-    end
-
-    def remove_worktree(path)
-      system("git", "worktree", "remove", "-f", path, out: File::NULL, err: File::NULL)
-    end
-
-    def calculate_in_worktree(path, files)
+    def calculate_in_worktree(worktree, files)
       Attractor::Cache.reset!
-      Dir.chdir(path) do
+      worktree.chdir do
         Attractor.calculators_for_type(@options[:type],
           file_prefix: @options[:file_prefix],
           minimum_churn_count: @options[:minimum_churn_count],
@@ -123,14 +99,15 @@ module Attractor
       complexity_base = base_value&.complexity
       complexity_head = head_value&.complexity
 
-      delta = if complexity_base.nil? && complexity_head.nil?
+      delta = case [complexity_base, complexity_head]
+      in [nil, nil]
         0
-      elsif complexity_base.nil?
-        complexity_head.to_f
-      elsif complexity_head.nil?
-        -complexity_base.to_f
-      else
-        complexity_head.to_f - complexity_base.to_f
+      in [nil, head]
+        head.to_f
+      in [base, nil]
+        -base.to_f
+      in [base, head]
+        head.to_f - base.to_f
       end
 
       {
