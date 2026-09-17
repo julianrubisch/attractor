@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require "json"
-require "attractor/formatters/base_formatter"
 
 module Attractor
   module Formatters
-    class ConsoleJSONFormatter < BaseFormatter
+    class ConsoleJSONFormatter
       def call(data)
         result = data.map do |entry|
           [

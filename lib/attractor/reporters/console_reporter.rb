@@ -7,14 +7,7 @@ module Attractor
   class ConsoleReporter < BaseReporter
     def initialize(format:, **other)
       super(**other)
-      @formatter = case format.to_sym
-      when :csv
-        Attractor::Formatters::ConsoleCSVFormatter.new
-      when :json
-        Attractor::Formatters::ConsoleJSONFormatter.new
-      else
-        Attractor::Formatters::ConsoleTableFormatter.new
-      end
+      @formatter = Attractor::Formatters.console(format)
     end
 
     def report

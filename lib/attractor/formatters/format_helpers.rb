@@ -2,7 +2,7 @@
 
 module Attractor
   module Formatters
-    class BaseFormatter
+    module FormatHelpers
       private
 
       def format_complexity(value)

@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-require "attractor/formatters/base_formatter"
+require "attractor/formatters/format_helpers"
 
 module Attractor
   module Formatters
-    class DiffMarkdownFormatter < BaseFormatter
+    class DiffMarkdownFormatter
+      include FormatHelpers
+
       def call(data)
         lines = []
         lines << "# Complexity diff between `#{data[:base_ref]}` and `#{data[:head_ref]}`"

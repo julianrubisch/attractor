@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require "attractor/formatters/base_formatter"
-
 module Attractor
   module Formatters
-    class ConsoleTableFormatter < BaseFormatter
+    class ConsoleTableFormatter
       def call(data)
         lines = []
         lines << "Calculated churn and complexity"

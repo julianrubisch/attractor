@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require "csv"
-require "attractor/formatters/base_formatter"
 
 module Attractor
   module Formatters
-    class ConsoleCSVFormatter < BaseFormatter
+    class ConsoleCSVFormatter
       def call(data)
         CSV.generate do |csv|
           csv << %w[file_path score complexity churn type refactor]
