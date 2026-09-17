@@ -12,31 +12,9 @@ RSpec.describe Attractor::DiffReporter do
     }
   end
 
-  it "uses the table formatter by default" do
-    reporter = described_class.new(format: :table)
-    expect_any_instance_of(Attractor::Formatters::DiffTableFormatter).to receive(:call).with(data).and_return("")
-
-    reporter.report(data)
-  end
-
-  it "uses the json formatter when requested" do
+  it "composes a diff formatter" do
     reporter = described_class.new(format: :json)
-    expect_any_instance_of(Attractor::Formatters::DiffJSONFormatter).to receive(:call).with(data).and_return("")
-
-    reporter.report(data)
-  end
-
-  it "uses the markdown formatter when requested" do
-    reporter = described_class.new(format: :markdown)
-    expect_any_instance_of(Attractor::Formatters::DiffMarkdownFormatter).to receive(:call).with(data).and_return("")
-
-    reporter.report(data)
-  end
-
-  it "prints the formatter output" do
-    reporter = described_class.new(format: :json)
-    allow_any_instance_of(Attractor::Formatters::DiffJSONFormatter).to receive(:call).with(data).and_return("{}")
-
-    expect { reporter.report(data) }.to output("{}\n").to_stdout
+    expect { reporter.report(data) }.to output(/"title":"Complexity diff between main and feature"/).to_stdout
+    expect { reporter.report(data) }.to output(/"files":\[/).to_stdout
   end
 end

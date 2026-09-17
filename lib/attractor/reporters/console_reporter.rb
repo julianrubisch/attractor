@@ -7,20 +7,12 @@ module Attractor
   class ConsoleReporter < BaseReporter
     def initialize(format:, **other)
       super(**other)
-      @formatter = Attractor::Formatters.console(format)
+      @formatter = Attractor::Formatters::Formatter.new(target: :console, format: format)
     end
 
     def report
       super
-      data = @calculators.map do |type, calc|
-        values = calc.calculate
-        suggester = Suggester.new(values)
-        refactor_files = suggester.suggest.map(&:file_path)
-
-        {type: type, values: values, refactor_files: refactor_files}
-      end
-
-      puts @formatter.call(data)
+      puts @formatter.call(@calculators)
     end
   end
 end
