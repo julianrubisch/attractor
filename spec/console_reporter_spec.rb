@@ -1,3 +1,4 @@
+require "json"
 require "attractor/reporters/console_reporter"
 
 RSpec.describe Attractor::ConsoleReporter do

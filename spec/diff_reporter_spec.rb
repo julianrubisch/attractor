@@ -1,3 +1,4 @@
+require "json"
 require "attractor/reporters/diff_reporter"
 
 RSpec.describe Attractor::DiffReporter do

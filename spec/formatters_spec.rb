@@ -1,4 +1,9 @@
-require "attractor/formatters"
+require "attractor/formatters/formatter"
+require "attractor/formatters/targets/console"
+require "attractor/formatters/targets/diff"
+require "attractor/formatters/formats/json"
+require "attractor/formatters/formats/table"
+require "attractor/formatters/formats/markdown"
 
 RSpec.describe Attractor::Formatters::Formatter do
   describe "console target" do
@@ -6,7 +11,10 @@ RSpec.describe Attractor::Formatters::Formatter do
     let(:calc_dbl) { double("Calculator", calculate: [value]) }
 
     it "composes with json format" do
-      formatter = described_class.new(target: :console, format: :json)
+      formatter = described_class.new(
+        target: Attractor::Formatters::Targets::Console.new,
+        format: Attractor::Formatters::Formats::JSON.new
+      )
       output = formatter.call({"rb" => calc_dbl})
       parsed = JSON.parse(output, symbolize_names: true)
 
@@ -15,7 +23,10 @@ RSpec.describe Attractor::Formatters::Formatter do
     end
 
     it "composes with table format" do
-      formatter = described_class.new(target: :console, format: :table)
+      formatter = described_class.new(
+        target: Attractor::Formatters::Targets::Console.new,
+        format: Attractor::Formatters::Formats::Table.new
+      )
       output = formatter.call({"rb" => calc_dbl})
 
       expect(output).to include("Calculated churn and complexity")
@@ -36,7 +47,10 @@ RSpec.describe Attractor::Formatters::Formatter do
     end
 
     it "composes with json format" do
-      formatter = described_class.new(target: :diff, format: :json)
+      formatter = described_class.new(
+        target: Attractor::Formatters::Targets::Diff.new,
+        format: Attractor::Formatters::Formats::JSON.new
+      )
       output = formatter.call(data)
       parsed = JSON.parse(output, symbolize_names: true)
 
@@ -45,18 +59,13 @@ RSpec.describe Attractor::Formatters::Formatter do
     end
 
     it "composes with markdown format" do
-      formatter = described_class.new(target: :diff, format: :markdown)
+      formatter = described_class.new(
+        target: Attractor::Formatters::Targets::Diff.new,
+        format: Attractor::Formatters::Formats::Markdown.new
+      )
       output = formatter.call(data)
 
       expect(output).to include("# Complexity diff between main and feature")
     end
-  end
-
-  it "raises for unknown target" do
-    expect { described_class.new(target: :unknown, format: :json) }.to raise_error(ArgumentError, /Unknown target/)
-  end
-
-  it "raises for unknown format" do
-    expect { described_class.new(target: :diff, format: :unknown) }.to raise_error(ArgumentError, /Unknown format/)
   end
 end
