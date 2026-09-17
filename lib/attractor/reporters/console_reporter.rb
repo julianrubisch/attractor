@@ -5,10 +5,13 @@ require "attractor/formatters/targets/console"
 require "attractor/formatters/formats/json"
 require "attractor/formatters/formats/table"
 require "attractor/formatters/formats/csv"
+require "attractor/formatters/format_strategy"
 
 module Attractor
   # console reporter
   class ConsoleReporter < BaseReporter
+    include Attractor::Formatters::FormatStrategy
+
     def initialize(format:, **other)
       super(**other)
       @formatter = Attractor::Formatters::Formatter.new(
@@ -20,16 +23,6 @@ module Attractor
     def report
       super
       puts @formatter.call(@calculators)
-    end
-
-    private
-
-    def format_strategy(format)
-      case format.to_sym
-      when :csv then Attractor::Formatters::Formats::CSV.new
-      when :json then Attractor::Formatters::Formats::JSON.new
-      else Attractor::Formatters::Formats::Table.new
-      end
     end
   end
 end
