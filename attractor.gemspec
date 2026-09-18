@@ -48,6 +48,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "listen", "~> 3.0"
   spec.add_dependency "ostruct"
   spec.add_dependency "rack-livereload"
+  spec.add_dependency "rugged", "~> 1.0"
   spec.add_dependency "sinatra"
   spec.add_dependency "thor"
   spec.add_dependency "tilt"

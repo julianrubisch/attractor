@@ -22,6 +22,10 @@ module Attractor
         adapter.clear
       end
 
+      def reset!
+        @@adapter = nil
+      end
+
       private
 
       def adapter

@@ -87,6 +87,37 @@ module Attractor
       report! Attractor::SinatraReporter.new(file_prefix: file_prefix, ignores: options[:ignore], calculators: calculators(options), open_browser: open_browser)
     end
 
+    desc "diff", "Calculates complexity delta between two git refs"
+    option :base, required: true
+    option :head, required: true
+    shared_options.each do |shared_option|
+      option(*shared_option)
+    end
+    option :format, aliases: :f, default: :table
+    def diff
+      require "attractor/diff_calculator"
+      require "attractor/reporters/diff_reporter"
+
+      file_list = parse_files(options[:files])
+      file_list ||= default_diff_files(options[:base], options[:head])
+
+      data = Attractor::DiffCalculator.new(
+        base_ref: options[:base],
+        head_ref: options[:head],
+        files: file_list,
+        file_prefix: options[:file_prefix],
+        minimum_churn_count: options[:minimum_churn],
+        ignores: options[:ignore],
+        start_ago: options[:start_ago],
+        verbose: options[:verbose],
+        type: options[:type]
+      ).calculate
+
+      Attractor::DiffReporter.new(format: options[:format]).report(data)
+    rescue ArgumentError, RuntimeError => e
+      puts "Runtime error: #{e.message}"
+    end
+
     private
 
     def calculators(options)
@@ -107,6 +138,10 @@ module Attractor
       else
         value.split(",").map(&:strip).reject(&:empty?)
       end
+    end
+
+    def default_diff_files(base_ref, head_ref)
+      `git diff --name-only #{base_ref}...#{head_ref}`.lines(chomp: true).reject(&:empty?)
     end
 
     def report!(reporter)
