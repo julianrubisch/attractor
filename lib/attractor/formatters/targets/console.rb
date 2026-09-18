@@ -34,6 +34,7 @@ module Attractor
 
           Report.new(
             title: "Calculated churn and complexity",
+            metadata: {schema: 2},
             columns: %i[file_path score complexity churn type refactor],
             rows: rows,
             footer: footer_lines.empty? ? nil : footer_lines.join("\n"),

@@ -1,3 +1,10 @@
+## RELEASE 2.7.0
+
+* BREAKING: Method-level `details` now carry `score`, `line`, and `end_line` instead of a flat score. Requires `attractor-ruby` >= 0.4.0.
+* ENHANCEMENT: JSON output (`attractor calc --format=json`) now includes `schema: 2`.
+* ENHANCEMENT: HTML report details panel sorts methods by score and displays line ranges.
+* ENHANCEMENT: Cache format bumped to v2; stale flat-detail caches are cleared automatically.
+
 ## RELEASE 2.0.4
 
 * FIX: Suggestions now respect chosen file type
