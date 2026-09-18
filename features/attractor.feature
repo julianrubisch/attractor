@@ -74,3 +74,25 @@ Feature: Attractor
     And I run `attractor calc --files lib/attractor/cli.rb --format=json`
     Then the output should contain "lib/attractor/cli.rb"
     Then the output should contain "\"complexity\":null"
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And a file named ".attractor.yml" with:
+      """
+      report:
+        minimum_churn: 999
+      """
+    And I run `attractor calc --config .attractor.yml --format=json`
+    Then the exit status should be 0
+    And the output should contain '"rows":{}'
+
+  Scenario:
+    When I cd to "../../spec/fixtures/rails_app_with_gemfile"
+    And a file named ".attractor.yml" with:
+      """
+      report:
+        minimum_churn: 999
+      """
+    And I run `attractor calc --config .attractor.yml --minimum_churn=1 --format=json`
+    Then the exit status should be 0
+    And the output should not contain '"rows":{}'

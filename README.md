@@ -184,6 +184,31 @@ attractor:
       - attractor_output
 ```
 
+## Configuration File
+
+Attractor can read defaults from an `.attractor.yml` file in the repository root. This keeps project-specific settings in version control and avoids repeating flags on every command.
+
+```yml
+report:
+  app_root: app              # maps to --file_prefix
+  minimum_churn: 3
+  ignore: "vendor,node_modules"
+  start_ago: 2y
+skip:
+  includes: ["wip"]          # CI-only for now
+branches:
+  only: [main]               # CI-only for now
+  except: [gh-pages]         # CI-only for now
+```
+
+Values under `report` are picked up by all CLI commands. Explicit CLI flags always override the config file. The `skip` and `branches` keys are reserved for CI/SaaS usage and are currently ignored by the CLI.
+
+You can also point to a custom config path:
+
+```sh
+attractor report --config path/to/attractor.yml
+```
+
 ## CLI Commands and Options
 
 Initialize the local cache:
@@ -195,6 +220,7 @@ attractor init
   --start_ago|-s  (e.g. 5y, 3m, 7w)
   --minimum_churn|-c (minimum times a file must have changed to be processed)
   --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
+  --config path/to/.attractor.yml
 ``` 
 
 Print a simple output to console:
@@ -209,6 +235,7 @@ attractor calc
   --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
   --files 'app/models/user.rb,app/models/post.rb'  # restrict to an explicit list of paths
   --files -                                         # read newline-separated paths from stdin
+  --config path/to/.attractor.yml
 ```
 
 Generate a full report
@@ -224,6 +251,7 @@ attractor report
   --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
   --files 'app/models/user.rb,app/models/post.rb'
   --files -
+  --config path/to/.attractor.yml
 ```
 
 Serve the output on `http://localhost:7890`
@@ -236,6 +264,7 @@ attractor serve
   --start_ago|-s  (e.g. 5y, 3m, 7w)
   --minimum_churn|-c (minimum times a file must have changed to be processed)
   --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
+  --config path/to/.attractor.yml
 ```
 
 Clear the local cache:
