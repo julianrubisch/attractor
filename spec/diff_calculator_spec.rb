@@ -52,10 +52,12 @@ RSpec.describe Attractor::DiffCalculator do
 
     row = result[:files].first
     expect(row[:file_path]).to eq("lib/foo.rb")
+    expect(row[:type]).to eq("rb")
     expect(row[:complexity_base]).to eq(10)
     expect(row[:complexity_head]).to eq(15)
     expect(row[:delta]).to eq(5.0)
     expect(row[:churn]).to eq(4)
+    expect(row[:score_base]).to eq(30)
     expect(row[:score_head]).to eq(60)
   end
 

@@ -62,12 +62,13 @@ module Attractor
     def build_diff(base_values, head_values, files)
       base_by_path = flatten_values(base_values)
       head_by_path = flatten_values(head_values)
+      file_types = build_file_types(base_values, head_values)
 
       base_refactor_files = refactor_files(base_by_path.values)
       head_refactor_files = refactor_files(head_by_path.values)
 
       rows = files.uniq.map do |file_path|
-        build_row(file_path, base_by_path[file_path], head_by_path[file_path], base_refactor_files, head_refactor_files)
+        build_row(file_path, base_by_path[file_path], head_by_path[file_path], base_refactor_files, head_refactor_files, file_types[file_path])
       end
 
       rows.sort_by! { |row| -row[:delta].abs }
@@ -86,8 +87,20 @@ module Attractor
     end
 
     def flatten_values(values_by_type)
-      values_by_type.values.flatten.compact.each_with_object({}) do |value, hash|
-        hash[value.file_path] = value
+      values_by_type.each_with_object({}) do |(_type, values), hash|
+        Array(values).compact.each do |value|
+          hash[value.file_path] = value
+        end
+      end
+    end
+
+    def build_file_types(base_values, head_values)
+      [base_values, head_values].each_with_object({}) do |values_by_type, hash|
+        values_by_type.each do |type, values|
+          Array(values).compact.each do |value|
+            hash[value.file_path] ||= type
+          end
+        end
       end
     end
 
@@ -95,7 +108,7 @@ module Attractor
       Suggester.new(values).suggest.map(&:file_path)
     end
 
-    def build_row(file_path, base_value, head_value, base_refactor_files, head_refactor_files)
+    def build_row(file_path, base_value, head_value, base_refactor_files, head_refactor_files, type)
       complexity_base = base_value&.complexity
       complexity_head = head_value&.complexity
 
@@ -112,10 +125,12 @@ module Attractor
 
       {
         file_path: file_path,
+        type: type,
         complexity_base: complexity_base,
         complexity_head: complexity_head,
         delta: delta,
         churn: head_value&.churn,
+        score_base: base_value&.score,
         score_head: head_value&.score,
         refactor_base: base_refactor_files.include?(file_path),
         refactor_head: head_refactor_files.include?(file_path),

@@ -54,8 +54,9 @@ RSpec.describe Attractor::Formatters::Formatter do
       output = formatter.call(data)
       parsed = JSON.parse(output, symbolize_names: true)
 
-      expect(parsed[:title]).to include("Complexity diff")
+      expect(parsed[:title]).to eq("Attractor: main..feature")
       expect(parsed[:files].first[:file_path]).to eq("lib/foo.rb")
+      expect(parsed[:summary]).to be_an(Array)
     end
 
     it "composes with markdown format" do
@@ -65,7 +66,9 @@ RSpec.describe Attractor::Formatters::Formatter do
       )
       output = formatter.call(data)
 
-      expect(output).to include("# Complexity diff between main and feature")
+      expect(output).to include("## Attractor: main..feature")
+      expect(output).to include("### Stats")
+      expect(output).to include("<details>")
     end
   end
 end

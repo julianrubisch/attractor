@@ -9,6 +9,7 @@ module Attractor
         def call(report)
           report.metadata.merge(
             :title => report.title,
+            :summary => report.sections.empty? ? nil : report.sections,
             report.rows_key => rows_for(report),
             :footer => report.footer
           ).compact.to_json

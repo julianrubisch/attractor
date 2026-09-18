@@ -238,6 +238,30 @@ attractor calc
   --config path/to/.attractor.yml
 ```
 
+Calculate the complexity delta between two git refs:
+
+```sh
+attractor diff
+  --base main
+  --head HEAD
+  --file_prefix|-p app/models
+  --type|-t rb|js
+  --start_ago|-s  (e.g. 5y, 3m, 7w)
+  --minimum_churn|-c (minimum times a file must have changed to be processed)
+  --ignore|-i 'spec/*_spec.rb,db/schema.rb,tmp'
+  --files 'app/models/user.rb,app/models/post.rb'
+  --files -
+  --format|-f table|markdown|json
+  --config path/to/.attractor.yml
+```
+
+The `markdown` format produces a PR/MR-ready summary with Stats, Trends, and To-dos sections, followed by the full per-file table wrapped in a collapsible `<details>` block. Pipe it into a GitHub or GitLab comment:
+
+```sh
+attractor diff --base main --head HEAD --format markdown | gh pr comment 123 --body-file -
+attractor diff --base main --head HEAD --format markdown | glab mr note 45 --message "$(cat)"
+```
+
 Generate a full report
 
 ```sh
