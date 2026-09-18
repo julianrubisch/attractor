@@ -34,7 +34,7 @@ RSpec.describe Attractor::Formatters::Formats::Markdown do
         ],
         sections: [
           {title: "Stats", columns: %i[language score trend], rows: [{language: "rb", score: "10.0 (from 8.0)", trend: "📈 +25.0%"}]},
-          {title: "Trends", columns: ["", :most_improved, :largest_declines], rows: [{"" => "rb", most_improved: "none", largest_declines: "lib/ok.rb (+1.0)"}]}
+          {title: "Trends", columns: ["", :most_improved, :largest_declines], rows: [{"" => "rb", :most_improved => "none", :largest_declines => "lib/ok.rb (+1.0)"}]}
         ],
         collapsed_table: true
       )

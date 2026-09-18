@@ -47,8 +47,8 @@ module Attractor
 
             {
               "" => type,
-              most_improved: improved.empty? ? "none" : improved.map { |row| "#{row[:file_path]} (#{format("%.1f", row[:delta])})" }.join(", "),
-              largest_declines: declined.empty? ? "none" : declined.map { |row| "#{row[:file_path]} (#{format("%+.1f", row[:delta])})" }.join(", ")
+              :most_improved => improved.empty? ? "none" : improved.map { |row| "#{row[:file_path]} (#{format("%.1f", row[:delta])})" }.join(", "),
+              :largest_declines => declined.empty? ? "none" : declined.map { |row| "#{row[:file_path]} (#{format("%+.1f", row[:delta])})" }.join(", ")
             }
           end
         end
@@ -61,8 +61,8 @@ module Attractor
 
             {
               "" => type,
-              new_refactoring_candidates: new_candidates.empty? ? "none" : new_candidates.map { |row| row[:file_path] }.join(", "),
-              refactored: refactored.empty? ? "none" : refactored.map { |row| row[:file_path] }.join(", ")
+              :new_refactoring_candidates => new_candidates.empty? ? "none" : new_candidates.map { |row| row[:file_path] }.join(", "),
+              :refactored => refactored.empty? ? "none" : refactored.map { |row| row[:file_path] }.join(", ")
             }
           end
         end

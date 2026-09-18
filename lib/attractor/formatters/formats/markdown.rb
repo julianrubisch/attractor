@@ -70,7 +70,7 @@ module Attractor
         end
 
         def title_prefix(report)
-          report.sections.any? || report.collapsed_table ? "##" : "#"
+          (report.sections.any? || report.collapsed_table) ? "##" : "#"
         end
 
         def format_key(key)
