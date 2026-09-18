@@ -9,6 +9,7 @@ RSpec.describe Attractor::Formatters::Targets::Console do
 
     expect(report).to be_a(Attractor::Formatters::Report)
     expect(report.title).to eq("Calculated churn and complexity")
+    expect(report.metadata).to eq({schema: 2})
     expect(report.columns).to eq(%i[file_path score complexity churn type refactor])
     expect(report.rows.size).to eq(1)
     expect(report.rows.first[:file_path]).to eq("lib/foo.rb")

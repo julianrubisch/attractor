@@ -23,7 +23,7 @@ module Attractor
       end
 
       def reset!
-        @@adapter = nil
+        adapter.reset!
       end
 
       private
@@ -37,9 +37,16 @@ module Attractor
   module CacheAdapter
     class Base
       include Singleton
+
+      def reset!
+        # subclasses may override
+      end
     end
 
     class JSON < Base
+      SCHEMA_VERSION = 2
+      SCHEMA_KEY = "schema_version"
+
       def initialize
         super
 
@@ -47,14 +54,16 @@ module Attractor
         FileUtils.mkdir_p @data_directory
         FileUtils.touch filename
 
-        begin
-          @store = ::JSON.parse(File.read(filename))
-        rescue ::JSON::ParserError
-          @store = {}
-        end
+        load_store
+      end
+
+      def reset!
+        load_store
       end
 
       def read(file_path:)
+        return nil if file_path == SCHEMA_KEY
+
         value_hash = @store[file_path]
 
         Value.new(**value_hash.values.first.transform_keys(&:to_sym)) unless value_hash.nil?
@@ -71,6 +80,7 @@ module Attractor
       end
 
       def persist!
+        @store[SCHEMA_KEY] ||= SCHEMA_VERSION
         File.write(filename, ::JSON.dump(@store))
       end
 
@@ -80,6 +90,23 @@ module Attractor
 
       def filename
         "#{@data_directory}/attractor-cache.json"
+      end
+
+      private
+
+      def load_store
+        FileUtils.touch filename
+
+        begin
+          @store = ::JSON.parse(File.read(filename))
+        rescue ::JSON::ParserError
+          @store = {}
+        end
+
+        if @store[SCHEMA_KEY] != SCHEMA_VERSION
+          @store = {SCHEMA_KEY => SCHEMA_VERSION}
+          persist!
+        end
       end
     end
   end
