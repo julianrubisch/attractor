@@ -1,0 +1,10 @@
+report:
+  app_root: app
+  minimum_churn: 5
+  ignore: "vendor,node_modules"
+  start_ago: 2y
+skip:
+  includes: ["wip"]
+branches:
+  only: [main]
+  except: [gh-pages]

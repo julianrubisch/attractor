@@ -3,6 +3,7 @@
 require "attractor/version"
 require "attractor/gem_names"
 require "attractor/duration_parser"
+require "attractor/config"
 require "attractor/calculators/base_calculator"
 require "attractor/detectors/base_detector"
 require "attractor/reporters/base_reporter"
