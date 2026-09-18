@@ -5,6 +5,7 @@ require "attractor/formatters/targets/console"
 require "attractor/formatters/formats/json"
 require "attractor/formatters/formats/table"
 require "attractor/formatters/formats/csv"
+require "attractor/formatters/formats/markdown"
 require "attractor/formatters/format_strategy"
 
 module Attractor

@@ -15,7 +15,8 @@ RSpec.describe Attractor::DiffReporter do
 
   it "composes a diff formatter" do
     reporter = described_class.new(format: :json)
-    expect { reporter.report(data) }.to output(/"title":"Complexity diff between main and feature"/).to_stdout
+    expect { reporter.report(data) }.to output(/"title":"Attractor: main..feature"/).to_stdout
+    expect { reporter.report(data) }.to output(/"summary":\[/).to_stdout
     expect { reporter.report(data) }.to output(/"files":\[/).to_stdout
   end
 end
