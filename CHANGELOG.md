@@ -1,3 +1,7 @@
+## RELEASE 2.7.1
+
+* FIX: An explicit file list (`--files`, and every `attractor diff`) dropped all JavaScript files, because the list was matched against the literal string ".(js|jsx)".
+
 ## RELEASE 2.7.0
 
 * BREAKING: Method-level `details` now carry `score`, `line`, and `end_line` instead of a flat score. Requires `attractor-ruby` >= 0.4.0.
