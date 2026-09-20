@@ -34,7 +34,10 @@ module Attractor
       end
 
       target_paths = if @files && !@files.empty?
-        @files.uniq.select { |file_path| file_path.end_with?(".#{@file_extension}") }
+        # `file_extension` is a pattern, not a literal: the JavaScript calculator
+        # passes "(js|jsx)". `end_with?` would drop every file it lists.
+        extension = /\.(?:#{@file_extension})\z/
+        @files.uniq.select { |file_path| file_path.match?(extension) }
       else
         changes_by_path.keys
       end

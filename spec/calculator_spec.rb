@@ -56,6 +56,17 @@ RSpec.describe Attractor::BaseCalculator do
       expect(deleted.churn).to eq(3)
     end
 
+    it "keeps listed files when the extension is a pattern" do
+      js_changes = [{times_changed: 4, file_path: "app/javascript/app.js"}]
+      allow(churn_calc_instance).to receive(:report).and_return(churn: {changes: js_changes})
+      allow(File).to receive(:exist?).with("app/javascript/app.js").and_return(true)
+      calculator = described_class.new(file_extension: "(js|jsx)", files: ["app/javascript/app.js"])
+
+      result = calculator.calculate { |_change| [9, {}] }
+
+      expect(result.map(&:file_path)).to contain_exactly("app/javascript/app.js")
+    end
+
     it "drops listed files that exist but have no churn" do
       allow(File).to receive(:exist?).with("lib/unknown.rb").and_return(true)
       calculator = described_class.new(files: ["lib/unknown.rb"])
