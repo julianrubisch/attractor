@@ -1,3 +1,7 @@
+## RELEASE 2.7.2
+
+* FIX: An explicitly listed file whose last commit predates `start_ago` (default `5y`) was dropped instead of scored. In `attractor diff` this left `complexity_base` nil and made `delta` the file's whole head complexity, so a file that only lost lines was reported as the diff's largest increase.
+
 ## RELEASE 2.7.1
 
 * FIX: An explicit file list (`--files`, and every `attractor diff`) dropped all JavaScript files, because the list was matched against the literal string ".(js|jsx)".
