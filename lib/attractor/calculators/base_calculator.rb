@@ -45,13 +45,9 @@ module Attractor
       puts "Calculating churn and complexity values for #{target_paths.size} #{type} files" if @verbose
 
       values = target_paths.filter_map do |file_path|
-        change = changes_by_path[file_path]
+        change = changes_by_path[file_path] || listed_file_change(file_path)
 
-        if change
-          build_value(change) { |c| yield(c) if block_given? }
-        elsif @files && !@files.empty? && !File.exist?(file_path)
-          missing_value(file_path)
-        end
+        build_value(change) { |c| yield(c) if block_given? } if change
       end
 
       Cache.persist!
@@ -62,6 +58,16 @@ module Attractor
     end
 
     private
+
+    # The churn report only covers commits newer than `start_ago`, so a listed file whose last
+    # commit is older than that never appears in it. It still has to be scored: `attractor diff`
+    # asks for an explicit file list, and dropping one leaves `complexity_base` nil, which reads
+    # as if the file had just been added. Churn is 0 here because that is what the window says.
+    def listed_file_change(file_path)
+      return unless @files && !@files.empty?
+
+      {file_path: file_path, times_changed: 0}
+    end
 
     def build_value(change)
       if @files && !@files.empty? && !File.exist?(change[:file_path])

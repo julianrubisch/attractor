@@ -67,13 +67,36 @@ RSpec.describe Attractor::BaseCalculator do
       expect(result.map(&:file_path)).to contain_exactly("app/javascript/app.js")
     end
 
-    it "drops listed files that exist but have no churn" do
+    # Previously this dropped the file, which left `complexity_base` nil in `attractor diff` and
+    # made a file that only lost lines read as newly added. See #135.
+    it "scores listed files that exist but fall outside the churn window" do
       allow(File).to receive(:exist?).with("lib/unknown.rb").and_return(true)
       calculator = described_class.new(files: ["lib/unknown.rb"])
 
       result = calculator.calculate { |_change| [1, {}] }
+      unknown = result.find { |value| value.file_path == "lib/unknown.rb" }
 
-      expect(result).to be_empty
+      expect(unknown).not_to be_nil
+      expect(unknown.complexity).to eq(1)
+      expect(unknown.churn).to eq(0)
+    end
+
+    it "yields a synthesized change for a file outside the churn window" do
+      allow(File).to receive(:exist?).with("lib/unknown.rb").and_return(true)
+      calculator = described_class.new(files: ["lib/unknown.rb"])
+
+      expect { |b| calculator.calculate(&b) }
+        .to yield_with_args({file_path: "lib/unknown.rb", times_changed: 0})
+    end
+
+    it "still reports a listed file that does not exist as missing" do
+      calculator = described_class.new(files: ["lib/missing.rb"])
+
+      result = calculator.calculate { |_change| [1, {}] }
+      missing = result.find { |value| value.file_path == "lib/missing.rb" }
+
+      expect(missing).not_to be_nil
+      expect(missing.complexity).to be_nil
     end
   end
 end
