@@ -1,3 +1,7 @@
+## RELEASE 2.8.0
+
+* ENHANCEMENT: `Attractor::LizardCalculator`, a base calculator for language plugins that score with [lizard](https://github.com/terryyin/lizard) (cyclomatic complexity per function). A plugin subclasses it with a lizard language name and a file extension; the runner resolves `lizard` on PATH, then `uvx lizard`, and can be forced with `ATTRACTOR_LIZARD`. First consumer: attractor-swift.
+
 ## RELEASE 2.7.2
 
 * FIX: An explicitly listed file whose last commit predates `start_ago` (default `5y`) was dropped instead of scored. In `attractor diff` this left `complexity_base` nil and made `delta` the file's whole head complexity, so a file that only lost lines was reported as the diff's largest increase.
