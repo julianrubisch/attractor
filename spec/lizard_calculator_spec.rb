@@ -71,3 +71,47 @@ RSpec.describe Attractor::LizardCalculator do
     calculator.calculate
   end
 end
+
+RSpec.describe Attractor::LizardCalculator, "key stability" do
+  let(:churn_calc_instance) { instance_double(::Churn::ChurnCalculator) }
+  let(:calculator) { described_class.new(language: "swift", file_extension: "swift") }
+
+  before do
+    allow(::Churn::ChurnCalculator).to receive(:new).and_return(churn_calc_instance)
+    allow(churn_calc_instance).to receive(:report).and_return(churn: {changes: [{times_changed: 3, file_path: "App.swift"}]})
+    allow(Attractor::Cache).to receive(:read).and_return(nil)
+    allow(Attractor::Cache).to receive(:write)
+    allow(Attractor::Cache).to receive(:persist!)
+    allow(calculator).to receive(:git_history_for_file).and_return([])
+  end
+
+  def fn(name, long_name: name, start_line: 1)
+    Attractor::Lizard::Function.new(name, long_name, 1, 1, start_line, start_line)
+  end
+
+  it "keeps a unique function's key when its line moves" do
+    allow(Attractor::Lizard).to receive(:analyze).and_return([fn("total", start_line: 6)])
+    before = calculator.calculate.first.details.keys
+
+    allow(Attractor::Lizard).to receive(:analyze).and_return([fn("total", start_line: 40)])
+    after = calculator.calculate.first.details.keys
+
+    expect(after).to eq(before)
+  end
+
+  it "keeps overload keys when their lines move" do
+    allow(Attractor::Lizard).to receive(:analyze).and_return([
+      fn("card", long_name: "card _ cart : Cart", start_line: 32),
+      fn("card", long_name: "card _ cart : Cart , tip : Double", start_line: 50)
+    ])
+    before = calculator.calculate.first.details.keys
+
+    allow(Attractor::Lizard).to receive(:analyze).and_return([
+      fn("card", long_name: "card _ cart : Cart", start_line: 90),
+      fn("card", long_name: "card _ cart : Cart , tip : Double", start_line: 120)
+    ])
+    after = calculator.calculate.first.details.keys
+
+    expect(after).to eq(before)
+  end
+end
