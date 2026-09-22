@@ -91,6 +91,7 @@ You'll also want to install some plugins to go along with the main gem:
 ```sh
 gem install attractor-ruby # https://github.com/julianrubisch/attractor-ruby
 gem install attractor-javascript # https://github.com/julianrubisch/attractor-javascript
+gem install attractor-swift # https://github.com/julianrubisch/attractor-swift (needs uv or lizard)
 ```
 
 You will most likely want to install Attractor using [Bundler][bundler]:
@@ -99,6 +100,7 @@ You will most likely want to install Attractor using [Bundler][bundler]:
 gem 'attractor'
 gem 'attractor-ruby'
 gem 'attractor-javascript'
+gem 'attractor-swift'
 ```
 
 And then execute:
