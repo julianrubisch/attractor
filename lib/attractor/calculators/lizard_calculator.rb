@@ -36,10 +36,13 @@ module Attractor
     private
 
     # lizard reports bare function names without their type, so overloads and same-named
-    # methods in different types collide. A key must not depend on what else is in the file
-    # or on line numbers, or `diff` cannot pair a function with itself across refs; the
-    # signature (lizard's long name) is what actually differs between overloads, so it is
-    # the key on collision, and the start line only when even the signatures match.
+    # methods in different types collide. The guarantee: a function keeps its key across
+    # refs as long as its name stays unique in the file (the common case, and short keys
+    # like attractor-ruby's). On collision the key is the signature (lizard's long name),
+    # which is what differs between overloads and survives line shifts; the start line is
+    # appended only when even the signatures match. Adding a first overload therefore moves
+    # the existing function from `name` to its signature once; `diff` shows that as a
+    # removed and an added entry for that one revision.
     def details_for(functions)
       by_name = functions.group_by(&:name)
       by_long_name = functions.group_by(&:long_name)
