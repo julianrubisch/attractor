@@ -23,6 +23,7 @@ module Attractor
     def initialize(language:, file_extension:, **options)
       super(file_extension: file_extension, **options)
       @language = language
+      @type = language.capitalize
     end
 
     def calculate
@@ -35,12 +36,22 @@ module Attractor
     private
 
     # lizard reports bare function names without their type, so overloads and same-named
-    # methods in different types collide; the start line keeps them apart.
+    # methods in different types collide. A key must not depend on what else is in the file
+    # or on line numbers, or `diff` cannot pair a function with itself across refs; the
+    # signature (lizard's long name) is what actually differs between overloads, so it is
+    # the key on collision, and the start line only when even the signatures match.
     def details_for(functions)
-      counts = functions.group_by(&:name).transform_values(&:size)
+      by_name = functions.group_by(&:name)
+      by_long_name = functions.group_by(&:long_name)
 
       functions.each_with_object({}) do |fn, details|
-        key = (counts[fn.name] > 1) ? "#{fn.name}@#{fn.start_line}" : fn.name
+        key = if by_name[fn.name].size == 1
+          fn.name
+        elsif by_long_name[fn.long_name].size == 1
+          fn.long_name
+        else
+          "#{fn.long_name}@#{fn.start_line}"
+        end
         details[key] = {"score" => fn.ccn, "line" => fn.start_line, "end_line" => fn.end_line}
       end
     end

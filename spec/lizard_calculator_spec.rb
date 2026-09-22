@@ -14,8 +14,12 @@ RSpec.describe Attractor::LizardCalculator do
     allow(calculator).to receive(:git_history_for_file).and_return([])
   end
 
-  def fn(name, ccn:, start_line:, end_line:)
-    Attractor::Lizard::Function.new(name: name, long_name: name, ccn: ccn, nloc: 1, start_line: start_line, end_line: end_line)
+  def fn(name, long_name: name, ccn: 1, start_line: 1, end_line: 1)
+    Attractor::Lizard::Function.new(name, long_name, ccn, 1, start_line, end_line)
+  end
+
+  it "defaults the type from the language" do
+    expect(calculator.type).to eq("Swift")
   end
 
   it "sums CCN into complexity and maps functions to details with locations" do
@@ -33,13 +37,31 @@ RSpec.describe Attractor::LizardCalculator do
     )
   end
 
-  it "keeps same-named functions apart by start line" do
+  it "keys overloads by their signature so a key survives line shifts" do
     allow(Attractor::Lizard).to receive(:analyze).and_return([
-      fn("card", ccn: 1, start_line: 32, end_line: 32),
-      fn("card", ccn: 4, start_line: 50, end_line: 60)
+      fn("card", long_name: "card _ cart : Cart", start_line: 32),
+      fn("card", long_name: "card _ cart : Cart , tip : Double", ccn: 4, start_line: 50)
     ])
 
-    expect(calculator.calculate.first.details.keys).to eq(["card@32", "card@50"])
+    expect(calculator.calculate.first.details.keys).to eq(["card _ cart : Cart", "card _ cart : Cart , tip : Double"])
+  end
+
+  it "falls back to the start line only when signatures collide too" do
+    allow(Attractor::Lizard).to receive(:analyze).and_return([
+      fn("card", long_name: "card _ cart : Cart", start_line: 32),
+      fn("card", long_name: "card _ cart : Cart", start_line: 50)
+    ])
+
+    expect(calculator.calculate.first.details.keys).to eq(["card _ cart : Cart@32", "card _ cart : Cart@50"])
+  end
+
+  it "scores a file without functions as zero with empty details" do
+    allow(Attractor::Lizard).to receive(:analyze).and_return([])
+
+    value = calculator.calculate.first
+
+    expect(value.complexity).to eq(0)
+    expect(value.details).to eq({})
   end
 
   it "passes the file extension through to churn" do
